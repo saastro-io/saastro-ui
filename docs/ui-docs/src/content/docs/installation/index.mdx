@@ -1,0 +1,89 @@
+---
+title: Installation
+description: How to install and use Saastro blocks in your project.
+section: getting-started
+order: 2
+---
+
+# Installation
+
+Saastro Blocks uses the **shadcn CLI** for installation. If you already have shadcn/ui set up in your project, you just need to add the Saastro registry.
+
+## Prerequisites
+
+- [Astro](https://astro.build) 5+ (or any React framework)
+- [Tailwind CSS](https://tailwindcss.com) 4+
+- [shadcn/ui](https://ui.shadcn.com) initialized in your project
+
+## 1. Initialize shadcn/ui
+
+If you haven't already, initialize shadcn/ui in your Astro project:
+
+```bash
+npx shadcn@latest init
+```
+
+This creates a `components.json` file and sets up your project structure.
+
+## 2. Add the Saastro registry
+
+Open your `components.json` and add the Saastro registry:
+
+```json
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "default",
+  "registries": {
+    "@saastro": "https://ui.saastro.io/r/{name}.json"
+  }
+}
+```
+
+## 3. Install blocks
+
+Now you can install any block:
+
+```bash
+# Install a single block
+npx shadcn@latest add @saastro/hero-01
+
+# Install multiple blocks
+npx shadcn@latest add @saastro/hero-01 @saastro/features-01 @saastro/pricing-01
+```
+
+The CLI will automatically install the block source code and any required shadcn/ui dependencies (Button, Card, Badge, etc.).
+
+## 4. Use blocks in your pages
+
+Import the block component and pass your content as props:
+
+```astro
+---
+// src/pages/index.astro
+import { Hero01 } from '@/components/blocks/hero-01';
+---
+
+<Hero01
+  badge="Just launched"
+  title="Build your landing page in minutes"
+  description="Beautiful, responsive blocks for Astro."
+  primaryCta={{ label: 'Get Started', href: '/docs' }}
+  secondaryCta={{ label: 'View Demo', href: '/demo' }}
+/>
+```
+
+By default, React components in Astro render as **static HTML** with zero JavaScript. If your block needs interactivity (like a pricing toggle), add a client directive:
+
+```astro
+<Pricing01 client:visible plans={[...]} />
+```
+
+## Available blocks
+
+Browse all blocks in the [blocks gallery](/blocks).
+
+## Next steps
+
+- [Browse blocks](/blocks) — see all available blocks with live previews
+- [Theming](/docs/theming) — customize colors and styles
+- [Dark Mode](/docs/dark-mode) — enable dark mode support

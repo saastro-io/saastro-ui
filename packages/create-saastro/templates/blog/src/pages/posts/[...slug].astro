@@ -1,0 +1,261 @@
+---
+/**
+ * Blog post detail page
+ */
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { editable, getContentMeta } from '@saastro/cms';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: post,
+  }));
+}
+
+type Props = CollectionEntry<'posts'>;
+
+const post = Astro.props;
+const { Content } = await render(post);
+
+// Generate visual editor meta for this content
+const contentMeta = getContentMeta({
+  collection: 'posts',
+  slug: post.id,
+  frontmatter: post.data,
+});
+---
+
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <Fragment slot="head" set:html={contentMeta} />
+
+  <header class="header">
+    <nav class="nav">
+      <a href="/" class="logo">My Blog</a>
+      <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/admin">Admin</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="main">
+    <article class="article">
+      {
+        post.data.heroImage && (
+          <img
+            src={post.data.heroImage}
+            alt={post.data.title}
+            class="hero-image"
+            {...editable('heroImage', 'image')}
+          />
+        )
+      }
+
+      <div class="article-header">
+        <h1 {...editable('title', 'text')}>{post.data.title}</h1>
+        <div class="meta">
+          <span class="author" {...editable('author', 'text')}>
+            By {post.data.author}
+          </span>
+          <time>
+            {
+              post.data.pubDate.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })
+            }
+          </time>
+        </div>
+        {
+          post.data.tags.length > 0 && (
+            <div class="tags">
+              {post.data.tags.map((tag) => (
+                <span class="tag">{tag}</span>
+              ))}
+            </div>
+          )
+        }
+      </div>
+
+      <div class="content" data-saastrocms-field="body" data-saastrocms-type="richtext">
+        <Content />
+      </div>
+    </article>
+
+    <aside class="sidebar">
+      <a href="/" class="back-link">&larr; Back to all posts</a>
+    </aside>
+  </main>
+
+  <footer class="footer">
+    <p>
+      Built with <a href="https://astro.build">Astro</a> &
+      <a href="https://saastrocms.com">SaastroCMS</a>
+    </p>
+  </footer>
+</BaseLayout>
+
+<style>
+  .header {
+    border-bottom: 1px solid #eee;
+    padding: 1rem 2rem;
+  }
+
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .logo {
+    font-weight: bold;
+    font-size: 1.25rem;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .hero-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+  }
+
+  .article-header {
+    margin-bottom: 2rem;
+  }
+
+  .article-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .meta {
+    color: #666;
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    background: #f0f0f0;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+  }
+
+  .content {
+    line-height: 1.8;
+  }
+
+  .content :global(h2) {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .content :global(p) {
+    margin-bottom: 1rem;
+  }
+
+  .content :global(ul),
+  .content :global(ol) {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+  }
+
+  .content :global(li) {
+    margin-bottom: 0.5rem;
+  }
+
+  .content :global(pre) {
+    background: #f5f5f5;
+    padding: 1rem;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin-bottom: 1rem;
+  }
+
+  .content :global(code) {
+    font-family: 'Menlo', monospace;
+    font-size: 0.9em;
+  }
+
+  .content :global(blockquote) {
+    border-left: 4px solid #ddd;
+    padding-left: 1rem;
+    margin: 1rem 0;
+    color: #666;
+  }
+
+  .sidebar {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eee;
+  }
+
+  .back-link {
+    color: #666;
+  }
+
+  .footer {
+    border-top: 1px solid #eee;
+    padding: 2rem;
+    text-align: center;
+    color: #666;
+    margin-top: 4rem;
+  }
+
+  .footer a {
+    color: inherit;
+    text-decoration: underline;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .header,
+    .footer,
+    .sidebar {
+      border-color: #333;
+    }
+
+    .meta,
+    .footer,
+    .back-link {
+      color: #999;
+    }
+
+    .tag {
+      background: #333;
+    }
+
+    .content :global(pre) {
+      background: #2a2a2a;
+    }
+
+    .content :global(blockquote) {
+      border-color: #444;
+      color: #999;
+    }
+  }
+</style>

@@ -1,0 +1,125 @@
+---
+import "@/styles/global.css";
+import Meta from "@saastro/shell/head/Meta.astro";
+import { getConfigSlices, makePermalinks, getHeaderData } from "@saastro/shell";
+import type { MenuItem } from "@saastro/shell";
+
+import Announcement from "@saastro/shell/widgets/Announcement/announcement1.astro";
+import Analytics from "@saastro/shell/analytics/Analytics.astro";
+import AnalyticsNoscript from "@saastro/shell/analytics/AnalyticsNoscript.astro";
+import CommonHead from "@saastro/shell/head/CommonHead.astro";
+import Favicons from "@saastro/shell/head/Favicons.astro";
+import SiteVerification from "@saastro/shell/head/SiteVerification.astro";
+import { ClientRouter } from "astro:transitions";
+import Footer from "@saastro/shell/components/footer/Footer.astro";
+import Header from "@saastro/shell/components/navBar/Header.astro";
+import ApplyColorMode from "@saastro/shell/scripts/ApplyColorMode.astro";
+// TODO: Fix widget exports in @saastro/shell
+// import { ContactSheetProvider } from "@saastro/shell/widgets/ContactSheet";
+// import { CookieConsent } from "@saastro/shell/widgets/CookieConsent";
+
+import type { Props as AnnouncementProps } from "@saastro/shell/widgets/Announcement/announcement1.astro";
+// import type { CookieConsentProps } from "@saastro/shell/widgets/CookieConsent";
+
+export interface Props {
+  metadata?: any;
+  /**
+   * Si es `false`, no se mostrará el anuncio superior.
+   * @default true
+   */
+  showAnnouncement?: boolean;
+  /**
+   * Props del componente Announcement.
+   * Permite personalizar texto, badge, icono, persistencia, etc.
+   */
+  announcement?: Partial<AnnouncementProps>;
+  /**
+   * Analytics IDs (overrides settings.yaml if provided).
+   * Allows different analytics per page.
+   */
+  analytics?: {
+    googleAnalyticsId?: string;
+    googleTagManagerId?: string;
+  };
+  /**
+   * Custom navigation menu. If not provided, uses the default from shell.
+   */
+  menu?: MenuItem[];
+  // TODO: Re-enable when widgets are fixed
+  // cookieConsent?: Partial<CookieConsentProps>;
+}
+const { I18N } = await getConfigSlices();
+const {
+  metadata = {},
+  showAnnouncement = true,
+  announcement = {},
+  analytics = {},
+  menu: customMenu,
+} = Astro.props;
+const { language, textDirection } = I18N;
+
+// Build navigation menu: use custom menu or default from shell
+const helpers = await makePermalinks(Astro);
+const defaultMenu = getHeaderData(helpers).menu;
+const menu = customMenu ?? defaultMenu;
+---
+
+<!doctype html>
+<html lang={language} dir={textDirection}>
+  <head>
+    <CommonHead />
+    <Meta {...metadata} />
+    <Analytics
+      googleAnalyticsId={analytics.googleAnalyticsId}
+      googleTagManagerId={analytics.googleTagManagerId}
+    />
+    <Favicons />
+    <ApplyColorMode />
+    <SiteVerification />
+    <ClientRouter fallback="swap" />
+    <slot name="head" />
+    <slot name="meta" />
+    <slot name="scripts" />
+    <slot name="styles" />
+  </head>
+  <body class="flex flex-col min-h-screen">
+    <AnalyticsNoscript googleTagManagerId={analytics.googleTagManagerId} />
+
+    {
+      showAnnouncement && (
+        <slot name="announcement">
+          <Announcement {...announcement} />
+        </slot>
+      )
+    }
+    <slot name="header">
+      <Header
+        menu={menu}
+        currentPath={Astro.url.pathname}
+        isSticky={false}
+        showToggleTheme={true}
+        showRssFeed={false}
+        isDark={true}
+        menuPosition="left"
+        isFullWidth={false}
+        menuBreakpoint="md"
+      />
+    </slot>
+
+    <main class="flex-1">
+      <slot />
+    </main>
+
+    <slot name="footer">
+      <Footer />
+    </slot>
+
+    <!-- TODO: Re-enable when widgets are fixed -->
+    <!-- ContactSheetProvider: renders ContactSheet once globally to avoid duplicates -->
+    <!-- <ContactSheetProvider client:only="react" /> -->
+
+    <!-- Cookie Consent Banner: GDPR-compliant cookie consent -->
+    <!-- <CookieConsent ... /> -->
+    <!-- <BasicScripts /> -->
+  </body>
+</html>

@@ -1,0 +1,84 @@
+---
+title: components.json
+description: Configure your project to use the Saastro block registry.
+section: getting-started
+order: 4
+---
+
+# components.json
+
+The `components.json` file configures shadcn/ui and custom registries for your project.
+
+## Adding the Saastro registry
+
+Add the `registries` field to your existing `components.json`:
+
+```json
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "default",
+  "tailwind": {
+    "config": "tailwind.config.mjs",
+    "css": "src/styles/globals.css",
+    "baseColor": "slate",
+    "cssVariables": true
+  },
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils",
+    "ui": "@/components/ui"
+  },
+  "registries": {
+    "@saastro": "https://ui.saastro.io/r/{name}.json"
+  }
+}
+```
+
+The `registries` block maps the `@saastro` namespace to the Saastro registry URL. The `{name}` placeholder is replaced by the block name when you run the CLI.
+
+## How namespaced registries work
+
+When you run:
+
+```bash
+npx shadcn@latest add @saastro/hero-01
+```
+
+The CLI:
+
+1. Looks up the `@saastro` namespace in your `components.json` registries
+2. Replaces `{name}` with `hero-01`
+3. Fetches `https://ui.saastro.io/r/hero-01.json`
+4. Installs the block and its dependencies
+
+## Aliases
+
+Make sure your path aliases match your `tsconfig.json`:
+
+```json
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}
+```
+
+For Astro projects, also configure the alias in `astro.config.mjs`:
+
+```javascript
+import { defineConfig } from 'astro/config';
+import { fileURLToPath } from 'node:url';
+
+export default defineConfig({
+  vite: {
+    resolve: {
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+      },
+    },
+  },
+});
+```

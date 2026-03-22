@@ -1,0 +1,13 @@
+{
+    "name": "saastro-ui-docs",
+    "compatibility_date": "2025-11-12",
+    "dev": {
+      "inspector_port": 9240
+    },
+    "compatibility_flags": [
+      "nodejs_compat_v2"
+    ],
+    "observability": {
+      "enabled": true
+    }
+  }

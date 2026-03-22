@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "hero-01",
+  "title": "Hero Section — Centered",
+  "description": "A centered hero section with badge, heading, description, and dual CTA buttons.",
+  "registryDependencies": [
+    "button",
+    "badge"
+  ],
+  "files": [
+    {
+      "path": "registry/default/blocks/hero-01.tsx",
+      "content": "import { Badge } from '@/components/ui/badge';\nimport { Button } from '@/components/ui/button';\nimport { cn } from '@/lib/utils';\n\ntype Hero01Props = {\n  badge?: string;\n  title: string;\n  description: string;\n  primaryCta: { label: string; href: string };\n  secondaryCta?: { label: string; href: string };\n  className?: string;\n};\n\nexport function Hero01({\n  badge,\n  title,\n  description,\n  primaryCta,\n  secondaryCta,\n  className,\n}: Hero01Props) {\n  return (\n    <section className={cn('w-full px-6 py-24 md:py-32 lg:py-40', className)}>\n      <div className=\"mx-auto max-w-3xl text-center\">\n        {badge && (\n          <Badge variant=\"secondary\" className=\"mb-4\">\n            {badge}\n          </Badge>\n        )}\n        <h1 className=\"text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl\">{title}</h1>\n        <p className=\"mt-6 text-lg text-muted-foreground sm:text-xl\">{description}</p>\n        <div className=\"mt-10 flex items-center justify-center gap-4\">\n          <Button size=\"lg\" asChild>\n            <a href={primaryCta.href}>{primaryCta.label}</a>\n          </Button>\n          {secondaryCta && (\n            <Button variant=\"outline\" size=\"lg\" asChild>\n              <a href={secondaryCta.href}>{secondaryCta.label}</a>\n            </Button>\n          )}\n        </div>\n      </div>\n    </section>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "categories": [
+    "hero",
+    "landing"
+  ],
+  "type": "registry:block"
+}

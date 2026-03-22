@@ -1,0 +1,85 @@
+---
+/**
+ * Admin catch-all route
+ * Renders the SaastroCMS admin interface
+ */
+import {
+  AdminLayout,
+  CollectionsList,
+  EntriesList,
+  EntryEditor,
+  MediaLibrary,
+} from '@saastro/cms/admin';
+import type { SaastroCMSLocals } from '@saastro/cms';
+
+// Get the current path
+const slug = Astro.params.slug || '';
+const segments = slug.split('/').filter(Boolean);
+
+// Parse the route
+const [firstSegment, secondSegment, thirdSegment] = segments;
+
+// Determine which page to render
+let PageComponent: typeof CollectionsList | typeof EntriesList | typeof EntryEditor | typeof MediaLibrary;
+let pageProps: Record<string, unknown> = {};
+
+if (!firstSegment || firstSegment === '') {
+  // /admin - Show collections list (dashboard)
+  PageComponent = CollectionsList;
+} else if (firstSegment === 'media') {
+  // /admin/media - Media library
+  PageComponent = MediaLibrary;
+} else if (secondSegment === 'new') {
+  // /admin/[collection]/new - Create new entry
+  PageComponent = EntryEditor;
+  pageProps = { collection: firstSegment, isNew: true };
+} else if (secondSegment) {
+  // /admin/[collection]/[slug] - Edit entry
+  PageComponent = EntryEditor;
+  pageProps = { collection: firstSegment, slug: secondSegment };
+} else {
+  // /admin/[collection] - List entries
+  PageComponent = EntriesList;
+  pageProps = { collection: firstSegment };
+}
+
+// Get session from locals
+const locals = Astro.locals as SaastroCMSLocals;
+const user = locals.session?.user;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin - SaastroCMS</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <AdminLayout user={user} currentPath={Astro.url.pathname} client:load>
+      <PageComponent {...pageProps} client:load />
+    </AdminLayout>
+  </body>
+</html>
+
+<style is:global>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background-color: hsl(0 0% 100%);
+    color: hsl(222.2 84% 4.9%);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: hsl(222.2 84% 4.9%);
+      color: hsl(210 40% 98%);
+    }
+  }
+</style>

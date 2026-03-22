@@ -1,0 +1,42 @@
+---
+import DocsLayout from "@/layouts/DocsLayout.astro";
+import { getCollection } from "astro:content";
+import { makePermalinks } from "@saastro/shell/urls/permalinks";
+
+const { getPermalink } = await makePermalinks(Astro);
+const docs = await getCollection("docs");
+
+const gettingStartedDocs = docs
+  .filter((d) => d.data.published !== false && d.data.section === "getting-started")
+  .sort((a, b) => a.data.order - b.data.order);
+
+const getDocSlug = (id: string) => id.replace(/\/index$/, "").replace(/\/$/, "");
+
+const metadata = {
+  title: "Documentation — Saastro Blocks",
+  description: "Learn how to install, configure, and use Saastro blocks in your Astro project.",
+};
+---
+
+<DocsLayout metadata={metadata}>
+  <div class="space-y-4">
+    <h1 class="text-3xl font-bold tracking-tight">Documentation</h1>
+    <p class="text-muted-foreground">
+      Learn how to install and use Saastro blocks in your Astro or React project.
+    </p>
+  </div>
+
+  <div class="mt-8 grid gap-4 sm:grid-cols-2">
+    {gettingStartedDocs.map((doc) => (
+      <a
+        href={getPermalink(`/docs/${getDocSlug(doc.id)}`)}
+        class="rounded-lg border p-6 transition-colors hover:border-primary/50 hover:bg-accent/50"
+      >
+        <h3 class="font-semibold">{doc.data.title}</h3>
+        {doc.data.description && (
+          <p class="mt-2 text-sm text-muted-foreground">{doc.data.description}</p>
+        )}
+      </a>
+    ))}
+  </div>
+</DocsLayout>

@@ -1,0 +1,15 @@
+{
+  "extends": "@saastro/config/tsconfig/node.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "composite": false,
+    "noEmit": true,
+    "sourceMap": false,
+    "resolvePackageJsonExports": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./registry/default/*"]
+    }
+  },
+  "include": ["registry/**/*", "scripts/**/*"]
+}

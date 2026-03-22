@@ -1,0 +1,182 @@
+---
+title: Dark Mode
+description: Adding dark mode support to your Saastro UI project.
+section: getting-started
+order: 5
+---
+
+# Dark Mode
+
+Saastro UI supports dark mode out of the box using CSS variables and the `.dark` class.
+
+## How it Works
+
+Dark mode is implemented using CSS variables that change based on the `.dark` class:
+
+```css
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    /* ... light mode variables */
+  }
+
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    /* ... dark mode variables */
+  }
+}
+```
+
+When the `.dark` class is applied to the `<html>` element, all components automatically switch to dark mode.
+
+## Implementation
+
+### Manual Toggle
+
+Create a simple toggle button:
+
+```astro
+---
+// ToggleTheme.astro
+---
+
+<button
+  id="theme-toggle"
+  class="p-2 rounded-md hover:bg-accent"
+  aria-label="Toggle theme"
+>
+  <svg class="dark:hidden" width="20" height="20"><!-- Sun icon --></svg>
+  <svg class="hidden dark:block" width="20" height="20"><!-- Moon icon --></svg>
+</button>
+
+<script>
+  const toggle = document.getElementById('theme-toggle');
+
+  function setTheme(dark: boolean) {
+    document.documentElement.classList.toggle('dark', dark);
+    localStorage.setItem('theme', dark ? 'dark' : 'light');
+  }
+
+  // Initialize from localStorage or system preference
+  const stored = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+  if (stored === 'dark' || (!stored && prefersDark)) {
+    document.documentElement.classList.add('dark');
+  }
+
+  toggle?.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.contains('dark');
+    setTheme(!isDark);
+  });
+</script>
+```
+
+### System Preference
+
+To follow the system preference:
+
+```astro
+<script is:inline>
+  // Run immediately to prevent flash
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const stored = localStorage.getItem('theme');
+
+  if (stored === 'dark' || (!stored && prefersDark)) {
+    document.documentElement.classList.add('dark');
+  }
+</script>
+```
+
+Place this script in your `<head>` with `is:inline` to prevent FOUC (Flash of Unstyled Content).
+
+### Three-Way Toggle
+
+Support light, dark, and system modes:
+
+```typescript
+type Theme = 'light' | 'dark' | 'system';
+
+function setTheme(theme: Theme) {
+  localStorage.setItem('theme', theme);
+
+  if (theme === 'system') {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.classList.toggle('dark', prefersDark);
+  } else {
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+  }
+}
+
+// Listen for system changes
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+  if (localStorage.getItem('theme') === 'system') {
+    document.documentElement.classList.toggle('dark', e.matches);
+  }
+});
+```
+
+## Preventing Flash
+
+To prevent the flash of wrong theme on page load, add this to your `<head>`:
+
+```html
+<script is:inline>
+  (function () {
+    const stored = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    if (stored === 'dark' || (stored === 'system' && prefersDark) || (!stored && prefersDark)) {
+      document.documentElement.classList.add('dark');
+    }
+  })();
+</script>
+```
+
+## Dark Mode Variables
+
+Here are the default dark mode CSS variables:
+
+```css
+.dark {
+  --background: 0 0% 3.9%;
+  --foreground: 0 0% 98%;
+
+  --card: 0 0% 3.9%;
+  --card-foreground: 0 0% 98%;
+
+  --popover: 0 0% 3.9%;
+  --popover-foreground: 0 0% 98%;
+
+  --primary: 0 0% 98%;
+  --primary-foreground: 0 0% 9%;
+
+  --secondary: 0 0% 14.9%;
+  --secondary-foreground: 0 0% 98%;
+
+  --muted: 0 0% 14.9%;
+  --muted-foreground: 0 0% 63.9%;
+
+  --accent: 0 0% 14.9%;
+  --accent-foreground: 0 0% 98%;
+
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+
+  --border: 0 0% 14.9%;
+  --input: 0 0% 14.9%;
+  --ring: 0 0% 83.1%;
+}
+```
+
+## Tailwind Dark Variants
+
+You can use Tailwind's dark variant for custom styling:
+
+```html
+<div class="bg-white dark:bg-zinc-900">
+  <p class="text-gray-900 dark:text-gray-100">Adapts to theme</p>
+</div>
+```

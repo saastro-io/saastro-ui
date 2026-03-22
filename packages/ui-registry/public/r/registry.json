@@ -1,0 +1,217 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "saastro",
+  "homepage": "https://ui.saastro.io",
+  "items": [
+    {
+      "name": "hero-01",
+      "type": "registry:block",
+      "title": "Hero Section — Centered",
+      "description": "A centered hero section with badge, heading, description, and dual CTA buttons.",
+      "registryDependencies": ["button", "badge"],
+      "files": [
+        {
+          "path": "registry/default/blocks/hero-01.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "categories": ["hero", "landing"]
+    },
+    {
+      "name": "hero-02",
+      "type": "registry:block",
+      "title": "Hero Section — Split with Image",
+      "description": "A split hero section with content on the left and image/screenshot on the right.",
+      "registryDependencies": ["button", "badge"],
+      "files": [
+        {
+          "path": "registry/default/blocks/hero-02.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "categories": ["hero", "landing"]
+    },
+    {
+      "name": "hero-03",
+      "type": "registry:block",
+      "title": "Hero Section — Gradient Background",
+      "description": "A hero section with gradient background, floating badge, and a single prominent CTA.",
+      "registryDependencies": ["button", "badge"],
+      "files": [
+        {
+          "path": "registry/default/blocks/hero-03.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "categories": ["hero", "landing"]
+    },
+    {
+      "name": "features-01",
+      "type": "registry:block",
+      "title": "Features Grid — 3 Columns with Icons",
+      "description": "A 3-column feature grid with icons, titles, and descriptions.",
+      "registryDependencies": ["card"],
+      "files": [
+        {
+          "path": "registry/default/blocks/features-01.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "categories": ["features", "landing"]
+    },
+    {
+      "name": "features-02",
+      "type": "registry:block",
+      "title": "Features — Alternating Sections",
+      "description": "Alternating image and text sections to showcase features.",
+      "registryDependencies": ["badge"],
+      "files": [
+        {
+          "path": "registry/default/blocks/features-02.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "categories": ["features", "landing"]
+    },
+    {
+      "name": "pricing-01",
+      "type": "registry:block",
+      "title": "Pricing Cards — 3 Tiers",
+      "description": "Three-tier pricing cards with monthly/annual toggle and feature lists.",
+      "registryDependencies": ["button", "card", "badge", "separator"],
+      "files": [
+        {
+          "path": "registry/default/blocks/pricing-01.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "categories": ["pricing", "landing"]
+    },
+    {
+      "name": "cta-01",
+      "type": "registry:block",
+      "title": "CTA Banner — Gradient",
+      "description": "A full-width CTA banner with gradient background, heading, and action buttons.",
+      "registryDependencies": ["button"],
+      "files": [
+        {
+          "path": "registry/default/blocks/cta-01.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "categories": ["cta", "landing"]
+    },
+    {
+      "name": "faq-01",
+      "type": "registry:block",
+      "title": "FAQ — Accordion",
+      "description": "A FAQ section with accordion for expandable questions and answers.",
+      "registryDependencies": ["accordion"],
+      "files": [
+        {
+          "path": "registry/default/blocks/faq-01.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "categories": ["faq", "landing"]
+    },
+    {
+      "name": "testimonials-01",
+      "type": "registry:block",
+      "title": "Testimonials — Card Grid",
+      "description": "A testimonial grid with avatar, name, role, and quote cards.",
+      "registryDependencies": ["card", "avatar"],
+      "files": [
+        {
+          "path": "registry/default/blocks/testimonials-01.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "categories": ["testimonials", "landing"]
+    },
+    {
+      "name": "footer-01",
+      "type": "registry:block",
+      "title": "Footer — Multi-Column",
+      "description": "A multi-column footer with navigation links, social icons, and copyright.",
+      "registryDependencies": ["separator"],
+      "files": [
+        {
+          "path": "registry/default/blocks/footer-01.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "categories": ["footer", "landing"]
+    },
+    {
+      "name": "navbar-01",
+      "type": "registry:block",
+      "title": "Navbar — Responsive with Mobile Menu",
+      "description": "A responsive navbar with desktop navigation and mobile hamburger menu using Sheet.",
+      "registryDependencies": ["button", "sheet", "navigation-menu"],
+      "files": [
+        {
+          "path": "registry/default/blocks/navbar-01.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "categories": ["navbar", "landing"]
+    },
+    {
+      "name": "blog-grid-01",
+      "type": "registry:block",
+      "title": "Blog Post Grid",
+      "description": "A responsive grid of blog post cards with image, title, excerpt, and metadata.",
+      "registryDependencies": ["card", "badge"],
+      "files": [
+        {
+          "path": "registry/default/blocks/blog-grid-01.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "categories": ["blog", "content"]
+    },
+    {
+      "name": "newsletter-01",
+      "type": "registry:block",
+      "title": "Newsletter Signup",
+      "description": "An email newsletter signup section with input and submit button.",
+      "registryDependencies": ["button", "input"],
+      "files": [
+        {
+          "path": "registry/default/blocks/newsletter-01.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "categories": ["newsletter", "cta"]
+    },
+    {
+      "name": "stats-01",
+      "type": "registry:block",
+      "title": "Stats — Counter Row",
+      "description": "A row of key statistics with large numbers and labels.",
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/default/blocks/stats-01.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "categories": ["stats", "landing"]
+    },
+    {
+      "name": "logos-01",
+      "type": "registry:block",
+      "title": "Logo Cloud — Trusted By",
+      "description": "A 'Trusted by' logo cloud section with grayscale logos.",
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/default/blocks/logos-01.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "categories": ["logos", "landing"]
+    }
+  ]
+}

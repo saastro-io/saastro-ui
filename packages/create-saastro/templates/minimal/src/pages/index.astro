@@ -1,0 +1,80 @@
+---
+/**
+ * Minimal homepage
+ */
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const home = await getEntry('pages', 'home');
+const { Content } = home ? await render(home) : { Content: null };
+---
+
+<BaseLayout title="Home">
+  <main class="main">
+    <nav class="nav">
+      <a href="/admin" class="admin-link">Admin Panel</a>
+    </nav>
+    <div class="content" data-saastrocms-field="body" data-saastrocms-type="richtext">
+      {Content ? <Content /> : <p>Welcome! Create content at /admin</p>}
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .nav {
+    margin-bottom: 2rem;
+  }
+
+  .admin-link {
+    background: #000;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+  }
+
+  .admin-link:hover {
+    background: #333;
+    text-decoration: none;
+  }
+
+  .content :global(h1) {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .content :global(h2) {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .content :global(p) {
+    margin-bottom: 1rem;
+  }
+
+  .content :global(ol) {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .content :global(li) {
+    margin-bottom: 0.5rem;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .admin-link {
+      background: #fff;
+      color: #000;
+    }
+
+    .admin-link:hover {
+      background: #ddd;
+    }
+  }
+</style>

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "testimonials-01",
+  "title": "Testimonials — Card Grid",
+  "description": "A testimonial grid with avatar, name, role, and quote cards.",
+  "registryDependencies": [
+    "card",
+    "avatar"
+  ],
+  "files": [
+    {
+      "path": "registry/default/blocks/testimonials-01.tsx",
+      "content": "import { Card, CardContent } from '@/components/ui/card';\nimport { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';\nimport { cn } from '@/lib/utils';\n\ntype Testimonial = {\n  quote: string;\n  author: string;\n  role: string;\n  company?: string;\n  avatarUrl?: string;\n};\n\ntype Testimonials01Props = {\n  title?: string;\n  description?: string;\n  testimonials: Testimonial[];\n  className?: string;\n};\n\nfunction getInitials(name: string): string {\n  return name\n    .split(' ')\n    .map((n) => n[0])\n    .join('')\n    .toUpperCase()\n    .slice(0, 2);\n}\n\nexport function Testimonials01({\n  title,\n  description,\n  testimonials,\n  className,\n}: Testimonials01Props) {\n  return (\n    <section className={cn('w-full px-6 py-24 md:py-32', className)}>\n      <div className=\"mx-auto max-w-6xl\">\n        {(title || description) && (\n          <div className=\"mx-auto mb-16 max-w-2xl text-center\">\n            {title && <h2 className=\"text-3xl font-bold tracking-tight sm:text-4xl\">{title}</h2>}\n            {description && <p className=\"mt-4 text-lg text-muted-foreground\">{description}</p>}\n          </div>\n        )}\n        <div className=\"grid gap-6 sm:grid-cols-2 lg:grid-cols-3\">\n          {testimonials.map((testimonial, index) => (\n            <Card key={index} className=\"flex flex-col justify-between\">\n              <CardContent className=\"pt-6\">\n                <p className=\"text-sm italic text-muted-foreground\">\n                  &ldquo;{testimonial.quote}&rdquo;\n                </p>\n                <div className=\"mt-6 flex items-center gap-3\">\n                  <Avatar className=\"h-10 w-10\">\n                    {testimonial.avatarUrl && <AvatarImage src={testimonial.avatarUrl} />}\n                    <AvatarFallback className=\"text-xs\">\n                      {getInitials(testimonial.author)}\n                    </AvatarFallback>\n                  </Avatar>\n                  <div>\n                    <p className=\"text-sm font-semibold\">{testimonial.author}</p>\n                    <p className=\"text-xs text-muted-foreground\">\n                      {testimonial.role}\n                      {testimonial.company && `, ${testimonial.company}`}\n                    </p>\n                  </div>\n                </div>\n              </CardContent>\n            </Card>\n          ))}\n        </div>\n      </div>\n    </section>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "categories": [
+    "testimonials",
+    "landing"
+  ],
+  "type": "registry:block"
+}

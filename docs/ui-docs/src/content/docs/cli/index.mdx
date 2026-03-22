@@ -1,0 +1,63 @@
+---
+title: CLI Usage
+description: How to use the shadcn CLI to install Saastro blocks.
+section: getting-started
+order: 3
+---
+
+# CLI Usage
+
+Saastro blocks are installed using the **shadcn CLI** (v4+). No custom CLI needed.
+
+## Adding blocks
+
+Once your [registry is configured](/docs/installation), install blocks with:
+
+```bash
+npx shadcn@latest add @saastro/hero-01
+```
+
+Install multiple blocks at once:
+
+```bash
+npx shadcn@latest add @saastro/hero-01 @saastro/features-01 @saastro/pricing-01
+```
+
+The CLI automatically resolves dependencies. For example, `hero-01` depends on `button` and `badge` — if you don't already have them, the CLI will install them from the default shadcn registry.
+
+## Available blocks
+
+| Block             | Category     | Dependencies                   |
+| ----------------- | ------------ | ------------------------------ |
+| `hero-01`         | Hero         | button, badge                  |
+| `hero-02`         | Hero         | button, badge                  |
+| `hero-03`         | Hero         | button, badge                  |
+| `features-01`     | Features     | card                           |
+| `features-02`     | Features     | badge                          |
+| `pricing-01`      | Pricing      | button, card, badge, separator |
+| `cta-01`          | CTA          | button                         |
+| `faq-01`          | FAQ          | accordion                      |
+| `testimonials-01` | Testimonials | card, avatar                   |
+| `footer-01`       | Navigation   | separator                      |
+| `navbar-01`       | Navigation   | button, sheet                  |
+| `blog-grid-01`    | Content      | card, badge                    |
+| `newsletter-01`   | CTA          | button, input                  |
+| `stats-01`        | Social Proof | —                              |
+| `logos-01`        | Social Proof | —                              |
+
+## How it works
+
+When you run `npx shadcn@latest add @saastro/hero-01`, the CLI:
+
+1. Fetches `https://ui.saastro.io/r/hero-01.json`
+2. Reads the component source code and dependency list
+3. Installs any missing shadcn primitives (button, badge, etc.)
+4. Copies the block source into your project
+
+## Overwriting existing blocks
+
+If you've modified a block and want to reset it:
+
+```bash
+npx shadcn@latest add @saastro/hero-01 --overwrite
+```

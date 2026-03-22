@@ -1,0 +1,176 @@
+---
+title: Typography
+description: Styles and utilities for consistent typography across your Saastro UI project.
+section: getting-started
+order: 7
+---
+
+# Typography
+
+Saastro UI provides consistent typography through Tailwind CSS utilities and CSS variables.
+
+## Font Stack
+
+By default, Saastro UI uses a system font stack for optimal performance:
+
+```css
+font-family: ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+```
+
+### Custom Fonts
+
+To use a custom font like Inter or Geist, install it and update your CSS:
+
+```css
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  font-family: var(--font-sans);
+}
+```
+
+## Headings
+
+Use Tailwind's typography utilities for consistent headings:
+
+```html
+<h1 class="text-4xl font-bold tracking-tight">Heading 1</h1>
+<h2 class="text-3xl font-semibold tracking-tight">Heading 2</h2>
+<h3 class="text-2xl font-semibold tracking-tight">Heading 3</h3>
+<h4 class="text-xl font-semibold tracking-tight">Heading 4</h4>
+```
+
+### Recommended Scales
+
+| Element | Class       | Size            |
+| ------- | ----------- | --------------- |
+| `h1`    | `text-4xl`  | 2.25rem (36px)  |
+| `h2`    | `text-3xl`  | 1.875rem (30px) |
+| `h3`    | `text-2xl`  | 1.5rem (24px)   |
+| `h4`    | `text-xl`   | 1.25rem (20px)  |
+| `p`     | `text-base` | 1rem (16px)     |
+| `small` | `text-sm`   | 0.875rem (14px) |
+
+## Body Text
+
+For body text, use semantic color classes:
+
+```html
+<!-- Primary text -->
+<p class="text-foreground">Main content text</p>
+
+<!-- Secondary/muted text -->
+<p class="text-muted-foreground">Supporting information</p>
+
+<!-- Large lead paragraph -->
+<p class="text-xl text-muted-foreground">A lead paragraph that introduces the content.</p>
+```
+
+## Text Colors
+
+Saastro UI uses semantic color variables for text:
+
+| Class                   | Usage                 |
+| ----------------------- | --------------------- |
+| `text-foreground`       | Primary text          |
+| `text-muted-foreground` | Secondary/helper text |
+| `text-primary`          | Accent/link text      |
+| `text-destructive`      | Error/danger text     |
+
+```html
+<p class="text-foreground">Primary text content</p>
+<p class="text-muted-foreground">Helper or secondary text</p>
+<a class="text-primary hover:underline">Link text</a>
+<span class="text-destructive">Error message</span>
+```
+
+## Prose Styling
+
+For long-form content (blog posts, documentation), use the `prose` class from `@tailwindcss/typography`:
+
+```html
+<article class="prose prose-slate dark:prose-invert">
+  <h1>Article Title</h1>
+  <p>Your markdown-rendered content here...</p>
+</article>
+```
+
+### Installing Typography Plugin
+
+```bash
+npm install @tailwindcss/typography
+```
+
+Add to your Tailwind config:
+
+```javascript
+// tailwind.config.mjs
+export default {
+  plugins: [require('@tailwindcss/typography')],
+};
+```
+
+## Code & Monospace
+
+For inline code and code blocks:
+
+```html
+<!-- Inline code -->
+<code class="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm">
+  npm install
+</code>
+
+<!-- Code block -->
+<pre class="rounded-lg bg-muted p-4 overflow-x-auto">
+  <code class="font-mono text-sm">
+    const greeting = "Hello, World!";
+  </code>
+</pre>
+```
+
+## Lists
+
+```html
+<!-- Unordered list -->
+<ul class="list-disc list-inside space-y-1 text-muted-foreground">
+  <li>First item</li>
+  <li>Second item</li>
+  <li>Third item</li>
+</ul>
+
+<!-- Ordered list -->
+<ol class="list-decimal list-inside space-y-1 text-muted-foreground">
+  <li>Step one</li>
+  <li>Step two</li>
+  <li>Step three</li>
+</ol>
+```
+
+## Blockquotes
+
+```html
+<blockquote class="border-l-4 border-primary pl-4 italic text-muted-foreground">
+  "Design is not just what it looks like and feels like. Design is how it works."
+</blockquote>
+```
+
+## Responsive Typography
+
+Use Tailwind's responsive prefixes for adaptive typography:
+
+```html
+<h1 class="text-2xl md:text-3xl lg:text-4xl font-bold">Responsive Heading</h1>
+
+<p class="text-sm md:text-base lg:text-lg">Text that scales with viewport.</p>
+```
+
+## Best Practices
+
+1. **Use semantic colors** — Prefer `text-foreground` over `text-black` for theme compatibility
+2. **Consistent spacing** — Use `tracking-tight` for headings, default tracking for body
+3. **Line height** — Use `leading-relaxed` for better readability in long paragraphs
+4. **Font weights** — Stick to 400 (regular), 500 (medium), 600 (semibold), 700 (bold)

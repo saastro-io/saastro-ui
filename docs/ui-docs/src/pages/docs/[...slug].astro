@@ -1,0 +1,44 @@
+---
+import DocsLayout from "@/layouts/DocsLayout.astro";
+import { getCollection, render } from "astro:content";
+import { makePermalinks } from "@saastro/shell/urls/permalinks";
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const docs = await getCollection("docs");
+  const publishedDocs = docs.filter((d) => d.data.published !== false);
+
+  return publishedDocs.map((doc) => ({
+    params: { slug: doc.id.replace(/\/index$/, "").replace(/\/$/, "") },
+    props: { doc },
+  }));
+}
+
+const { doc } = Astro.props;
+const { getPermalink } = await makePermalinks(Astro);
+
+if (!doc) {
+  return Astro.redirect(getPermalink("/docs"));
+}
+
+const { Content } = await render(doc);
+---
+
+<DocsLayout
+  metadata={{
+    title: `${doc.data.title} — Docs`,
+    description: doc.data.description,
+  }}
+>
+  <div class="mb-8">
+    <h1 class="text-4xl font-bold mb-2">{doc.data.title}</h1>
+    {doc.data.description && (
+      <p class="text-lg text-muted-foreground">{doc.data.description}</p>
+    )}
+  </div>
+
+  <article class="prose prose-slate dark:prose-invert max-w-none">
+    <Content />
+  </article>
+</DocsLayout>

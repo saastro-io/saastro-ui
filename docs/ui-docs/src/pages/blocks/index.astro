@@ -1,0 +1,82 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { blocks, categories } from "@/data/blocks";
+import { BlockRenderer } from "@/components/block-renderer";
+
+const metadata = {
+  title: "All Blocks — Saastro",
+  description: "Browse all available landing page blocks. Hero, features, pricing, testimonials, and more.",
+};
+
+// Read category from URL query
+const url = new URL(Astro.request.url);
+const activeCategory = url.searchParams.get("category") || "All";
+const filteredBlocks = activeCategory === "All" ? blocks : blocks.filter(b => b.category === activeCategory);
+---
+
+<BaseLayout metadata={metadata} showAnnouncement={false}>
+  <div class="w-full px-6 py-12">
+    <div class="mx-auto max-w-6xl">
+      <!-- Header -->
+      <div class="mb-8">
+        <h1 class="text-3xl font-bold tracking-tight sm:text-4xl">Blocks</h1>
+        <p class="mt-2 text-muted-foreground">
+          Browse all {blocks.length} blocks. Click any block to see the full preview, source code, and install command.
+        </p>
+      </div>
+
+      <!-- Category filter -->
+      <div class="mb-10 flex flex-wrap gap-2">
+        <a
+          href="/blocks"
+          class:list={[
+            "rounded-full border px-3 py-1.5 text-sm font-medium transition-colors",
+            activeCategory === "All"
+              ? "border-primary bg-primary text-primary-foreground"
+              : "text-muted-foreground hover:bg-accent hover:text-foreground",
+          ]}
+        >
+          All
+        </a>
+        {categories.map(cat => (
+          <a
+            href={`/blocks?category=${encodeURIComponent(cat)}`}
+            class:list={[
+              "rounded-full border px-3 py-1.5 text-sm font-medium transition-colors",
+              activeCategory === cat
+                ? "border-primary bg-primary text-primary-foreground"
+                : "text-muted-foreground hover:bg-accent hover:text-foreground",
+            ]}
+          >
+            {cat}
+          </a>
+        ))}
+      </div>
+
+      <!-- Block cards -->
+      <div class="grid gap-8">
+        {filteredBlocks.map(block => (
+          <div class="rounded-xl border bg-card overflow-hidden">
+            <!-- Block header -->
+            <div class="flex items-center justify-between border-b px-6 py-4">
+              <div class="flex items-center gap-3">
+                <h2 class="font-semibold">{block.title}</h2>
+                <span class="rounded-md bg-muted px-2 py-0.5 text-xs text-muted-foreground">{block.category}</span>
+              </div>
+              <a
+                href={`/blocks/${block.name}`}
+                class="rounded-md border bg-background px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+              >
+                View &rarr;
+              </a>
+            </div>
+            <!-- Block preview -->
+            <div class="bg-background">
+              <BlockRenderer name={block.name} client:visible />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</BaseLayout>

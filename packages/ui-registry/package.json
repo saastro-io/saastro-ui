@@ -1,0 +1,23 @@
+{
+  "name": "@saastro/ui-registry",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "npx shadcn@latest build --output ./public/r",
+    "dev": "npx shadcn@latest build --output ./public/r"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.4.0"
+  },
+  "devDependencies": {
+    "@saastro/config": "^0.1.0",
+    "@types/node": "^20.11.27",
+    "@types/react": "^19.2.3",
+    "@types/react-dom": "^19.2.2",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "typescript": "^5.8.3"
+  }
+}

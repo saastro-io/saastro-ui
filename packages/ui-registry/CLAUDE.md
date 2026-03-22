@@ -1,0 +1,102 @@
+# @saastro/ui-registry
+
+shadcn-compatible block registry for Astro sites. Private package — serves blocks via the shadcn CLI.
+
+## Purpose
+
+Provides landing page blocks (hero, features, pricing, testimonials, etc.) that users install via:
+
+```bash
+npx shadcn@latest add @saastro/hero-01
+```
+
+Blocks are React components using shadcn/ui primitives (Button, Card, Badge, etc.). In Astro, they render server-side as HTML by default — zero JS shipped unless `client:*` directive is used.
+
+## Structure
+
+```
+packages/ui-registry/
+├── registry.json                    # shadcn v4 registry definition
+├── registry/default/
+│   ├── blocks/                      # Block components (.tsx)
+│   │   ├── hero-01.tsx
+│   │   ├── hero-02.tsx
+│   │   ├── hero-03.tsx
+│   │   ├── features-01.tsx
+│   │   ├── features-02.tsx
+│   │   ├── pricing-01.tsx
+│   │   ├── cta-01.tsx
+│   │   ├── faq-01.tsx
+│   │   ├── testimonials-01.tsx
+│   │   ├── footer-01.tsx
+│   │   ├── navbar-01.tsx
+│   │   ├── blog-grid-01.tsx
+│   │   ├── newsletter-01.tsx
+│   │   ├── stats-01.tsx
+│   │   └── logos-01.tsx
+│   └── lib/
+│       └── utils.ts                 # cn() helper (clsx + tailwind-merge)
+├── public/r/                        # Built JSON output (shadcn build)
+└── package.json
+```
+
+## How It Works
+
+```
+registry.json (item definitions)
+    ↓ npx shadcn build --output ./public/r
+public/r/*.json (consumable by shadcn CLI)
+    ↓ deployed to
+ui.saastro.io/r/{name}.json
+    ↓ installed via
+npx shadcn@latest add @saastro/hero-01
+```
+
+## User Setup
+
+```json
+// components.json in user's Astro project
+{
+  "registries": {
+    "@saastro": "https://ui.saastro.io/r/{name}.json"
+  }
+}
+```
+
+## Block Categories
+
+| Category     | Blocks                    | Description                |
+| ------------ | ------------------------- | -------------------------- |
+| Hero         | hero-01, hero-02, hero-03 | Landing page hero sections |
+| Features     | features-01, features-02  | Feature showcases          |
+| Pricing      | pricing-01                | Pricing tier cards         |
+| CTA          | cta-01                    | Call-to-action banners     |
+| FAQ          | faq-01                    | Accordion FAQ sections     |
+| Testimonials | testimonials-01           | Customer quote grids       |
+| Navigation   | navbar-01, footer-01      | Header and footer blocks   |
+| Blog         | blog-grid-01              | Blog post card layouts     |
+| Newsletter   | newsletter-01             | Email signup sections      |
+| Stats        | stats-01                  | Key metrics display        |
+| Logos        | logos-01                  | Logo cloud / "Trusted by"  |
+
+## Block Design Rules
+
+- All blocks are React components (`.tsx`)
+- Import shadcn primitives from `@/components/ui/*`
+- Use `cn()` from `@/lib/utils` for conditional classes
+- Accept props for all dynamic content — no hardcoded text
+- Use inline SVGs for icons — no icon library dependency
+- Responsive by default (mobile-first Tailwind)
+- Named exports (not default)
+
+## Scripts
+
+```bash
+bun run build    # Build registry JSON to public/r/
+bun run dev      # Build in watch mode
+```
+
+## Consumers
+
+- `docs/ui-docs` (ui.saastro.io) — showcase site, serves registry JSON
+- End users — install blocks via shadcn CLI

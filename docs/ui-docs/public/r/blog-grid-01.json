@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "blog-grid-01",
+  "title": "Blog Post Grid",
+  "description": "A responsive grid of blog post cards with image, title, excerpt, and metadata.",
+  "registryDependencies": ["card", "badge"],
+  "files": [
+    {
+      "path": "registry/default/blocks/blog-grid-01.tsx",
+      "content": "import { Badge } from '@/components/ui/badge';\nimport { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';\nimport { cn } from '@/lib/utils';\n\ntype Post = {\n  title: string;\n  excerpt: string;\n  date: string;\n  category?: string;\n  imageUrl?: string;\n  href: string;\n};\n\ntype BlogGrid01Props = {\n  title?: string;\n  description?: string;\n  posts: Post[];\n  className?: string;\n};\n\nexport function BlogGrid01({ title, description, posts, className }: BlogGrid01Props) {\n  return (\n    <section className={cn('w-full px-6 py-24 md:py-32', className)}>\n      <div className=\"mx-auto max-w-6xl\">\n        {(title || description) && (\n          <div className=\"mx-auto mb-16 max-w-2xl text-center\">\n            {title && <h2 className=\"text-3xl font-bold tracking-tight sm:text-4xl\">{title}</h2>}\n            {description && <p className=\"mt-4 text-lg text-muted-foreground\">{description}</p>}\n          </div>\n        )}\n        <div className=\"grid gap-6 sm:grid-cols-2 lg:grid-cols-3\">\n          {posts.map((post) => (\n            <a key={post.href} href={post.href} className=\"group\">\n              <Card className=\"h-full overflow-hidden transition-shadow group-hover:shadow-lg\">\n                <div className=\"aspect-video overflow-hidden bg-muted\">\n                  {post.imageUrl ? (\n                    <img\n                      src={post.imageUrl}\n                      alt={post.title}\n                      className=\"h-full w-full object-cover transition-transform group-hover:scale-105\"\n                    />\n                  ) : (\n                    <div className=\"flex h-full w-full items-center justify-center bg-gradient-to-br from-muted to-muted-foreground/5\">\n                      <span className=\"text-xl text-muted-foreground/30\">Blog</span>\n                    </div>\n                  )}\n                </div>\n                <CardHeader>\n                  {post.category && (\n                    <Badge variant=\"secondary\" className=\"w-fit\">\n                      {post.category}\n                    </Badge>\n                  )}\n                  <CardTitle className=\"line-clamp-2 text-lg group-hover:text-primary\">\n                    {post.title}\n                  </CardTitle>\n                </CardHeader>\n                <CardContent>\n                  <CardDescription className=\"line-clamp-2\">{post.excerpt}</CardDescription>\n                  <p className=\"mt-4 text-xs text-muted-foreground\">{post.date}</p>\n                </CardContent>\n              </Card>\n            </a>\n          ))}\n        </div>\n      </div>\n    </section>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "categories": ["blog", "content"],
+  "type": "registry:block"
+}

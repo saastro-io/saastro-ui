@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "hero-03",
+  "title": "Hero Section — Gradient Background",
+  "description": "A hero section with gradient background, floating badge, and a single prominent CTA.",
+  "registryDependencies": [
+    "button",
+    "badge"
+  ],
+  "files": [
+    {
+      "path": "registry/default/blocks/hero-03.tsx",
+      "content": "import { Badge } from '@/components/ui/badge';\nimport { Button } from '@/components/ui/button';\nimport { cn } from '@/lib/utils';\n\ntype Hero03Props = {\n  badge?: string;\n  title: string;\n  description: string;\n  cta: { label: string; href: string };\n  className?: string;\n};\n\nexport function Hero03({ badge, title, description, cta, className }: Hero03Props) {\n  return (\n    <section\n      className={cn('relative w-full overflow-hidden px-6 py-24 md:py-32 lg:py-40', className)}\n    >\n      <div className=\"absolute inset-0 bg-gradient-to-br from-primary via-primary/80 to-violet-600\" />\n      <div className=\"absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,rgba(0,0,0,0.3))]\" />\n      <div className=\"relative mx-auto max-w-3xl text-center\">\n        {badge && (\n          <Badge variant=\"outline\" className=\"mb-4 border-white/30 bg-white/10 text-white\">\n            {badge}\n          </Badge>\n        )}\n        <h1 className=\"text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl\">\n          {title}\n        </h1>\n        <p className=\"mt-6 text-lg text-white/80 sm:text-xl\">{description}</p>\n        <div className=\"mt-10\">\n          <Button size=\"lg\" variant=\"secondary\" className=\"text-base\" asChild>\n            <a href={cta.href}>{cta.label}</a>\n          </Button>\n        </div>\n      </div>\n    </section>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "categories": [
+    "hero",
+    "landing"
+  ],
+  "type": "registry:block"
+}

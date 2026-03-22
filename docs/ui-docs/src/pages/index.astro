@@ -1,0 +1,167 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { blocks, categories } from '@/data/blocks';
+
+const metadata = {
+  title: 'Saastro Blocks — Landing page blocks for Astro',
+  description:
+    'Beautiful, production-ready landing page blocks. Install via shadcn CLI into your Astro or React project.',
+  ignoreTitleTemplate: true,
+};
+---
+
+<BaseLayout metadata={metadata} showAnnouncement={false}>
+  <!-- Hero -->
+  <section class="w-full px-6 py-24 md:py-32 lg:py-40">
+    <div class="mx-auto max-w-3xl text-center">
+      <span
+        class="mb-4 inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium text-muted-foreground"
+      >
+        shadcn CLI compatible
+      </span>
+      <h1 class="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">Blocks for Astro</h1>
+      <p class="mt-6 text-lg text-muted-foreground sm:text-xl">
+        Production-ready landing page sections built with shadcn/ui. Install with one command.
+        Customize everything.
+      </p>
+      <div class="mt-10 flex items-center justify-center gap-4">
+        <a
+          href="/blocks"
+          class="inline-flex h-11 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90"
+        >
+          Browse Blocks
+        </a>
+        <a
+          href="/docs/introduction"
+          class="inline-flex h-11 items-center justify-center rounded-md border bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground"
+        >
+          Documentation
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Install snippet -->
+  <section class="w-full px-6 pb-16">
+    <div class="mx-auto max-w-2xl">
+      <div class="flex items-center justify-center gap-2 rounded-lg border bg-muted/50 px-6 py-4">
+        <code class="text-sm font-mono text-muted-foreground"
+          >npx shadcn@latest add @saastro/hero-01</code
+        >
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <section class="w-full px-6 py-16 md:py-24">
+    <div class="mx-auto max-w-6xl">
+      <h2 class="mb-4 text-center text-2xl font-bold tracking-tight sm:text-3xl">
+        {blocks.length} blocks across {categories.length} categories
+      </h2>
+      <p class="mb-12 text-center text-muted-foreground">
+        Hero sections, feature grids, pricing tables, testimonials, and more.
+      </p>
+
+      <div class="flex flex-wrap justify-center gap-3 mb-16">
+        {
+          categories.map((cat) => (
+            <a
+              href={`/blocks?category=${encodeURIComponent(cat)}`}
+              class="rounded-full border px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+            >
+              {cat}
+              <span class="ml-1.5 text-xs opacity-60">
+                ({blocks.filter((b) => b.category === cat).length})
+              </span>
+            </a>
+          ))
+        }
+      </div>
+
+      <!-- Block grid preview -->
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          blocks.map((block) => (
+            <a
+              href={`/blocks/${block.name}`}
+              class="group rounded-xl border bg-card p-6 transition-all hover:border-primary/50 hover:shadow-md"
+            >
+              <div class="mb-4 flex items-center justify-between">
+                <span class="rounded-md bg-muted px-2 py-1 text-xs font-medium text-muted-foreground">
+                  {block.category}
+                </span>
+              </div>
+              <h3 class="text-lg font-semibold group-hover:text-primary">{block.title}</h3>
+              <p class="mt-2 text-sm text-muted-foreground line-clamp-2">{block.description}</p>
+              <div class="mt-4 flex flex-wrap gap-1.5">
+                {block.dependencies.map((dep) => (
+                  <span class="rounded bg-primary/5 px-1.5 py-0.5 text-xs text-primary/70">
+                    {dep}
+                  </span>
+                ))}
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="w-full border-t px-6 py-16 md:py-24">
+    <div class="mx-auto max-w-4xl">
+      <h2 class="mb-12 text-center text-2xl font-bold tracking-tight sm:text-3xl">How it works</h2>
+      <div class="grid gap-8 md:grid-cols-3">
+        <div class="text-center">
+          <div
+            class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-xl font-bold text-primary-foreground"
+          >
+            1
+          </div>
+          <h3 class="mb-2 font-semibold">Configure registry</h3>
+          <p class="text-sm text-muted-foreground">
+            Add the Saastro registry to your <code class="rounded bg-muted px-1"
+              >components.json</code
+            >.
+          </p>
+        </div>
+        <div class="text-center">
+          <div
+            class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-xl font-bold text-primary-foreground"
+          >
+            2
+          </div>
+          <h3 class="mb-2 font-semibold">Install blocks</h3>
+          <p class="text-sm text-muted-foreground">
+            Run <code class="rounded bg-muted px-1">npx shadcn add @saastro/hero-01</code> to add any
+            block.
+          </p>
+        </div>
+        <div class="text-center">
+          <div
+            class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-xl font-bold text-primary-foreground"
+          >
+            3
+          </div>
+          <h3 class="mb-2 font-semibold">Customize & ship</h3>
+          <p class="text-sm text-muted-foreground">
+            Edit the code, change the styles, and deploy your site.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Registry config -->
+  <section class="w-full px-6 pb-24">
+    <div class="mx-auto max-w-2xl">
+      <h3 class="mb-4 text-center text-lg font-semibold">Add to your components.json</h3>
+      <pre
+        class="overflow-x-auto rounded-lg border bg-muted/50 p-4 text-sm"><code>{`{
+  "registries": {
+    "@saastro": "https://ui.saastro.io/r/{name}.json"
+  }
+}`}</code></pre>
+    </div>
+  </section>
+</BaseLayout>

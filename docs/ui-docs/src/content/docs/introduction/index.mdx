@@ -1,0 +1,49 @@
+---
+title: Introduction
+description: Production-ready landing page blocks for Astro, built with shadcn/ui.
+section: getting-started
+order: 1
+---
+
+# Introduction
+
+Saastro Blocks is a collection of production-ready landing page sections built with **shadcn/ui**. Install blocks via the shadcn CLI and customize everything.
+
+## What are blocks?
+
+Blocks are complete, self-contained landing page sections — hero sections, feature grids, pricing tables, testimonials, and more. Each block is a React component that uses standard shadcn/ui primitives.
+
+In Astro, blocks render as **pure HTML on the server** by default. No JavaScript is shipped unless you explicitly add a `client:*` directive for interactivity.
+
+## How it works
+
+1. **Add the Saastro registry** to your `components.json`
+2. **Install blocks** with `npx shadcn@latest add @saastro/hero-01`
+3. **Use in your pages** — import the component and pass props
+4. **Customize** — edit the code, change styles, make it yours
+
+```bash
+# Install any block
+npx shadcn@latest add @saastro/hero-01
+```
+
+## Why blocks instead of components?
+
+Individual UI primitives (Button, Card, Badge) are already solved by [shadcn/ui](https://ui.shadcn.com). What takes time is composing them into complete page sections with proper layout, spacing, and responsive behavior.
+
+Saastro Blocks gives you that higher-level layer — ready-made sections you can drop into any landing page.
+
+## Key features
+
+- **shadcn CLI compatible** — install with one command, no extra tooling
+- **Zero JS by default** — server-rendered in Astro, no client bundle
+- **Fully typed** — TypeScript props for every block
+- **Responsive** — mobile-first Tailwind CSS
+- **Accessible** — built on Radix UI primitives
+- **Customizable** — you own the code, edit anything
+
+## Ready to start?
+
+Head to the [Installation](/docs/installation) guide to set up the registry.
+
+Or [browse the blocks](/blocks) to see what's available.

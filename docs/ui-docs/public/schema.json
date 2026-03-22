@@ -1,0 +1,110 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Saastro Components Configuration",
+  "description": "Configuration file for saastro components",
+  "$ref": "#/definitions/SaastroConfig",
+  "definitions": {
+    "SaastroConfig": {
+      "type": "object",
+      "properties": {
+        "$schema": {
+          "type": "string"
+        },
+        "framework": {
+          "type": "string",
+          "default": "astro"
+        },
+        "style": {
+          "type": "string"
+        },
+        "tsx": {
+          "type": "boolean",
+          "default": true
+        },
+        "tailwind": {
+          "type": "object",
+          "properties": {
+            "config": {
+              "type": "string"
+            },
+            "css": {
+              "type": "string"
+            },
+            "baseColor": {
+              "type": "string"
+            },
+            "cssVariables": {
+              "type": "boolean",
+              "default": true
+            },
+            "prefix": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          "required": ["css", "baseColor"],
+          "additionalProperties": false
+        },
+        "iconLibrary": {
+          "type": "string"
+        },
+        "aliases": {
+          "type": "object",
+          "properties": {
+            "components": {
+              "type": "string"
+            },
+            "utils": {
+              "type": "string"
+            },
+            "ui": {
+              "type": "string"
+            },
+            "lib": {
+              "type": "string"
+            },
+            "hooks": {
+              "type": "string"
+            }
+          },
+          "required": ["components", "utils"],
+          "additionalProperties": false
+        },
+        "registries": {
+          "type": "object",
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string"
+                  },
+                  "params": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "string"
+                    }
+                  },
+                  "headers": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": ["url"],
+                "additionalProperties": false
+              }
+            ]
+          }
+        }
+      },
+      "required": ["style", "tailwind", "aliases"],
+      "additionalProperties": false
+    }
+  }
+}

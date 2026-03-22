@@ -1,0 +1,104 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { makePermalinks } from "@saastro/shell/urls/permalinks";
+import { blocks, categories } from "@/data/blocks";
+
+export interface Props {
+  metadata?: any;
+  showAnnouncement?: boolean;
+}
+
+const { getPermalink } = await makePermalinks(Astro);
+const docs = await getCollection("docs");
+
+// Filter and sort docs by section and order
+const gettingStartedDocs = [...docs]
+  .filter((d) => d.data.published !== false && d.data.section === "getting-started")
+  .sort((a, b) => a.data.order - b.data.order);
+
+// Current path for active state
+const currentPath = Astro.url.pathname;
+
+// Helper to get doc slug from id
+const getDocSlug = (id: string) => id.replace(/\/index$/, "").replace(/\/$/, "");
+---
+
+<BaseLayout {...Astro.props}>
+  <div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <aside class="hidden lg:block w-64 border-r border-border bg-background sticky top-0 h-screen overflow-y-auto">
+      <div class="p-6">
+        <nav class="space-y-6">
+          <!-- Getting Started -->
+          {gettingStartedDocs.length > 0 && (
+            <div>
+              <h3 class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                Getting Started
+              </h3>
+              <ul class="space-y-1">
+                {gettingStartedDocs.map((doc) => {
+                  const docPath = getPermalink(`/docs/${getDocSlug(doc.id)}`);
+                  const isActive = currentPath === docPath || currentPath === docPath + "/";
+                  return (
+                    <li>
+                      <a
+                        href={docPath}
+                        class={`block px-2 py-1 text-sm rounded-md transition-colors ${
+                          isActive
+                            ? "bg-primary text-primary-foreground font-medium"
+                            : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                        }`}
+                      >
+                        {doc.data.title}
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          )}
+
+          <!-- Blocks by category -->
+          {categories.map(cat => {
+            const catBlocks = blocks.filter(b => b.category === cat);
+            return (
+              <div>
+                <h3 class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                  {cat}
+                </h3>
+                <ul class="space-y-1">
+                  {catBlocks.map(block => {
+                    const blockPath = `/blocks/${block.name}`;
+                    const isActive = currentPath === blockPath || currentPath === blockPath + "/";
+                    return (
+                      <li>
+                        <a
+                          href={blockPath}
+                          class={`block px-2 py-1 text-sm rounded-md transition-colors ${
+                            isActive
+                              ? "bg-primary text-primary-foreground font-medium"
+                              : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                          }`}
+                        >
+                          {block.title}
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            );
+          })}
+        </nav>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="flex-1 min-w-0">
+      <div class="container mx-auto px-4 py-8 lg:px-8 max-w-4xl">
+        <slot />
+      </div>
+    </main>
+  </div>
+</BaseLayout>

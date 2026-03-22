@@ -1,0 +1,252 @@
+---
+/**
+ * Documentation page with sidebar navigation
+ */
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const docs = await getCollection('docs');
+  return docs.map((doc) => ({
+    params: { slug: doc.id },
+    props: doc,
+  }));
+}
+
+type Props = CollectionEntry<'docs'>;
+
+const doc = Astro.props;
+const { Content } = await render(doc);
+
+// Get all docs for sidebar
+const allDocs = (await getCollection('docs')).sort((a, b) => a.data.order - b.data.order);
+
+// Group docs by section
+const sections = new Map<string, typeof allDocs>();
+for (const d of allDocs) {
+  const section = d.data.section;
+  if (!sections.has(section)) {
+    sections.set(section, []);
+  }
+  sections.get(section)!.push(d);
+}
+---
+
+<BaseLayout title={`${doc.data.title} - Docs`} description={doc.data.description}>
+  <div class="layout">
+    <aside class="sidebar">
+      <header class="sidebar-header">
+        <a href="/" class="logo">Docs</a>
+        <a href="/admin" class="admin-link">Admin</a>
+      </header>
+      <nav class="sidebar-nav">
+        {
+          Array.from(sections.entries()).map(([section, docs]) => (
+            <div class="nav-section">
+              <h3>{section}</h3>
+              <ul>
+                {docs.map((d) => (
+                  <li>
+                    <a
+                      href={`/docs/${d.id}`}
+                      class:list={[{ active: d.id === doc.id }]}
+                    >
+                      {d.data.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </nav>
+    </aside>
+
+    <main class="main">
+      <article class="content" data-saastrocms-field="body" data-saastrocms-type="richtext">
+        <Content />
+      </article>
+    </main>
+  </div>
+</BaseLayout>
+
+<style>
+  .layout {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  .sidebar {
+    width: 280px;
+    border-right: 1px solid #eee;
+    padding: 1.5rem;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+  .sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+  }
+
+  .logo {
+    font-weight: bold;
+    font-size: 1.25rem;
+  }
+
+  .admin-link {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    background: #f0f0f0;
+    border-radius: 4px;
+  }
+
+  .nav-section {
+    margin-bottom: 1.5rem;
+  }
+
+  .nav-section h3 {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #666;
+    margin-bottom: 0.5rem;
+  }
+
+  .nav-section ul {
+    list-style: none;
+  }
+
+  .nav-section li {
+    margin-bottom: 0.25rem;
+  }
+
+  .nav-section a {
+    display: block;
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    color: inherit;
+  }
+
+  .nav-section a:hover {
+    background: #f5f5f5;
+    text-decoration: none;
+  }
+
+  .nav-section a.active {
+    background: #000;
+    color: #fff;
+  }
+
+  .main {
+    flex: 1;
+    padding: 3rem;
+    max-width: 800px;
+  }
+
+  .content :global(h1) {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .content :global(h2) {
+    font-size: 1.5rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .content :global(h3) {
+    font-size: 1.25rem;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .content :global(p) {
+    margin-bottom: 1rem;
+  }
+
+  .content :global(ul),
+  .content :global(ol) {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+  }
+
+  .content :global(li) {
+    margin-bottom: 0.5rem;
+  }
+
+  .content :global(pre) {
+    background: #f5f5f5;
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin-bottom: 1rem;
+  }
+
+  .content :global(code) {
+    font-family: 'Menlo', 'Monaco', monospace;
+    font-size: 0.9em;
+  }
+
+  .content :global(p code) {
+    background: #f0f0f0;
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+  }
+
+  @media (max-width: 768px) {
+    .layout {
+      flex-direction: column;
+    }
+
+    .sidebar {
+      width: 100%;
+      height: auto;
+      position: relative;
+      border-right: none;
+      border-bottom: 1px solid #eee;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .sidebar {
+      border-color: #333;
+    }
+
+    .sidebar-header {
+      border-color: #333;
+    }
+
+    .nav-section h3 {
+      color: #999;
+    }
+
+    .nav-section a:hover {
+      background: #222;
+    }
+
+    .nav-section a.active {
+      background: #fff;
+      color: #000;
+    }
+
+    .admin-link {
+      background: #333;
+    }
+
+    .content :global(pre) {
+      background: #1a1a1a;
+    }
+
+    .content :global(p code) {
+      background: #333;
+    }
+  }
+</style>
