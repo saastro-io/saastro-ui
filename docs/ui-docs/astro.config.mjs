@@ -39,6 +39,7 @@ export default defineConfig({
         "@stores": fileURLToPath(new URL("./src/stores", import.meta.url)),
         "@blocks": fileURLToPath(new URL("../../packages/ui-registry/registry/default/blocks", import.meta.url)),
         "debug": fileURLToPath(new URL("./src/lib/debug-stub.ts", import.meta.url)),
+        "limax": fileURLToPath(new URL("./src/lib/speakingurl-stub.ts", import.meta.url)),
       },
     },
     build: {

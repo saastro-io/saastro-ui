@@ -1,5 +1,5 @@
-import type { MenuItem } from '@saastro/shell';
-import { createPermalinkFactory } from '@saastro/shell';
+import type { MenuItem } from '@saastro-io/shell';
+import { createPermalinkFactory } from '@saastro-io/shell';
 
 export function getHeaderMenu(): MenuItem[] {
   const { getPermalink } = createPermalinkFactory();

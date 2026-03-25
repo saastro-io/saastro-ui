@@ -33,7 +33,7 @@
     "ora": "^8.0.0"
   },
   "devDependencies": {
-    "@saastro/config": "^0.1.0",
+    "@saastro-io/config": "^0.1.0",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^22.13.0",
     "tsup": "^8.5.1",

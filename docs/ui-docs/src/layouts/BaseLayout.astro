@@ -1,25 +1,25 @@
 ---
 import "@/styles/global.css";
-import Meta from "@saastro/shell/head/Meta.astro";
-import { getConfigSlices, makePermalinks, getHeaderData } from "@saastro/shell";
-import type { MenuItem } from "@saastro/shell";
+import Meta from "@saastro-io/shell/head/Meta.astro";
+import { getConfigSlices, makePermalinks, getHeaderData } from "@saastro-io/shell";
+import type { MenuItem } from "@saastro-io/shell";
 
-import Announcement from "@saastro/shell/widgets/Announcement/announcement1.astro";
-import Analytics from "@saastro/shell/analytics/Analytics.astro";
-import AnalyticsNoscript from "@saastro/shell/analytics/AnalyticsNoscript.astro";
-import CommonHead from "@saastro/shell/head/CommonHead.astro";
-import Favicons from "@saastro/shell/head/Favicons.astro";
-import SiteVerification from "@saastro/shell/head/SiteVerification.astro";
+import Announcement from "@saastro-io/shell/widgets/Announcement/announcement1.astro";
+import Analytics from "@saastro-io/shell/analytics/Analytics.astro";
+import AnalyticsNoscript from "@saastro-io/shell/analytics/AnalyticsNoscript.astro";
+import CommonHead from "@saastro-io/shell/head/CommonHead.astro";
+import Favicons from "@saastro-io/shell/head/Favicons.astro";
+import SiteVerification from "@saastro-io/shell/head/SiteVerification.astro";
 import { ClientRouter } from "astro:transitions";
-import Footer from "@saastro/shell/components/footer/Footer.astro";
-import Header from "@saastro/shell/components/navBar/Header.astro";
-import ApplyColorMode from "@saastro/shell/scripts/ApplyColorMode.astro";
-// TODO: Fix widget exports in @saastro/shell
-// import { ContactSheetProvider } from "@saastro/shell/widgets/ContactSheet";
-// import { CookieConsent } from "@saastro/shell/widgets/CookieConsent";
+import Footer from "@saastro-io/shell/components/footer/Footer.astro";
+import Header from "@saastro-io/shell/components/navBar/Header.astro";
+import ApplyColorMode from "@saastro-io/shell/scripts/ApplyColorMode.astro";
+// TODO: Fix widget exports in @saastro-io/shell
+// import { ContactSheetProvider } from "@saastro-io/shell/widgets/ContactSheet";
+// import { CookieConsent } from "@saastro-io/shell/widgets/CookieConsent";
 
-import type { Props as AnnouncementProps } from "@saastro/shell/widgets/Announcement/announcement1.astro";
-// import type { CookieConsentProps } from "@saastro/shell/widgets/CookieConsent";
+import type { Props as AnnouncementProps } from "@saastro-io/shell/widgets/Announcement/announcement1.astro";
+// import type { CookieConsentProps } from "@saastro-io/shell/widgets/CookieConsent";
 
 export interface Props {
   metadata?: any;

@@ -1,4 +1,4 @@
-import type { FooterLink, FooterLinksGroup } from '@saastro/shell';
+import type { FooterLink, FooterLinksGroup } from '@saastro-io/shell';
 
 /**
  * Footer data structure

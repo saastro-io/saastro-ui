@@ -212,6 +212,21 @@
         }
       ],
       "categories": ["logos", "landing"]
+    },
+    {
+      "name": "button-pro",
+      "type": "registry:ui",
+      "title": "Button Pro — Enhanced Button with Effects",
+      "description": "An enhanced button component with CVA variants, icon effects (expand), shine, gooey, underline, gradient animations, and multiple sizes/roundings.",
+      "registryDependencies": [],
+      "dependencies": ["@radix-ui/react-slot", "class-variance-authority"],
+      "files": [
+        {
+          "path": "registry/default/ui/button-pro.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["ui", "buttons"]
     }
   ]
 }

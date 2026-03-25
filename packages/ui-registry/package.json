@@ -12,7 +12,7 @@
     "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
-    "@saastro/config": "^0.1.0",
+    "@saastro-io/config": "^0.1.0",
     "@types/node": "^20.11.27",
     "@types/react": "^19.2.3",
     "@types/react-dom": "^19.2.2",

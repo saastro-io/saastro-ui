@@ -11,7 +11,8 @@
     "analyze:bundle": "astro build && npx astro-bundle-analyzer"
   },
   "dependencies": {
-    "@saastro/shell": "^0.1.0",
+    "@saastro-io/config": "^0.1.0",
+    "@saastro-io/shell": "^0.1.0",
     "@astrojs/cloudflare": "^13.1.0",
     "@astrojs/mdx": "^5.0.0",
     "@astrojs/react": "^5.0.0",

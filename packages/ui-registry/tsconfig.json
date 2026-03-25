@@ -1,5 +1,5 @@
 {
-  "extends": "@saastro/config/tsconfig/node.json",
+  "extends": "@saastro-io/config/tsconfig/node.json",
   "compilerOptions": {
     "outDir": "./dist",
     "composite": false,
