@@ -6,7 +6,6 @@ UI toolkit y block registry del ecosistema Saastro.
 **ui.saastro.io** — dominio asignado para el site de docs/showcase. Pendiente de configurar en Cloudflare.
 
 ## Qué es
-- **create-saastro** — CLI scaffolder para proyectos SaastroCMS/Astro
 - **ui-registry** — Registry de bloques React (shadcn pattern) para landing pages
 - **ui-docs** — Site de documentación y showcase de bloques con previews live + registry endpoint
 

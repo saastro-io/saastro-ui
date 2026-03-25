@@ -1,13 +1,12 @@
 # Saastro UI
 
-Block registry, CLI scaffolding, and showcase site for the Saastro ecosystem.
+Block registry and showcase site for the Saastro ecosystem.
 
 ## Structure
 
 ```
 packages/
   ui-registry/     → @saastro/ui-registry  (15 shadcn-compatible landing page blocks)
-  create-saastro/  → create-saastro        (project scaffolding CLI)
 docs/
   ui-docs/         → @saastro/ui-docs      (showcase site at ui.saastro.io)
 ```
@@ -39,16 +38,14 @@ bun run release          # Build + publish to npm
 ## Products
 
 - **Blocks**: Install via `npx shadcn@latest add @saastro/hero-01`
-- **CLI**: Run via `npx create-saastro my-project`
 - **Docs**: Deployed at ui.saastro.io
 
 ## Rules
 
 1. Blocks use React + shadcn/ui primitives — zero JS in final Astro output
-2. `create-saastro` is public on npm
-3. `@saastro/ui-registry` is private (blocks consumed via shadcn CLI, not npm install)
-4. Docs site serves registry JSON at `/r/{name}.json`
-5. Conventional commits: `feat(blocks):`, `fix(cli):`, `docs(ui-docs):`
+2. `@saastro/ui-registry` is private (blocks consumed via shadcn CLI, not npm install)
+3. Docs site serves registry JSON at `/r/{name}.json`
+4. Conventional commits: `feat(blocks):`, `docs(ui-docs):`
 
 ## External Dependencies
 
