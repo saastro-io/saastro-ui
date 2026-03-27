@@ -1,6 +1,6 @@
 site:
-  name: "TuMarca"
-  site: "https://tumarca.com"
+  name: "Saastro UI"
+  site: "https://ui.saastro.io"
   base: "/"
   trailingSlash: "never"
   googleSiteVerificationId:
@@ -10,21 +10,21 @@ site:
       theme: "#00a897"
 
 i18n:
-  language: "es"
+  language: "en"
   textDirection: "ltr"
 
 metadata:
   title:
-    default: "TuMarca"
-    template: "%s | TuMarca"
-  description: "Plantillas Astro rápidas con React + shadcn + Tailwind."
+    default: "Saastro UI"
+    template: "%s | Saastro UI"
+  description: "Open-source landing page blocks for Astro. Install via shadcn CLI."
   robots:
     index: true
     follow: true
   openGraph:
     type: "website"
-    site_name: "TuMarca"
-    images: []     # puedes poner una URL absoluta
+    site_name: "Saastro UI"
+    images: []
   twitter:
     card: "summary_large_image"
 
@@ -41,15 +41,15 @@ apps:
       robots: { index: true, follow: true }
     postsPerPage: 6
 ui:
-  theme: "system" # Values: "system" | "light" | "dark" | "light:only" | "dark:only"
+  theme: "system"
 
 analytics:
   googleAnalytics:
-    id: "G-XXXXXXXXXX"
+    id: ""
   googleTagManager:
-    id: "GTM-XXXXXXX"
+    id: ""
 
 cookieConsent:
   privacyPolicyUrl: "/privacy"
-  position: "bottom"  # Values: "bottom" | "top" | "center"
-  theme: "auto"  # Values: "light" | "dark" | "auto"
+  position: "bottom"
+  theme: "auto"
