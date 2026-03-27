@@ -6,10 +6,10 @@ Site de documentación y showcase de bloques para Saastro UI. Sirve tres propós
 - Astro 6.0.3 con SSR (Cloudflare adapter)
 - Tailwind CSS 4 con `@tailwindcss/vite`
 - 43+ componentes React de Radix UI (shadcn/ui patterns)
-- @saastro/shell para layout compartido (Header, Footer, SEO, Analytics)
+- @saastro-io/shell para layout compartido (Header, Footer, SEO, Analytics)
 - Puerto dev: 4911 (ui.saastro.io en prod)
 
-## Bloques (15 free)
+## Bloques (16 free)
 
 7 categorías:
 - **Hero** (3): Centered, Split with Image, Gradient
@@ -21,12 +21,13 @@ Site de documentación y showcase de bloques para Saastro UI. Sirve tres propós
 - **Navigation** (2): Navbar responsive, Footer multi-column
 - **Content** (1): Blog Grid
 - **Social Proof** (2): Stats Counter, Logo Cloud
+- **Buttons** (1): Button Pro (UI primitive)
 
 ## Sistema de Registry
 
 Los bloques se instalan via shadcn CLI:
 ```bash
-npx shadcn@latest add @saastro/hero-01
+npx shadcn@latest add saastro/hero-01
 ```
 
 ### Build pipeline (shadcn v4)
@@ -36,9 +37,9 @@ El registry usa el sistema oficial de shadcn v4:
 1. **`registry.json`** — definición de bloques en formato shadcn v4 (`$schema: https://ui.shadcn.com/schema/registry.json`). Define nombre, tipo, dependencias (Button, Badge, etc.), archivos source y categorías.
 2. **`npx shadcn@latest build --output ./public/r`** — el CLI oficial de shadcn lee `registry.json` y genera un JSON por bloque en `public/r/` (ej: `public/r/hero-01.json`). Este es el script `build` del package.json de ui-registry.
 3. **ui-docs sirve los JSON** en `https://ui.saastro.io/r/{name}.json`
-4. **Los usuarios instalan** con `npx shadcn@latest add @saastro/hero-01` — shadcn consume el JSON, resuelve deps y descarga componentes.
+4. **Los usuarios instalan** con `npx shadcn@latest add saastro/hero-01` — shadcn consume el JSON, resuelve deps y descarga componentes.
 
-Config del usuario en `components.json` apunta al registry `@saastro`.
+Config del usuario en `components.json` apunta al registry `saastro`.
 
 ## Páginas
 
@@ -65,7 +66,7 @@ Documentación MDX con 8 páginas:
 ## Layouts
 
 ### BaseLayout.astro
-Layout raíz: @saastro/shell components (Header, Footer, Meta, Analytics), color mode switching, Astro transitions.
+Layout raíz: @saastro-io/shell components (Header, Footer, Meta, Analytics), color mode switching, Astro transitions.
 
 ### DocsLayout.astro
 Sidebar sticky (hidden mobile, visible lg+):
@@ -76,14 +77,14 @@ Sidebar sticky (hidden mobile, visible lg+):
 ## Componentes clave
 
 ### block-renderer.tsx
-Importa los 15 bloques desde `@blocks/*` alias. Renderiza con datos sample hardcodeados. Usa `client:visible` para lazy hydration.
+Importa los 16 bloques desde `@blocks/*` alias. Renderiza con datos sample hardcodeados. Usa `client:visible` para lazy hydration.
 
 ### code-viewer.tsx
-- `InstallCommand` — comando copiable `npx shadcn@latest add @saastro/{name}`
+- `InstallCommand` — comando copiable `npx shadcn@latest add saastro/{name}`
 - `CodeViewer` — source code con copy-to-clipboard (feedback 2s)
 
 ## Navegación
-- **Header**: Home, Blocks, Docs
+- **Header**: Home, GitHub
 - **Footer**: Resources (Docs, Components, GitHub), Legal, Social links
 
 ## Config técnica
@@ -99,7 +100,7 @@ Importa los 15 bloques desde `@blocks/*` alias. Renderiza con datos sample hardc
 - Docs collection (glob loader, schema: title, description, section, order, published)
 
 ## Modelo de negocio futuro
-- 15 bloques free en repo público
+- 16 bloques free en repo público
 - Pro blocks en repo privado separado (saastro/blocks-pro)
 - Compra = acceso GitHub al repo privado (sin auth middleware)
 - Usuarios configuran múltiples registries en `components.json`

@@ -65,7 +65,7 @@ import { Hero01 } from '@/components/blocks/hero-01'
 En Astro, renderiza server-side como HTML — zero JS al cliente salvo que se use `client:*`.
 
 ### Bloques disponibles
-`hero-01`, `hero-02`, `hero-03`, `features-01`, `features-02`, `pricing-01`, `cta-01`, `faq-01`, `testimonials-01`, `footer-01`, `navbar-01`, `blog-grid-01`, `newsletter-01`, `stats-01`, `logos-01`
+`hero-01`, `hero-02`, `hero-03`, `features-01`, `features-02`, `pricing-01`, `cta-01`, `faq-01`, `testimonials-01`, `footer-01`, `navbar-01`, `blog-grid-01`, `newsletter-01`, `stats-01`, `logos-01`, `button-pro`
 
 ---
 
