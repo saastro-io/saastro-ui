@@ -38,9 +38,11 @@ export default defineConfig({
         "@": fileURLToPath(new URL("./src", import.meta.url)),
         "@stores": fileURLToPath(new URL("./src/stores", import.meta.url)),
         "@blocks": fileURLToPath(new URL("../../packages/ui-registry/registry/default/blocks", import.meta.url)),
+        "@ui-registry": fileURLToPath(new URL("../../packages/ui-registry/registry/default/ui", import.meta.url)),
         "debug": fileURLToPath(new URL("./src/lib/debug-stub.ts", import.meta.url)),
         "limax": fileURLToPath(new URL("./src/lib/speakingurl-stub.ts", import.meta.url)),
       },
+      dedupe: ['class-variance-authority', '@radix-ui/react-slot', 'react', 'react-dom'],
     },
     build: {
       minify: 'esbuild',
@@ -52,8 +54,11 @@ export default defineConfig({
         },
       },
     },
+    ssr: {
+      noExternal: ['class-variance-authority', '@radix-ui/react-slot'],
+    },
     optimizeDeps: {
-      include: ['react', 'react-dom'],
+      include: ['react', 'react-dom', 'class-variance-authority', '@radix-ui/react-slot'],
     },
   },
 });

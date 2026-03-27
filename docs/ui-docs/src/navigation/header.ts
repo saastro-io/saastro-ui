@@ -10,19 +10,13 @@ export function getHeaderMenu(): MenuItem[] {
       href: '/',
     },
     {
-      text: 'Blocks',
-      href: getPermalink('/blocks'),
-    },
-    {
-      text: 'Docs',
-      href: getPermalink('/docs/introduction'),
+      text: 'GitHub',
+      href: 'https://github.com/saastro-io/saastro-ui',
     },
   ];
 }
 
 export function getHeaderData(helpers?: { getPermalink?: (path: string) => string }) {
-  const getPermalink = helpers?.getPermalink || ((path: string) => path);
-
   return {
     menu: [
       {
@@ -30,12 +24,8 @@ export function getHeaderData(helpers?: { getPermalink?: (path: string) => strin
         url: '/',
       },
       {
-        title: 'Blocks',
-        url: getPermalink('/blocks'),
-      },
-      {
-        title: 'Docs',
-        url: getPermalink('/docs/introduction'),
+        title: 'GitHub',
+        url: 'https://github.com/saastro-io/saastro-ui',
       },
     ],
   };

@@ -15,6 +15,7 @@ import { Newsletter01 } from '@blocks/newsletter-01';
 import { Pricing01 } from '@blocks/pricing-01';
 import { Stats01 } from '@blocks/stats-01';
 import { Testimonials01 } from '@blocks/testimonials-01';
+import { ButtonPro } from '@ui-registry/button-pro';
 
 function ZapIcon() {
   return (
@@ -345,6 +346,16 @@ const previews: Record<string, () => React.ReactElement> = {
         { name: 'Wayne Co' },
       ]}
     />
+  ),
+  'button-pro': () => (
+    <div className="flex flex-wrap items-center justify-center gap-4 p-12">
+      <ButtonPro variant="default">Default</ButtonPro>
+      <ButtonPro variant="destructive">Destructive</ButtonPro>
+      <ButtonPro variant="outline">Outline</ButtonPro>
+      <ButtonPro variant="secondary">Secondary</ButtonPro>
+      <ButtonPro variant="ghost">Ghost</ButtonPro>
+      <ButtonPro variant="link">Link</ButtonPro>
+    </div>
   ),
 };
 

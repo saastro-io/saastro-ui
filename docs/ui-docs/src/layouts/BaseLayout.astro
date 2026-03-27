@@ -14,6 +14,7 @@ import { ClientRouter } from "astro:transitions";
 import Footer from "@saastro-io/shell/components/footer/Footer.astro";
 import Header from "@saastro-io/shell/components/navBar/Header.astro";
 import ApplyColorMode from "@saastro-io/shell/scripts/ApplyColorMode.astro";
+import SubNav from "@/components/SubNav.astro";
 // TODO: Fix widget exports in @saastro-io/shell
 // import { ContactSheetProvider } from "@saastro-io/shell/widgets/ContactSheet";
 // import { CookieConsent } from "@saastro-io/shell/widgets/CookieConsent";
@@ -105,6 +106,8 @@ const menu = customMenu ?? defaultMenu;
         menuBreakpoint="md"
       />
     </slot>
+
+    <SubNav currentPath={Astro.url.pathname} />
 
     <main class="flex-1">
       <slot />

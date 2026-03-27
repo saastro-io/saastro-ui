@@ -5,11 +5,17 @@ import { BlockRenderer } from '@/components/block-renderer';
 import { CodeViewer, InstallCommand } from '@/components/code-viewer';
 export const prerender = true;
 
-// Read all block sources at build time via Vite's raw import
-const blockSources = import.meta.glob(
-  '../../../../../packages/ui-registry/registry/default/blocks/*.tsx',
-  { query: '?raw', import: 'default', eager: true },
-) as Record<string, string>;
+// Read all block and UI sources at build time via Vite's raw import
+const blockSources = {
+  ...import.meta.glob(
+    '../../../../../packages/ui-registry/registry/default/blocks/*.tsx',
+    { query: '?raw', import: 'default', eager: true },
+  ),
+  ...import.meta.glob(
+    '../../../../../packages/ui-registry/registry/default/ui/*.tsx',
+    { query: '?raw', import: 'default', eager: true },
+  ),
+} as Record<string, string>;
 
 export function getStaticPaths() {
   return blocks.map((block) => ({
@@ -35,7 +41,9 @@ const metadata = {
     <div class="mx-auto max-w-6xl">
       <!-- Breadcrumb -->
       <nav class="mb-6 text-sm text-muted-foreground">
-        <a href="/blocks" class="hover:text-foreground">Blocks</a>
+        <a href={block.section === 'ui' ? '/ui' : '/blocks'} class="hover:text-foreground">
+          {block.section === 'ui' ? 'UI' : 'Blocks'}
+        </a>
         <span class="mx-2">/</span>
         <span>{block.title}</span>
       </nav>

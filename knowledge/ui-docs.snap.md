@@ -1,6 +1,6 @@
 # snapshot: ui-docs
 > auto-generated — do not edit manually
-> updated: 2026-03-25T11:52:51.726Z
+> updated: 2026-03-25T16:02:38.128Z
 
 ## types & interfaces
 ```typescript
@@ -10,25 +10,27 @@ export interface FooterData {
   links: FooterLinksGroup[];
   socialLinks: FooterLink[];
 }
+
+
+
+
+
+
+
+
+// ../../../saastro-ui/docs/ui-docs/src/data/blocks.ts:1
+export type BlockMeta = {
+  name: string;
+  title: string;
+  description: string;
+  category: string;
+  section: 'blocks' | 'ui';
+  dependencies: string[];
+};
 ```
 
 ## exported functions
 ```typescript
-// ../../../saastro-ui/docs/ui-docs/src/navigation/header.ts:4
-export function getHeaderMenu(): MenuItem[]
-
-
-
-
-
-
-// ../../../saastro-ui/docs/ui-docs/src/navigation/header.ts:23
-export function getHeaderData(helpers?: { getPermalink?: (path: string) => string })
-
-
-
-
-
 // ../../../saastro-ui/docs/ui-docs/src/navigation/footer.ts:20
 export function getFooterMenu(): FooterData
 
@@ -36,6 +38,29 @@ export function getFooterMenu(): FooterData
 
 
 
+
+
+
+
+
+
+
+
+
 // ../../../saastro-ui/docs/ui-docs/src/navigation/footer.ts:48
 export function getFooterData(helpers?: { getPermalink?: (path: string) => string }): FooterData
+
+
+
+
+// ../../../saastro-ui/docs/ui-docs/src/components/block-renderer.tsx:362
+export function BlockRenderer({ name }: { name: string })
+
+
+// ../../../saastro-ui/docs/ui-docs/src/navigation/header.ts:4
+export function getHeaderMenu(): MenuItem[]
+
+
+// ../../../saastro-ui/docs/ui-docs/src/navigation/header.ts:19
+export function getHeaderData(helpers?: { getPermalink?: (path: string) => string })
 ```

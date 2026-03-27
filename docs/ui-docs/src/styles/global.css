@@ -5,6 +5,7 @@
 /* Scan workspace packages for Tailwind classes */
 @source "../../../../packages/shell/src/**/*.{astro,tsx,ts}";
 @source "../../../../packages/ui-registry/registry/default/blocks/**/*.tsx";
+@source "../../../../packages/ui-registry/registry/default/ui/**/*.tsx";
 
 @custom-variant dark (&:is(.dark *));
 

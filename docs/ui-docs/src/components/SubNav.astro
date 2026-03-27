@@ -1,0 +1,52 @@
+---
+interface NavItem {
+  label: string;
+  href: string;
+  badge?: string;
+  active?: boolean;
+}
+
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+const items: NavItem[] = [
+  { label: 'Blocks', href: '/blocks' },
+  { label: 'UI', href: '/ui' },
+  { label: 'Templates', href: '/templates', badge: 'Soon' },
+  { label: 'Docs', href: '/docs/introduction' },
+];
+
+function isActive(href: string, current: string): boolean {
+  if (href === '/docs/introduction') return current.startsWith('/docs');
+  return current.startsWith(href);
+}
+---
+
+<nav class="sticky top-0 z-40 w-full border-b border-border/40 bg-background/80 backdrop-blur-lg">
+  <div class="mx-auto flex h-10 max-w-6xl items-center gap-1 px-6">
+    {items.map((item) => (
+      <a
+        href={item.href}
+        class:list={[
+          "relative flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
+          isActive(item.href, currentPath)
+            ? "text-foreground"
+            : "text-muted-foreground hover:text-foreground",
+        ]}
+      >
+        {item.label}
+        {item.badge && (
+          <span class="rounded-full bg-muted px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground">
+            {item.badge}
+          </span>
+        )}
+        {isActive(item.href, currentPath) && (
+          <span class="absolute bottom-0 left-3 right-3 h-[2px] rounded-full bg-foreground" />
+        )}
+      </a>
+    ))}
+  </div>
+</nav>

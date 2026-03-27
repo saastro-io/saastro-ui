@@ -1,0 +1,28 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const metadata = {
+  title: "Templates — Saastro",
+  description: "Full-page templates built with Saastro blocks. Coming soon.",
+};
+---
+
+<BaseLayout metadata={metadata} showAnnouncement={false}>
+  <div class="w-full px-6 py-12">
+    <div class="mx-auto max-w-6xl">
+      <div class="mb-8">
+        <h1 class="text-3xl font-bold tracking-tight sm:text-4xl">Templates</h1>
+        <p class="mt-2 text-muted-foreground">
+          Full-page templates assembled from Saastro blocks. Drop in a complete landing page with one command.
+        </p>
+      </div>
+
+      <div class="flex flex-col items-center justify-center rounded-xl border border-dashed bg-card/50 py-24">
+        <p class="text-lg font-medium text-muted-foreground">Coming soon</p>
+        <p class="mt-2 text-sm text-muted-foreground/70">
+          We're building full landing page templates. Stay tuned.
+        </p>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
