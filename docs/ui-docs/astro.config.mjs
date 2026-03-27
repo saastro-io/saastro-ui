@@ -36,7 +36,6 @@ export default defineConfig({
     resolve: {
       alias: {
         "@": fileURLToPath(new URL("./src", import.meta.url)),
-        "@stores": fileURLToPath(new URL("./src/stores", import.meta.url)),
         "@blocks": fileURLToPath(new URL("../../packages/ui-registry/registry/default/blocks", import.meta.url)),
         "@ui-registry": fileURLToPath(new URL("../../packages/ui-registry/registry/default/ui", import.meta.url)),
         "debug": fileURLToPath(new URL("./src/lib/debug-stub.ts", import.meta.url)),

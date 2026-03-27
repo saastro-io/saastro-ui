@@ -8,7 +8,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@blocks/*": ["../../packages/ui-registry/registry/default/blocks/*"]
+      "@blocks/*": ["../../packages/ui-registry/registry/default/blocks/*"],
+      "@ui-registry/*": ["../../packages/ui-registry/registry/default/ui/*"]
     }
   }
 }
