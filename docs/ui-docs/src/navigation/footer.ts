@@ -24,16 +24,9 @@ export function getFooterMenu(): FooterData {
       {
         title: 'Resources',
         links: [
-          { text: 'Documentation', href: '/docs' },
-          { text: 'Components', href: '/docs/components' },
-          { text: 'GitHub', href: 'https://github.com/saastro-io/saastro-hub' },
-        ],
-      },
-      {
-        title: 'Legal',
-        links: [
-          { text: 'Privacy Policy', href: '/privacy' },
-          { text: 'Terms of Service', href: '/terms' },
+          { text: 'Blocks', href: '/blocks' },
+          { text: 'UI Primitives', href: '/ui' },
+          { text: 'GitHub', href: 'https://github.com/saastro-io/saastro-ui' },
         ],
       },
     ],
@@ -54,15 +47,8 @@ export function getFooterData(helpers?: { getPermalink?: (path: string) => strin
       {
         title: 'Resources',
         links: [
-          { text: 'Documentation', href: getPermalink('/docs') },
-          { text: 'Components', href: getPermalink('/docs/components') },
-        ],
-      },
-      {
-        title: 'Legal',
-        links: [
-          { text: 'Privacy Policy', href: getPermalink('/privacy') },
-          { text: 'Terms of Service', href: getPermalink('/terms') },
+          { text: 'Blocks', href: getPermalink('/blocks') },
+          { text: 'UI Primitives', href: getPermalink('/ui') },
         ],
       },
     ],
