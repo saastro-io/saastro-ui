@@ -3,109 +3,38 @@
 Site de documentación y showcase de bloques para Saastro UI. Sirve tres propósitos: galería de bloques con previews live, endpoint de registry para shadcn CLI, y documentación de instalación/configuración.
 
 ## Stack
-- Astro 6.0.3 con SSR (Cloudflare adapter)
+- Astro 6.0.8 con Cloudflare adapter v13.1.3
 - Tailwind CSS 4 con `@tailwindcss/vite`
 - 43+ componentes React de Radix UI (shadcn/ui patterns)
 - @saastro-io/shell para layout compartido (Header, Footer, SEO, Analytics)
 - Puerto dev: 4911 (ui.saastro.io en prod)
 
-## Bloques (16 free)
+## Deployment — Cloudflare Pages
 
-7 categorías:
-- **Hero** (3): Centered, Split with Image, Gradient
-- **Features** (2): Icon Grid, Alternating
-- **Pricing** (1): 3-tier con toggle
-- **CTA** (2): Gradient Banner, Newsletter Signup
-- **FAQ** (1): Accordion
-- **Testimonials** (1): Card Grid
-- **Navigation** (2): Navbar responsive, Footer multi-column
-- **Content** (1): Blog Grid
-- **Social Proof** (2): Stats Counter, Logo Cloud
-- **Buttons** (1): Button Pro (UI primitive)
+Producción: `ui.saastro.io` · Proyecto Pages: `saastro-ui`
 
-## Sistema de Registry
+**Estado actual (2026-04-02):** Sitio desplegado manualmente con `wrangler pages deploy`. Git integration configurada con `root_dir: docs/ui-docs` y `SKIP_DEPENDENCY_INSTALL=true`. Actualmente en modo SSR (`output: "server"`) pero todas las páginas son prerender.
 
-Los bloques se instalan via shadcn CLI:
-```bash
-npx shadcn@latest add saastro/hero-01
-```
+### Modo A: Static — para cuando todas las páginas son prerender
+- `output: "static"` (sin adapter cloudflare)
+- Pages git integration funciona automáticamente
+- `root_dir: docs/ui-docs`, `destination_dir: dist`
 
-### Build pipeline (shadcn v4)
+### Modo B: SSR — cuando hay páginas server-rendered
+- `output: "server"` + `adapter: cloudflare()`
+- **Pages git integration NO funciona** (adapter v13 genera Workers-model, incompatible)
+- Desplegar via GitHub Actions con `wrangler pages deploy dist/client`
+- Deshabilitar auto-deploy en Pages dashboard
 
-El registry usa el sistema oficial de shadcn v4:
+### Bug resuelto (2026-04-02)
+Root `wrangler.jsonc` con Workers-model config causaba 404 en producción. Eliminado. `.wrangler/deploy/config.json` estaba committed y causaba fallo en build de Pages (resolvía dist/server/wrangler.json antes del build). Eliminado y añadido a .gitignore.
 
-1. **`registry.json`** — definición de bloques en formato shadcn v4 (`$schema: https://ui.shadcn.com/schema/registry.json`). Define nombre, tipo, dependencias (Button, Badge, etc.), archivos source y categorías.
-2. **`npx shadcn@latest build --output ./public/r`** — el CLI oficial de shadcn lee `registry.json` y genera un JSON por bloque en `public/r/` (ej: `public/r/hero-01.json`). Este es el script `build` del package.json de ui-registry.
-3. **ui-docs sirve los JSON** en `https://ui.saastro.io/r/{name}.json`
-4. **Los usuarios instalan** con `npx shadcn@latest add saastro/hero-01` — shadcn consume el JSON, resuelve deps y descarga componentes.
-
-Config del usuario en `components.json` apunta al registry `saastro`.
-
-## Páginas
-
-### Landing (`pages/index.astro`)
-Hero + bloques destacados.
-
-### Galería (`pages/blocks/index.astro`)
-Todos los bloques con filtro por categoría.
-
-### Detalle de bloque (`pages/blocks/[name].astro`)
-Preview live + código fuente + comando de instalación. Usa `import.meta.glob('?raw')` para extraer source code en build-time desde `packages/ui-registry/registry/default/blocks/*.tsx`.
-
-### Docs (`pages/docs/[...slug].astro`)
-Documentación MDX con 8 páginas:
-1. Introduction — qué son los bloques
-2. Installation — prereqs y setup del registry
-3. CLI Usage — instalación de bloques y resolución de deps
-4. Components JSON — configuración del registry
-5. Theming — CSS variables y colores
-6. Dark Mode — patrones de implementación
-7. Typography — estilos base
-8. Changelog — historial de versiones
-
-## Layouts
-
-### BaseLayout.astro
-Layout raíz: @saastro-io/shell components (Header, Footer, Meta, Analytics), color mode switching, Astro transitions.
-
-### DocsLayout.astro
-Sidebar sticky (hidden mobile, visible lg+):
-- "Getting Started" con docs ordenados por campo `order`
-- Bloques agrupados por categoría
-- Active link highlighting
-
-## Componentes clave
-
-### block-renderer.tsx
-Importa los 16 bloques desde `@blocks/*` alias. Renderiza con datos sample hardcodeados. Usa `client:visible` para lazy hydration.
-
-### code-viewer.tsx
-- `InstallCommand` — comando copiable `npx shadcn@latest add saastro/{name}`
-- `CodeViewer` — source code con copy-to-clipboard (feedback 2s)
-
-## Navegación
-- **Header**: Home, GitHub
-- **Footer**: Resources (Docs, Components, GitHub), Legal, Social links
-
-## Config técnica
-
-### astro.config.mjs
-- Output: `server` (SSR + Cloudflare)
-- Image: passthrough (no Sharp en Workers)
-- Vite aliases: `@` → src, `@blocks` → registry
-- Stubs: debug-stub.ts (CJS workaround), speakingurl-stub.ts (limax polyfill)
-
-### content.config.ts
-- Settings collection (Zod schema: site, i18n, metadata, analytics)
-- Docs collection (glob loader, schema: title, description, section, order, published)
-
-## Modelo de negocio futuro
-- 16 bloques free en repo público
-- Pro blocks en repo privado separado (saastro/blocks-pro)
-- Compra = acceso GitHub al repo privado (sin auth middleware)
-- Usuarios configuran múltiples registries en `components.json`
+## Bloques y sistema de registry
+16 bloques free en 7+ categorías. Registry via shadcn CLI (`npx shadcn@latest add saastro/hero-01`). Build pipeline: registry.json → `npx shadcn@latest build` → public/r/*.json → servidos en ui.saastro.io/r/
 
 ## Workarounds conocidos
-- `debug` module: alias a `src/lib/debug-stub.ts` por incompatibilidad CJS
-- Zod v4 con OG/twitter fields: usa `z.any()` para campos no críticos
-- Glob paths: 5 niveles de `../` desde pages/blocks/ hasta registry source
+- `debug` module: alias stub por CJS incompatibility con Workers
+- Zod v4: `z.any()` para campos OG/twitter
+- Glob paths: 5 niveles de `../` en [name].astro
+- `.wrangler/deploy/`: gitignored, generado por adapter
+- Root wrangler.jsonc: NUNCA crear en raíz del repo
