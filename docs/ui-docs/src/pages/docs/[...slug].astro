@@ -1,10 +1,6 @@
 ---
 import DocsLayout from "@/layouts/DocsLayout.astro";
 import { getCollection, render } from "astro:content";
-import { makePermalinks } from "@saastro-io/shell/urls/permalinks";
-
-export const prerender = true;
-
 export async function getStaticPaths() {
   const docs = await getCollection("docs");
   const publishedDocs = docs.filter((d) => d.data.published !== false);
@@ -16,12 +12,6 @@ export async function getStaticPaths() {
 }
 
 const { doc } = Astro.props;
-const { getPermalink } = await makePermalinks(Astro);
-
-if (!doc) {
-  return Astro.redirect(getPermalink("/docs"));
-}
-
 const { Content } = await render(doc);
 ---
 

@@ -10,7 +10,6 @@
     "analyze:performance": "node scripts/analyze-performance.js"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^13.1.0",
     "@astrojs/mdx": "^5.0.0",
     "@astrojs/react": "^5.0.0",
     "@astrojs/sitemap": "^3.7.1",

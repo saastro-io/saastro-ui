@@ -7,11 +7,6 @@ const metadata = {
   title: "All Blocks — Saastro",
   description: "Browse all available landing page blocks. Hero, features, pricing, testimonials, and more.",
 };
-
-// Read category from URL query
-const url = new URL(Astro.request.url);
-const activeCategory = url.searchParams.get("category") || "All";
-const filteredBlocks = activeCategory === "All" ? blocks : blocks.filter(b => b.category === activeCategory);
 ---
 
 <BaseLayout metadata={metadata} showAnnouncement={false}>
@@ -26,27 +21,19 @@ const filteredBlocks = activeCategory === "All" ? blocks : blocks.filter(b => b.
       </div>
 
       <!-- Category filter -->
-      <div class="mb-10 flex flex-wrap gap-2">
+      <div id="category-filter" class="mb-10 flex flex-wrap gap-2">
         <a
           href="/blocks"
-          class:list={[
-            "rounded-full border px-3 py-1.5 text-sm font-medium transition-colors",
-            activeCategory === "All"
-              ? "border-primary bg-primary text-primary-foreground"
-              : "text-muted-foreground hover:bg-accent hover:text-foreground",
-          ]}
+          data-category="All"
+          class="filter-btn active rounded-full border px-3 py-1.5 text-sm font-medium transition-colors border-primary bg-primary text-primary-foreground"
         >
           All
         </a>
         {categories.map(cat => (
           <a
             href={`/blocks?category=${encodeURIComponent(cat)}`}
-            class:list={[
-              "rounded-full border px-3 py-1.5 text-sm font-medium transition-colors",
-              activeCategory === cat
-                ? "border-primary bg-primary text-primary-foreground"
-                : "text-muted-foreground hover:bg-accent hover:text-foreground",
-            ]}
+            data-category={cat}
+            class="filter-btn rounded-full border px-3 py-1.5 text-sm font-medium transition-colors text-muted-foreground hover:bg-accent hover:text-foreground"
           >
             {cat}
           </a>
@@ -54,9 +41,9 @@ const filteredBlocks = activeCategory === "All" ? blocks : blocks.filter(b => b.
       </div>
 
       <!-- Block cards -->
-      <div class="grid gap-8">
-        {filteredBlocks.map(block => (
-          <div class="rounded-xl border bg-card overflow-hidden">
+      <div id="block-grid" class="grid gap-8">
+        {blocks.map(block => (
+          <div class="block-card rounded-xl border bg-card overflow-hidden" data-category={block.category}>
             <!-- Block header -->
             <div class="flex items-center justify-between border-b px-6 py-4">
               <div class="flex items-center gap-3">
@@ -80,3 +67,33 @@ const filteredBlocks = activeCategory === "All" ? blocks : blocks.filter(b => b.
     </div>
   </div>
 </BaseLayout>
+
+<script>
+  const active = "border-primary bg-primary text-primary-foreground";
+  const inactive = "text-muted-foreground hover:bg-accent hover:text-foreground";
+
+  function applyFilter(category: string) {
+    document.querySelectorAll<HTMLElement>(".block-card").forEach(card => {
+      card.style.display = category === "All" || card.dataset.category === category ? "" : "none";
+    });
+    document.querySelectorAll<HTMLAnchorElement>(".filter-btn").forEach(btn => {
+      const isActive = btn.dataset.category === category;
+      active.split(" ").forEach(c => btn.classList.toggle(c, isActive));
+      inactive.split(" ").forEach(c => btn.classList.toggle(c, !isActive));
+    });
+  }
+
+  // Read initial category from URL
+  const cat = new URL(window.location.href).searchParams.get("category") || "All";
+  applyFilter(cat);
+
+  // Handle clicks without full page reload
+  document.getElementById("category-filter")?.addEventListener("click", (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLAnchorElement>(".filter-btn");
+    if (!btn) return;
+    e.preventDefault();
+    const c = btn.dataset.category || "All";
+    applyFilter(c);
+    history.replaceState(null, "", c === "All" ? "/blocks" : `/blocks?category=${encodeURIComponent(c)}`);
+  });
+</script>
