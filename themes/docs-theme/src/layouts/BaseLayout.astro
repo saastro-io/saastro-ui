@@ -1,0 +1,97 @@
+---
+import Meta from "@saastro-io/shell/head/Meta.astro";
+import { getConfigSlices, makePermalinks, getHeaderData } from "@saastro-io/shell";
+import type { MenuItem } from "@saastro-io/shell";
+
+import Announcement from "@saastro-io/shell/widgets/Announcement/announcement1.astro";
+import Analytics from "@saastro-io/shell/analytics/Analytics.astro";
+import AnalyticsNoscript from "@saastro-io/shell/analytics/AnalyticsNoscript.astro";
+import CommonHead from "@saastro-io/shell/head/CommonHead.astro";
+import Favicons from "@saastro-io/shell/head/Favicons.astro";
+import SiteVerification from "@saastro-io/shell/head/SiteVerification.astro";
+import { ClientRouter } from "astro:transitions";
+import Footer from "@saastro-io/shell/components/footer/Footer.astro";
+import Header from "@saastro-io/shell/components/navBar/Header.astro";
+import ApplyColorMode from "@saastro-io/shell/scripts/ApplyColorMode.astro";
+
+import type { Props as AnnouncementProps } from "@saastro-io/shell/widgets/Announcement/announcement1.astro";
+
+export interface Props {
+  metadata?: any;
+  showAnnouncement?: boolean;
+  announcement?: Partial<AnnouncementProps>;
+  analytics?: {
+    googleAnalyticsId?: string;
+    googleTagManagerId?: string;
+  };
+  menu?: MenuItem[];
+}
+
+const { I18N } = await getConfigSlices();
+const {
+  metadata = {},
+  showAnnouncement = true,
+  announcement = {},
+  analytics = {},
+  menu: customMenu,
+} = Astro.props;
+const { language, textDirection } = I18N;
+
+const helpers = await makePermalinks(Astro);
+const defaultMenu = getHeaderData(helpers).menu;
+const menu = customMenu ?? defaultMenu;
+---
+
+<!doctype html>
+<html lang={language} dir={textDirection}>
+  <head>
+    <CommonHead />
+    <Meta {...metadata} />
+    <Analytics
+      googleAnalyticsId={analytics.googleAnalyticsId}
+      googleTagManagerId={analytics.googleTagManagerId}
+    />
+    <Favicons />
+    <ApplyColorMode />
+    <SiteVerification />
+    <ClientRouter fallback="swap" />
+    <slot name="head" />
+    <slot name="meta" />
+    <slot name="scripts" />
+    <slot name="styles" />
+  </head>
+  <body class="flex flex-col min-h-screen">
+    <AnalyticsNoscript googleTagManagerId={analytics.googleTagManagerId} />
+
+    {
+      showAnnouncement && (
+        <slot name="announcement">
+          <Announcement {...announcement} />
+        </slot>
+      )
+    }
+    <slot name="header">
+      <Header
+        menu={menu}
+        currentPath={Astro.url.pathname}
+        isSticky={false}
+        showToggleTheme={true}
+        showRssFeed={false}
+        isDark={true}
+        menuPosition="left"
+        isFullWidth={false}
+        menuBreakpoint="md"
+      />
+    </slot>
+
+    <slot name="after-header" />
+
+    <main class="flex-1">
+      <slot />
+    </main>
+
+    <slot name="footer">
+      <Footer />
+    </slot>
+  </body>
+</html>
