@@ -38,7 +38,7 @@
     "@radix-ui/react-tooltip": "^1.2.8",
     "@saastro-io/docs-theme": "0.2.0",
     "@saastro-io/config": "^0.1.0",
-    "@saastro-io/shell": "^0.1.0",
+    "@saastro-io/shell": "0.2.0",
     "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.1.16",
     "@types/canvas-confetti": "^1.9.0",

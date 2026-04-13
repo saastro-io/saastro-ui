@@ -15,18 +15,6 @@ import { fileURLToPath } from "node:url";
 const raw = readFileSync(fileURLToPath(new URL('./src/data/settings.yaml', import.meta.url)), 'utf-8');
 const cfg = yaml.parse(raw) || {};
 
-/** @type {import('vite').Plugin} */
-const fixDeclAstroImportsPlugin = {
-  name: 'fix-d-astro-imports',
-  // Rewrite .d.astro.js (corrupted published imports) to the actual .astro file
-  resolveId(id, importer, options) {
-    if (id.includes('.d.astro.js')) {
-      return this.resolve(id.replace(/\.d\.astro\.js$/, '.astro'), importer, options);
-    }
-    return null;
-  },
-};
-
 export default defineConfig({
   site: cfg.site.site,
   trailingSlash: cfg.site.trailingSlash,
@@ -38,7 +26,7 @@ export default defineConfig({
   integrations: [react(), sitemap(), icon(), mdx()],
   vite: {
     //@ts-ignore
-    plugins: [tailwindcss(), fixDeclAstroImportsPlugin],
+    plugins: [tailwindcss()],
     resolve: {
       alias: {
         "@": fileURLToPath(new URL("./src", import.meta.url)),
