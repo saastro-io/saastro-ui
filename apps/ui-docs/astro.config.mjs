@@ -15,6 +15,18 @@ import { fileURLToPath } from "node:url";
 const raw = readFileSync(fileURLToPath(new URL('./src/data/settings.yaml', import.meta.url)), 'utf-8');
 const cfg = yaml.parse(raw) || {};
 
+/** @type {import('vite').Plugin} */
+const fixDeclAstroImportsPlugin = {
+  name: 'fix-d-astro-imports',
+  // Rewrite .d.astro.js (corrupted published imports) to the actual .astro file
+  resolveId(id, importer, options) {
+    if (id.includes('.d.astro.js')) {
+      return this.resolve(id.replace(/\.d\.astro\.js$/, '.astro'), importer, options);
+    }
+    return null;
+  },
+};
+
 export default defineConfig({
   site: cfg.site.site,
   trailingSlash: cfg.site.trailingSlash,
@@ -26,14 +38,14 @@ export default defineConfig({
   integrations: [react(), sitemap(), icon(), mdx()],
   vite: {
     //@ts-ignore
-    plugins: [tailwindcss()],
+    plugins: [tailwindcss(), fixDeclAstroImportsPlugin],
     resolve: {
       alias: {
         "@": fileURLToPath(new URL("./src", import.meta.url)),
         "@blocks": fileURLToPath(new URL("../../packages/ui-registry/registry/default/blocks", import.meta.url)),
         "@ui-registry": fileURLToPath(new URL("../../packages/ui-registry/registry/default/ui", import.meta.url)),
       },
-      dedupe: ['class-variance-authority', '@radix-ui/react-slot', 'react', 'react-dom'],
+      dedupe: ['class-variance-authority', '@radix-ui/react-slot', 'react', 'react-dom', '@saastro-io/shell', '@saastro-io/docs-theme'],
     },
     build: {
       minify: 'esbuild',
