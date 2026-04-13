@@ -1,4 +1,4 @@
-@import '@saastro/docs-theme/styles/global.css';
+@import '@saastro-io/docs-theme/styles/global.css';
 
 /* Project-specific: scan workspace packages for Tailwind classes */
 @source "../../../../packages/shell/src/**/*.{astro,tsx,ts}";

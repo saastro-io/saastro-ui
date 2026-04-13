@@ -6,4 +6,4 @@ dist/
 .env.*
 !.env.example
 .astro/
-docs/ui-docs/.wrangler/
+apps/ui-docs/.wrangler/

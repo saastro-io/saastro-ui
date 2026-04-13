@@ -7,8 +7,8 @@ Block registry and showcase site for the Saastro ecosystem.
 ```
 packages/
   ui-registry/     → @saastro-io/ui-registry  (16 shadcn-compatible landing page blocks)
-docs/
-  ui-docs/         → @saastro-io/ui-docs      (showcase site at ui.saastro.io)
+apps/
+  ui-docs/         → @saastro/ui-docs         (showcase site at ui.saastro.io)
 ```
 
 ## Tech Stack

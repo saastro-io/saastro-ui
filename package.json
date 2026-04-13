@@ -4,8 +4,7 @@
   "type": "module",
   "workspaces": [
     "packages/*",
-    "themes/*",
-    "docs/*"
+    "apps/*"
   ],
   "scripts": {
     "build": "turbo run build",

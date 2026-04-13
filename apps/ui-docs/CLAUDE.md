@@ -76,8 +76,8 @@ Users configure in their `components.json`:
 ## Key Details
 
 - Port: 4911 (`ui-docs.saastro.test`)
-- Output: SSR (server) with Cloudflare adapter
-- Prerendered: block detail pages + doc pages (uses Node.js APIs)
+- Output: static (all pages prerendered at build time)
+- No SSR adapter — pure static HTML served by Cloudflare Pages CDN
 
 ## Dependencies
 
@@ -92,119 +92,49 @@ bun run dev      # Port 4911
 bun run build    # Build for production
 ```
 
-## Deployment — Cloudflare Pages
+## Deployment — Cloudflare Pages (Static)
 
 Production: `ui.saastro.io` · Pages project: `saastro-ui`
 
-### Two modes depending on whether SSR is needed
+Switched from SSR to Static on 2026-04-03. All pages are prerendered at build
+time — no Cloudflare Worker, no adapter, no wrangler.jsonc.
 
-#### Mode A: Static (all pages prerender) — current
+### Pages dashboard config (already applied)
 
-When every page has `export const prerender = true`, no SSR worker is needed.
-Pages git integration handles everything automatically.
-
-**Astro config:**
-```js
-output: "static"     // or remove output entirely (static is default)
-// adapter: cloudflare()  ← remove or comment out
-```
-
-**Pages settings:**
 | Field | Value |
 |-------|-------|
-| root_dir | `docs/ui-docs` |
-| build_command | `cd ../.. && echo "//npm.pkg.github.com/:_authToken=${GH_PACKAGES_TOKEN}" >> .npmrc && bun install && cd docs/ui-docs && bun run build` |
-| destination_dir | `dist` |
+| Framework preset | Astro |
+| Root directory | `apps/ui-docs` |
+| Build command | `cd ../.. && echo "//npm.pkg.github.com/:_authToken=${GH_PACKAGES_TOKEN}" >> .npmrc && bun install && bunx turbo run build --filter=@saastro/ui-docs` |
+| Build output directory | `dist` |
 
-**Env vars:** `GH_PACKAGES_TOKEN`, `NODE_VERSION=22`, `SKIP_DEPENDENCY_INSTALL=true`
+**Env vars (Prod + Preview):**
 
-No wrangler.jsonc needed for deployment. Pages serves static HTML natively.
+| Variable | Value | Notes |
+|----------|-------|-------|
+| `GH_PACKAGES_TOKEN` | PAT with `read:packages` | For `@saastro-io/*` from GitHub Packages |
+| `NODE_VERSION` | `22` | Required by Astro 6+ |
+| `SKIP_DEPENDENCY_INSTALL` | `true` | Prevents Pages from running `npm install` before build command |
 
-#### Mode B: SSR (some pages are server-rendered)
+No GitHub Actions workflow, no `CLOUDFLARE_API_TOKEN`, no `CLOUDFLARE_ACCOUNT_ID`
+needed. Pages git integration handles deploy on push to main.
 
-When at least one page does NOT have `prerender = true`, the Astro Cloudflare
-adapter generates a Worker that handles routing + SSR. **Pages git integration
-cannot deploy this Worker** — use GitHub Actions instead.
+### Why static, not SSR
 
-**Astro config:**
-```js
-output: "server"
-adapter: cloudflare({ imageService: 'passthrough' })
-```
+1. All pages use `getCollection`/`getStaticPaths` — no server-side logic
+2. `@astrojs/cloudflare` v13 generates Workers-model output that Pages git
+   integration cannot deploy (requires `wrangler pages deploy` via GitHub Actions)
+3. Static removes the Worker middleman — CDN serves HTML directly (faster, simpler)
 
-**Why git integration fails:** `@astrojs/cloudflare` v13 generates Workers-model
-output (`main` + `assets` binding). Pages git integration expects either
-`pages_build_output_dir` in wrangler.jsonc (which breaks the Astro build because
-the `ASSETS` binding name is reserved) or `_worker.js/` in the output dir (which
-the adapter doesn't generate). The Worker is required even for prerendered pages
-because it handles HTML routing (e.g. `/` → `/index.html`).
+### If SSR is ever needed again
 
-**Deploy via GitHub Actions:**
-```yaml
-# .github/workflows/deploy-ui-docs.yml
-name: Deploy ui-docs
-on:
-  push:
-    branches: [main]
-    paths: [docs/ui-docs/**, packages/ui-registry/**]
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-        with: { bun-version: "1.2.4" }
-      - run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GH_PACKAGES_TOKEN }}" >> .npmrc
-      - run: bun install --frozen-lockfile
-      - run: bun run build --filter=@saastro/ui-docs
-      - name: Deploy
-        working-directory: docs/ui-docs
-        run: npx wrangler pages deploy dist/client --project-name saastro-ui --branch main
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-```
-
-**Pages settings:** Disable `production_deployments_enabled` and `deployments_enabled`
-in the Pages project so git pushes don't trigger the broken built-in deploy.
-
-**Secrets required:** `CLOUDFLARE_API_TOKEN` (Pages edit), `CLOUDFLARE_ACCOUNT_ID`, `GH_PACKAGES_TOKEN`
-
-**wrangler.jsonc** (docs/ui-docs/):
-```jsonc
-{
-  "name": "saastro-ui-docs",
-  "compatibility_date": "2025-11-12",
-  "compatibility_flags": ["nodejs_compat_v2"],
-  "observability": { "enabled": true }
-}
-```
-Do NOT add `main`, `assets`, or `pages_build_output_dir` — the adapter manages
-these via `.wrangler/deploy/config.json` (generated at build time, gitignored).
-
-### Switching between modes
-
-**Static → SSR:**
-1. Add `adapter: cloudflare(...)` to astro.config.mjs
-2. Change `output: "server"` (or remove `output` and set per-page)
-3. Create `.github/workflows/deploy-ui-docs.yml` (see Mode B above)
-4. Disable Pages git integration via API or dashboard
-5. Add `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` secrets to GitHub
-
-**SSR → Static:**
-1. Ensure ALL pages have `export const prerender = true`
-2. Remove `adapter` and set `output: "static"` in astro.config.mjs
-3. Re-enable Pages git integration
-4. Update Pages build settings (see Mode A table)
-5. Delete the GitHub Actions workflow
+See `saastro-docs/cloudflare-pages.md` for the full SSR setup (GitHub Actions
+workflow, wrangler.jsonc, adapter config, and how to switch between modes).
 
 ### Known Issues
 
-- **`debug` CJS module**: micromark (via @astrojs/mdx → remark-gfm) imports `debug` which uses `module.exports`, breaks in Cloudflare Workers (workerd). Fixed with `src/lib/debug-stub.ts` no-op alias in `astro.config.mjs`.
 - **Glob paths in `[name].astro`**: Uses 5 levels of `../` from `src/pages/blocks/` to reach `packages/ui-registry/registry/default/blocks/*.tsx`. If source code shows "Source not found", check the relative path depth.
 - **Zod v4 in Astro 6**: Complex union/record schemas crash content store JSON schema generation. Settings schema uses `z.any()` for non-critical fields as workaround.
-- **`.wrangler/deploy/`**: Generated by Astro adapter at build time. Must be gitignored — if committed, Pages tries to resolve `dist/server/wrangler.json` before build runs and fails.
-- **Root `wrangler.jsonc`**: Do NOT create one at repo root. Pages reads it instead of `docs/ui-docs/wrangler.jsonc` and the Workers-model paths don't match the Pages environment.
 
 ## Pro/Monetization (FUTURE)
 
@@ -237,4 +167,10 @@ Pro blocks will live in a **separate private repo** (`saastro/blocks-pro`), NOT 
 |----|------|---|-------|------|
 | #811 | 7:01 PM | 🔵 | Cloudflare Pages SSR deployment configuration analyzed across projects | ~437 |
 | #623 | 1:21 PM | 🔵 | @saastro-io package usage comparison across monorepos | ~435 |
+
+### Apr 13, 2026
+
+| ID | Time | T | Title | Read |
+|----|------|---|-------|------|
+| #4457 | 10:59 AM | ✅ | Pinned docs-theme dependency to version 0.2.0 | ~220 |
 </claude-mem-context>
