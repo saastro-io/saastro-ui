@@ -3,7 +3,9 @@
 /* Scan docs-theme components (npm package, not workspace) */
 @source "../../node_modules/@saastro-io/docs-theme/src/**/*.{astro,tsx,ts}";
 
+/* Scan shell components (npm package, not workspace) */
+@source "../../node_modules/@saastro-io/shell/src/**/*.{astro,tsx,ts}";
+
 /* Project-specific: scan workspace packages for Tailwind classes */
-@source "../../../../packages/shell/src/**/*.{astro,tsx,ts}";
 @source "../../../../packages/ui-registry/registry/default/blocks/**/*.tsx";
 @source "../../../../packages/ui-registry/registry/default/ui/**/*.tsx";
