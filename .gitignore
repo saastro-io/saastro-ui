@@ -7,3 +7,4 @@ dist/
 !.env.example
 .astro/
 apps/ui-docs/.wrangler/
+.playwright-mcp/

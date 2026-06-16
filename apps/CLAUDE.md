@@ -7,5 +7,7 @@
 
 | ID | Time | T | Title | Read |
 |----|------|---|-------|------|
+| #4466 | 11:19 AM | 🔵 | Build failure in ui-docs due to Shell package import resolution | ~310 |
+| #4465 | 11:15 AM | 🔄 | Restructured saastro-ui monorepo: ui-docs to apps/, removed themes/ | ~385 |
 | #4458 | 11:07 AM | 🔵 | ui-docs already located in apps directory | ~250 |
 </claude-mem-context>

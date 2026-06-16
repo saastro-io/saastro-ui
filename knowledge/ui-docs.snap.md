@@ -1,6 +1,6 @@
 # snapshot: ui-docs
 > auto-generated — do not edit manually
-> updated: 2026-04-02T19:30:10.485Z
+> updated: 2026-04-13T08:59:14.406Z
 
 ## types & interfaces
 ```typescript
@@ -13,6 +13,22 @@ export type BlockMeta = {
   section: 'blocks' | 'ui';
   dependencies: string[];
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -65,8 +81,40 @@ export function BlockRenderer({ name }: { name: string })
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // ../../../saastro-ui/docs/ui-docs/src/navigation/header.ts:4
 export function getHeaderMenu(): MenuItem[]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -109,8 +157,40 @@ export function getHeaderData(helpers?: { getPermalink?: (path: string) => strin
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // ../../../saastro-ui/docs/ui-docs/src/navigation/footer.ts:20
 export function getFooterMenu(): FooterData
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

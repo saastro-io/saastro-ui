@@ -7,5 +7,5 @@
 
 | ID | Time | T | Title | Read |
 |----|------|---|-------|------|
-| #4463 | 11:13 AM | 🔄 | Moved ui-docs to apps/ directory and removed themes/ | ~366 |
+| #4478 | 11:26 AM | ✅ | Configured Tailwind to scan docs-theme package sources | ~242 |
 </claude-mem-context>
