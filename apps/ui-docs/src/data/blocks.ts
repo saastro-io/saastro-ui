@@ -136,7 +136,7 @@ export const blocks: BlockMeta[] = [
       'Enhanced button with CVA variants, icon effects, shine, gooey, underline, and gradient animations.',
     category: 'Buttons',
     section: 'ui',
-    dependencies: ['@radix-ui/react-slot', 'class-variance-authority'],
+    dependencies: ['@base-ui/react', 'class-variance-authority'],
   },
 ];
 

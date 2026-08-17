@@ -31,7 +31,10 @@ export function Faq01({
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">{title}</h2>
           {description && <p className="mt-4 text-lg text-muted-foreground">{description}</p>}
         </div>
-        <Accordion type="single" collapsible className="w-full">
+        {/* Base UI: no existen `type` ni `collapsible`. Un solo panel abierto es
+            el comportamiento por defecto (sin `multiple`), y el colapso libre
+            también — es decir, `type="single" collapsible` era exactamente esto. */}
+        <Accordion className="w-full">
           {items.map((item, index) => (
             <AccordionItem key={index} value={`item-${index}`}>
               <AccordionTrigger className="text-left text-base">{item.question}</AccordionTrigger>
