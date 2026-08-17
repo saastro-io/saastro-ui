@@ -1,0 +1,7 @@
+# Pin tool versions so local dev matches CI exactly.
+# - node 24  → same as CI (actions/setup-node node-version: 24)
+# - pnpm     → mirrors package.json#packageManager (single source of truth)
+# Overrides the global ~/.config/mise/config.toml (node="lts", pnpm="10").
+[tools]
+node = "24"
+pnpm = "10.33.2"

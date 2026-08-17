@@ -1,0 +1,14 @@
+# pnpm workspace config — replaces the "workspaces" field the root
+# package.json used under Bun. Same globs, so resolution is identical.
+packages:
+  - "packages/*"
+  - "apps/*"
+
+# The only two deps in the graph that declare install/postinstall scripts.
+# pnpm 10 blocks build scripts by default; both are trusted and ship
+# platform binaries, so we allow-list them explicitly.
+# (Locally the global ~/.npmrc `ignore-scripts=true` still wins — this is
+# what makes CI / CF Pages builds run them.)
+onlyBuiltDependencies:
+  - esbuild
+  - sharp

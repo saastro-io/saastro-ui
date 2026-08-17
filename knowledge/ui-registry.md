@@ -1,3 +1,27 @@
+## ⚠️ Gotcha estructural: hay DOS copias de `public/r/` commiteadas
+
+El JSON del registry existe por duplicado, y ambas copias están en git:
+
+| Ruta | Qué es | Quién la genera |
+|---|---|---|
+| `packages/ui-registry/public/r/` | salida real de `npx shadcn@latest build` | el build de ui-registry |
+| `apps/ui-docs/public/r/` | **la que se sirve** en `ui.saastro.io/r/` | copiada a mano |
+
+No hay symlink ni paso de copia automático: se sincronizan a mano. Y el build de
+producción de CF Pages corre con `--filter=@saastro/ui-docs`, que **no** construye
+ui-registry — o sea, lo que se publica es siempre la copia commiteada en
+`apps/ui-docs/public/r/`, nunca una salida fresca. Si tocas un bloque, hay que
+rebuildear ui-registry Y copiar el resultado a `apps/ui-docs/public/r/`.
+
+**Drift detectado el 2026-08-17:** los 16 ficheros de bloque son idénticos entre
+las dos copias, pero el índice no. `apps/ui-docs/public/r/registry.json` lista
+**15 items** (le falta `button-pro`); la salida real lista 16. Confirmado en
+producción: `ui.saastro.io/r/registry.json` → 15 items, pero
+`ui.saastro.io/r/button-pro.json` → HTTP 200 y la galería muestra el bloque. O
+sea, `button-pro` es instalable por nombre pero invisible en el índice. Sin
+resolver: puede ser drift (el índice de ui-docs no se ha tocado desde `a3f0b7e`)
+o gating deliberado del bloque Pro. Hay tarea abierta en la lista maestra.
+
 ## Why a Registry, Not a Package
 
 The central architectural decision in `ui-registry` is distribution model: blocks are not published to npm. Instead, they're served as JSON artifacts via the shadcn CLI protocol. When a user runs `npx shadcn@latest add @saastro/hero-01`, they receive the component's source code copied directly into their project. They own it, can modify it freely, and have no runtime dependency on `@saastro/ui-registry`. This is the shadcn philosophy applied to a product suite — distribute source, not black-box abstractions.
@@ -100,15 +124,19 @@ Crear un `.tsx` en `registry/default/blocks/` siguiendo las convenciones: import
 ### 3. Build del registry
 
 ```bash
-cd packages/ui-registry
-npx shadcn@latest build --output ./public/r
+pnpm --filter @saastro/ui-registry run build
+# equivale a: cd packages/ui-registry && npx shadcn@latest build --output ./public/r
 ```
+
+El script sigue invocando `npx shadcn@latest` a propósito (el CLI de shadcn se
+baja siempre en su última versión); el resto del repo usa pnpm desde la
+migración del 2026-08-17.
 
 Genera `public/r/contact-01.json` con el source code inlined y las deps resueltas.
 
 ### 4. Añadir al showcase
 
-En `docs/ui-docs/src/data/blocks.ts`, añadir la metadata del bloque para que aparezca en la galería con preview live.
+En `apps/ui-docs/src/data/blocks.ts`, añadir la metadata del bloque para que aparezca en la galería con preview live. (Ojo: `docs/ui-docs` es la ruta vieja — el app se movió a `apps/` en `a3f0b7e`.)
 
 ### 5. Verificar
 

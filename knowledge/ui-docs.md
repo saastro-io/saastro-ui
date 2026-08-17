@@ -1,40 +1,65 @@
 # ui-docs
 
-Site de documentación y showcase de bloques para Saastro UI. Sirve tres propósitos: galería de bloques con previews live, endpoint de registry para shadcn CLI, y documentación de instalación/configuración.
+Site de documentación y showcase de bloques para Saastro UI. Tres propósitos: galería de bloques con previews live, endpoint de registry para el shadcn CLI, y documentación de instalación/configuración.
+
+**Ubicación: `apps/ui-docs`.** Se movió desde `docs/ui-docs` en el commit `a3f0b7e` (2026-04-13); cualquier ruta `docs/ui-docs/...` en documentos antiguos está obsoleta.
 
 ## Stack
-- Astro 6.0.8 con Cloudflare adapter v13.1.3
-- Tailwind CSS 4 con `@tailwindcss/vite`
-- 43+ componentes React de Radix UI (shadcn/ui patterns)
-- @saastro-io/shell para layout compartido (Header, Footer, SEO, Analytics)
-- Puerto dev: 4911 (ui.saastro.io en prod)
+- Astro 6 (`^6.0.3`), **sin adapter** — `output` estático por defecto
+- Tailwind CSS 4 vía `@tailwindcss/vite`
+- Radix UI + shadcn/ui patterns, React 19
+- `@saastro-io/shell` 0.2.0 (Header, Footer, SEO, Analytics) + `@saastro-io/docs-theme` 0.2.0
+- Integraciones: `@astrojs/react`, `@astrojs/sitemap`, `@astrojs/mdx`, `astro-icon`
+- Dev: puerto **4911**, `allowedHosts: ["ui-docs.saastro.test"]`
+- Build actual: **29 páginas**
 
-## Deployment — Cloudflare Pages
+La config del site (`site`, `trailingSlash`) no está hardcodeada: sale de `src/data/settings.yaml`, parseado con `yaml` en tiempo de config.
+
+## Resolución de bloques
+`astro.config.mjs` define alias de Vite en vez de una dependencia de package.json:
+
+- `@blocks` → `../../packages/ui-registry/registry/default/blocks`
+- `@ui-registry` → `../../packages/ui-registry/registry/default/ui`
+- `@` → `./src`
+
+Además `dedupe` de `react`, `react-dom`, `class-variance-authority`, `@radix-ui/react-slot`, `@saastro-io/shell` y `@saastro-io/docs-theme` — necesario porque pnpm no aplana `node_modules` como hacía Bun y la duplicación de estos rompe contexto de React / estilos.
+
+## Deployment — Cloudflare Pages (estático)
 
 Producción: `ui.saastro.io` · Proyecto Pages: `saastro-ui`
 
-**Estado actual (2026-04-02):** Sitio desplegado manualmente con `wrangler pages deploy`. Git integration configurada con `root_dir: docs/ui-docs` y `SKIP_DEPENDENCY_INSTALL=true`. Actualmente en modo SSR (`output: "server"`) pero todas las páginas son prerender.
+**Estático desde el 2026-04-03.** Todas las páginas se prerenderizan en build: no hay Worker, no hay `@astrojs/cloudflare`, no hay `wrangler.jsonc` (verificado: cero ficheros `wrangler*` en el repo). El CDN sirve el HTML directamente. Deploy por git integration en push a main — no hay workflow de Actions ni `CLOUDFLARE_API_TOKEN`.
 
-### Modo A: Static — para cuando todas las páginas son prerender
-- `output: "static"` (sin adapter cloudflare)
-- Pages git integration funciona automáticamente
-- `root_dir: docs/ui-docs`, `destination_dir: dist`
+### Config del dashboard
 
-### Modo B: SSR — cuando hay páginas server-rendered
-- `output: "server"` + `adapter: cloudflare()`
-- **Pages git integration NO funciona** (adapter v13 genera Workers-model, incompatible)
-- Desplegar via GitHub Actions con `wrangler pages deploy dist/client`
-- Deshabilitar auto-deploy en Pages dashboard
+| Campo | Valor |
+|-------|-------|
+| Framework preset | Astro |
+| Root directory | `apps/ui-docs` |
+| Build output | `dist` |
+| Build command | `cd ../.. && echo "//npm.pkg.github.com/:_authToken=${GH_PACKAGES_TOKEN}" >> .npmrc && pnpm install --frozen-lockfile && pnpm exec turbo run build --filter=@saastro/ui-docs` |
 
-### Bug resuelto (2026-04-02)
-Root `wrangler.jsonc` con Workers-model config causaba 404 en producción. Eliminado. `.wrangler/deploy/config.json` estaba committed y causaba fallo en build de Pages (resolvía dist/server/wrangler.json antes del build). Eliminado y añadido a .gitignore.
+Env vars (**Production Y Preview** — son separadas; ponerlas solo en Production deja los builds de PR en rojo):
+`GH_PACKAGES_TOKEN` (PAT con `read:packages`), `NODE_VERSION=24`, `PNPM_VERSION=10.33.2`, `SKIP_DEPENDENCY_INSTALL=true`.
 
-## Bloques y sistema de registry
-16 bloques free en 7+ categorías. Registry via shadcn CLI (`npx shadcn@latest add saastro/hero-01`). Build pipeline: registry.json → `npx shadcn@latest build` → public/r/*.json → servidos en ui.saastro.io/r/
+⚠️ **Estado a 2026-08-17: el build command y `PNPM_VERSION` están PENDIENTES de aplicar en el dashboard.** El repo migró a pnpm y ya no tiene `bun.lock`, pero el proyecto de Pages sigue con `bun install && bunx turbo`. Hay tarea abierta P2 en la lista maestra.
 
-## Workarounds conocidos
-- `debug` module: alias stub por CJS incompatibility con Workers
-- Zod v4: `z.any()` para campos OG/twitter
-- Glob paths: 5 niveles de `../` en [name].astro
-- `.wrangler/deploy/`: gitignored, generado por adapter
-- Root wrangler.jsonc: NUNCA crear en raíz del repo
+### Por qué estático y no SSR
+1. Todas las páginas usan `getCollection`/`getStaticPaths` — no hay lógica server-side.
+2. `@astrojs/cloudflare` v13 genera output Workers-model que la git integration de Pages no sabe desplegar (exigiría `wrangler pages deploy` desde Actions).
+3. Sin Worker de por medio: más rápido y más simple.
+
+Si algún día hace falta SSR: `output: "server"` + adapter, y entonces hay que deshabilitar el auto-deploy del dashboard y desplegar `dist/client` desde un workflow.
+
+## Bloques y registry
+16 items (15 bloques + el primitive `button-pro`). El registry se sirve desde `ui.saastro.io/r/*.json`; instalación con `npx shadcn@latest add saastro/hero-01`. Pipeline: `registry.json` → `npx shadcn@latest build` → `packages/ui-registry/public/r/*.json`.
+
+## Historial de bugs resueltos — no reintroducir
+- **Root `wrangler.jsonc`**: config Workers-model en la raíz del repo causaba 404 en producción (2026-04-02). Eliminado. **Nunca crear un `wrangler.jsonc` en la raíz.**
+- **`.wrangler/deploy/config.json` commiteado**: rompía el build de Pages (resolvía `dist/server/wrangler.json` antes del build). Eliminado y gitignoreado.
+- **Imports `.d.astro.js`**: workaround retirado al subir `@saastro-io/shell` a 0.2.0 (`a77ef11`).
+- **`@source` de docs-theme/shell para Tailwind**: debe apuntar a `node_modules`, no a la ruta del workspace (`0a4a84a`).
+
+## Workarounds vigentes
+- `debug` module: alias a un stub por incompatibilidad CJS.
+- Zod v4: `z.any()` en los campos OG/twitter.
