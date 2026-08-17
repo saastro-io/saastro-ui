@@ -10,7 +10,7 @@ UI toolkit y block registry del ecosistema Saastro.
 - **ui-docs** — Site de documentación y showcase de bloques con previews live + registry endpoint
 
 ## Stack
-TypeScript, Astro 6, React 19, Radix UI, Tailwind CSS 4, shadcn/ui, Cloudflare Workers, Bun, Turborepo
+TypeScript, Astro 6, React 19, Radix UI, Tailwind CSS 4, shadcn/ui, Cloudflare Workers, pnpm, Turborepo
 
 ## Modelo
 15 bloques free en repo público. Bloques Pro en repo privado (saastro/blocks-pro). Compra = acceso GitHub al repo. Referencia: shadcnblocks.com

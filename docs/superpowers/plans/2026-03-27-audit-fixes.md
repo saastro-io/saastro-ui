@@ -1,5 +1,11 @@
 # Saastro UI Audit Fixes — Implementation Plan
 
+> **Documento histórico (ejecutado el 2026-03-27).** Los comandos `bun install` /
+> `bun run build` / `oven-sh/setup-bun` que aparecen abajo eran correctos
+> entonces. El repo migró a pnpm el 2026-08-17: hoy el equivalente es
+> `pnpm install` / `pnpm run build` / `pnpm/action-setup@v6`. No se reescribe el
+> cuerpo del plan para no falsear el registro.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Fix 12 technical debt issues (2 critical, 2 high, 5 medium, 3 low) identified in the saastro-ui project audit.

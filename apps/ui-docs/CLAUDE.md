@@ -88,8 +88,8 @@ Users configure in their `components.json`:
 ## Dev Server
 
 ```bash
-bun run dev      # Port 4911
-bun run build    # Build for production
+pnpm run dev     # Port 4911
+pnpm run build   # Build for production
 ```
 
 ## Deployment — Cloudflare Pages (Static)
@@ -99,13 +99,16 @@ Production: `ui.saastro.io` · Pages project: `saastro-ui`
 Switched from SSR to Static on 2026-04-03. All pages are prerendered at build
 time — no Cloudflare Worker, no adapter, no wrangler.jsonc.
 
-### Pages dashboard config (already applied)
+### Pages dashboard config
+
+⚠️ **Pendiente de aplicar en el dashboard tras la migración a pnpm** — el repo
+ya no tiene `bun.lock`, así que el build command con `bun install` está obsoleto.
 
 | Field | Value |
 |-------|-------|
 | Framework preset | Astro |
 | Root directory | `apps/ui-docs` |
-| Build command | `cd ../.. && echo "//npm.pkg.github.com/:_authToken=${GH_PACKAGES_TOKEN}" >> .npmrc && bun install && bunx turbo run build --filter=@saastro/ui-docs` |
+| Build command | `cd ../.. && echo "//npm.pkg.github.com/:_authToken=${GH_PACKAGES_TOKEN}" >> .npmrc && pnpm install --frozen-lockfile && pnpm exec turbo run build --filter=@saastro/ui-docs` |
 | Build output directory | `dist` |
 
 **Env vars (Prod + Preview):**
@@ -113,8 +116,12 @@ time — no Cloudflare Worker, no adapter, no wrangler.jsonc.
 | Variable | Value | Notes |
 |----------|-------|-------|
 | `GH_PACKAGES_TOKEN` | PAT with `read:packages` | For `@saastro-io/*` from GitHub Packages |
-| `NODE_VERSION` | `22` | Required by Astro 6+ |
+| `NODE_VERSION` | `24` | Ecosystem standard (CI + `mise.toml`); Astro 6 needs ≥20 |
+| `PNPM_VERSION` | `10.33.2` | Sin esto la imagen de Pages usa su pnpm por defecto (8.x) y `--frozen-lockfile` falla contra un lockfile v9 |
 | `SKIP_DEPENDENCY_INSTALL` | `true` | Prevents Pages from running `npm install` before build command |
+
+Recuerda: las env vars de Pages son **separadas por entorno** (Production y
+Preview). Poner `PNPM_VERSION` solo en Production deja los builds de PR en rojo.
 
 No GitHub Actions workflow, no `CLOUDFLARE_API_TOKEN`, no `CLOUDFLARE_ACCOUNT_ID`
 needed. Pages git integration handles deploy on push to main.

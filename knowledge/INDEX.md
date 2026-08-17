@@ -1,7 +1,7 @@
 # PROJECT: saastro-ui
-> stack: TypeScript, Astro 6, React 19, Radix UI, Tailwind CSS 4, shadcn/ui, Cloudflare Pages (static), Bun, Turborepo
+> stack: TypeScript, Astro 6, React 19, Radix UI, Tailwind CSS 4, shadcn/ui, Cloudflare Pages (static), pnpm, Turborepo
 > status: active
-> last_sync: 2026-06-16T23:18:37.959Z
+> last_sync: 2026-08-17T10:40:50.140Z
 
 ## sections
 

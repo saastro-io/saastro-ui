@@ -13,7 +13,9 @@ apps/
 
 ## Tech Stack
 
-- **Runtime/PM**: Bun
+- **Runtime/PM**: Node 24 + pnpm 10.33.2 — pinned via `package.json#packageManager`
+  (SSOT, read by CI and corepack) and `mise.toml` for local dev. Workspace globs
+  live in `pnpm-workspace.yaml`. **No uses `bun`/`bunx` en este repo.**
 - **Orchestration**: Turborepo
 - **Language**: TypeScript strict
 - **Blocks**: React + shadcn/ui primitives
@@ -23,16 +25,16 @@ apps/
 ## Commands
 
 ```bash
-bun install              # Install deps
-bun run build            # Build all
-bun run dev              # Dev mode (docs + registry watch)
-bun run typecheck        # Type check all
-bun run format           # Prettier write
+pnpm install              # Install deps
+pnpm run build            # Build all
+pnpm run dev              # Dev mode (docs + registry watch)
+pnpm run typecheck        # Type check all
+pnpm run format           # Prettier write
 
 # Publishing
-bun run changeset        # Create changeset
-bun run version-packages # Bump versions
-bun run release          # Build + publish to npm
+pnpm run changeset        # Create changeset
+pnpm run version-packages # Bump versions
+pnpm run release          # Build + publish to npm
 ```
 
 ## Products

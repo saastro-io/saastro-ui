@@ -92,8 +92,8 @@ npx shadcn@latest add @saastro/hero-01
 ## Scripts
 
 ```bash
-bun run build    # Build registry JSON to public/r/
-bun run dev      # Build in watch mode
+pnpm run build   # Build registry JSON to public/r/
+pnpm run dev     # Build in watch mode
 ```
 
 ## Consumers

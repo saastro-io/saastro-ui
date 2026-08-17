@@ -13,23 +13,34 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      packages: read
       id-token: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: oven-sh/setup-bun@v2
+      # No version: action-setup reads pnpm from package.json#packageManager (single source of truth).
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v6
         with:
-          bun-version: "1.2.4"
+          node-version: "24"
+          cache: "pnpm"
 
-      - run: bun install --frozen-lockfile
-      - run: bun run build
+      # @saastro-io/{config,shell,docs-theme} live in GitHub Packages (private).
+      # The repo .npmrc only points the scope at the registry; the token is
+      # injected here so nothing authenticated is committed.
+      - name: Authenticate GitHub Packages
+        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build
 
       - name: Create Release Pull Request or Publish
         id: changesets
         uses: changesets/action@v1
         with:
-          publish: bun run release
-          version: bun run version-packages
+          publish: pnpm run release
+          version: pnpm run version-packages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
