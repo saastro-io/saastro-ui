@@ -89,6 +89,22 @@ npx shadcn@latest add @saastro/hero-01
 - Responsive by default (mobile-first Tailwind)
 - Named exports (not default)
 
+### Base de primitivas: Base UI, no Radix (migración de agosto 2026)
+
+Los bloques asumen que el consumidor inyecta `@/components/ui/*` construidos
+sobre **Base UI**. En la práctica, al escribir o tocar un bloque:
+
+- **`asChild` ya no existe** — se sustituye por la prop `render` (y
+  `nativeButton` en los triggers de popover/tooltip/dialog).
+- El `Slot` de Radix es ahora el hook `useRender`.
+- La variable CSS `--radix-popover-trigger-width` es `--anchor-width`.
+
+Del lado del consumidor, la base va codificada **dentro del campo `style` de su
+`components.json`**: `"style": "base-nova"`, no `radix-nova`. Un consumidor que
+siga en `radix-*` recibirá bloques que no casan con sus primitivas. Ver la
+migración hermana en `saastro-theme` y el contrato de `@saastro/forms`
+(`.changeset/base-ui-only.md` en `saastro-forms`).
+
 ## Scripts
 
 ```bash
