@@ -100,15 +100,19 @@ Crear un `.tsx` en `registry/default/blocks/` siguiendo las convenciones: import
 ### 3. Build del registry
 
 ```bash
-cd packages/ui-registry
-npx shadcn@latest build --output ./public/r
+pnpm --filter @saastro/ui-registry run build
+# equivale a: cd packages/ui-registry && npx shadcn@latest build --output ./public/r
 ```
+
+El script sigue invocando `npx shadcn@latest` a propósito (el CLI de shadcn se
+baja siempre en su última versión); el resto del repo usa pnpm desde la
+migración del 2026-08-17.
 
 Genera `public/r/contact-01.json` con el source code inlined y las deps resueltas.
 
 ### 4. Añadir al showcase
 
-En `docs/ui-docs/src/data/blocks.ts`, añadir la metadata del bloque para que aparezca en la galería con preview live.
+En `apps/ui-docs/src/data/blocks.ts`, añadir la metadata del bloque para que aparezca en la galería con preview live. (Ojo: `docs/ui-docs` es la ruta vieja — el app se movió a `apps/` en `a3f0b7e`.)
 
 ### 5. Verificar
 
