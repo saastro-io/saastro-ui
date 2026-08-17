@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -119,9 +119,15 @@ export function Pricing01({ title, description, plans, className }: Pricing01Pro
                 </ul>
               </CardContent>
               <CardFooter>
-                <Button className="w-full" variant={plan.popular ? 'default' : 'outline'} asChild>
-                  <a href={plan.cta.href}>{plan.cta.label}</a>
-                </Button>
+                <a
+                  href={plan.cta.href}
+                  className={cn(
+                    buttonVariants({ variant: plan.popular ? 'default' : 'outline' }),
+                    'w-full',
+                  )}
+                >
+                  {plan.cta.label}
+                </a>
               </CardFooter>
             </Card>
           ))}

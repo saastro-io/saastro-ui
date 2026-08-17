@@ -1,6 +1,7 @@
 'use client';
 
-import { Slot } from '@radix-ui/react-slot';
+import { mergeProps } from '@base-ui/react/merge-props';
+import { useRender } from '@base-ui/react/use-render';
 import { cva, type VariantProps } from 'class-variance-authority';
 import * as React from 'react';
 import { cn } from '@/lib/utils';
@@ -248,24 +249,27 @@ function ButtonPro<T extends React.ElementType = 'button'>({
   effect,
   rounded,
   iconfx,
-  asChild = false,
+  render,
   href,
   ...props
 }: React.ComponentProps<T> &
   VariantProps<typeof buttonProVariants> & {
-    asChild?: boolean;
+    /** Base UI sustituye `asChild` por `render`: el elemento a renderizar. */
+    render?: React.ReactElement;
     href?: string;
   }) {
-  const Comp = asChild ? Slot : href ? 'a' : 'button';
-
-  return (
-    <Comp
-      data-slot="button"
-      className={cn(buttonProVariants({ variant, size, effect, rounded, iconfx }), className)}
-      {...(href && { href })}
-      {...props}
-    />
-  );
+  return useRender({
+    defaultTagName: href ? 'a' : 'button',
+    render,
+    props: mergeProps(
+      {
+        'data-slot': 'button',
+        className: cn(buttonProVariants({ variant, size, effect, rounded, iconfx }), className),
+        ...(href ? { href } : {}),
+      },
+      props as Record<string, unknown>,
+    ),
+  });
 }
 
 export { ButtonPro, buttonProVariants };
@@ -274,4 +278,5 @@ export type ButtonProVariantProps = VariantProps<typeof buttonProVariants>;
 export type ButtonProBaseProps = React.ComponentProps<'button'> & {
   href?: string;
 };
-export type ButtonProProps = ButtonProBaseProps & ButtonProVariantProps & { asChild?: boolean };
+export type ButtonProProps = ButtonProBaseProps &
+  ButtonProVariantProps & { render?: React.ReactElement };

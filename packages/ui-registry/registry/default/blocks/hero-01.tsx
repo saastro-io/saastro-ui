@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 type Hero01Props = {
@@ -30,13 +30,16 @@ export function Hero01({
         <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">{title}</h1>
         <p className="mt-6 text-lg text-muted-foreground sm:text-xl">{description}</p>
         <div className="mt-10 flex items-center justify-center gap-4">
-          <Button size="lg" asChild>
-            <a href={primaryCta.href}>{primaryCta.label}</a>
-          </Button>
+          <a href={primaryCta.href} className={cn(buttonVariants({ size: 'lg' }))}>
+            {primaryCta.label}
+          </a>
           {secondaryCta && (
-            <Button variant="outline" size="lg" asChild>
-              <a href={secondaryCta.href}>{secondaryCta.label}</a>
-            </Button>
+            <a
+              href={secondaryCta.href}
+              className={cn(buttonVariants({ variant: 'outline', size: 'lg' }))}
+            >
+              {secondaryCta.label}
+            </a>
           )}
         </div>
       </div>

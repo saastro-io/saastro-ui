@@ -1,0 +1,79 @@
+# Despliegue de ui.saastro.io a Cloudflare Workers (static assets).
+#
+# Sustituye a la integración Git de Cloudflare Pages. Motivo del cambio:
+# un build de Pages que falla NO revierte ni avisa — deja lo viejo publicado.
+# El sitio estuvo sirviendo el build del 13-abr desde junio sin que se notara,
+# porque el PAT de GitHub Packages del proyecto Pages caducó y el deploy
+# devolvía 401 en silencio.
+#
+# Aquí eso no puede pasar: si el build falla, GitHub marca el commit en rojo y
+# manda email. Y el token de GitHub Packages es el `GITHUB_TOKEN` automático
+# del propio workflow — el mismo que ya usa ci.yml — así que no hay ningún PAT
+# que caduque.
+name: Deploy ui-docs
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/ui-docs/**'
+      - 'packages/ui-registry/**'
+      - '.github/workflows/deploy-ui-docs.yml'
+      - 'pnpm-lock.yaml'
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-ui-docs
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      packages: read
+    steps:
+      - uses: actions/checkout@v7
+
+      # Sin `version`: action-setup lee pnpm de package.json#packageManager.
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: 'pnpm'
+
+      # @saastro-io/{config,shell,docs-theme} viven en GitHub Packages (privado).
+      - name: Authenticate GitHub Packages
+        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
+
+      - run: pnpm install --frozen-lockfile
+
+      # ORDEN EXPLÍCITO, a propósito: apps/ui-docs NO declara
+      # @saastro/ui-registry como dependencia, así que el `^build` de turbo no
+      # garantiza que el registry se construya antes. Hasta ahora daba igual
+      # porque ui-docs llevaba su propia copia commiteada de public/r — que es
+      # justo lo que había derivado. Se construye a mano hasta que se declare
+      # la dependencia (`pnpm add -D @saastro/ui-registry --workspace
+      # --filter @saastro/ui-docs`, que regenera el lockfile).
+      - run: pnpm --filter @saastro/ui-registry build
+
+      # ui-docs sincroniza ese public/r al suyo en su `prebuild`.
+      - run: pnpm run build
+
+      # Falla pronto y en voz alta si el registry servido no se generó.
+      - name: Verify registry output
+        run: |
+          test -f apps/ui-docs/dist/r/registry.json \
+            || { echo "::error::dist/r/registry.json no existe — el sync del registry no corrió"; exit 1; }
+          echo "Registry OK: $(ls apps/ui-docs/dist/r/*.json | wc -l) ficheros"
+
+      - name: Deploy to Cloudflare Workers
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: apps/ui-docs
+          command: deploy

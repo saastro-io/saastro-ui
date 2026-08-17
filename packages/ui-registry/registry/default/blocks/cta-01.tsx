@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 type Cta01Props = {
@@ -17,18 +17,22 @@ export function Cta01({ title, description, primaryCta, secondaryCta, className 
         <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">{title}</h2>
         <p className="mt-4 text-lg text-white/80">{description}</p>
         <div className="mt-10 flex items-center justify-center gap-4">
-          <Button size="lg" variant="secondary" className="text-base" asChild>
-            <a href={primaryCta.href}>{primaryCta.label}</a>
-          </Button>
+          <a
+            href={primaryCta.href}
+            className={cn(buttonVariants({ variant: 'secondary', size: 'lg' }), 'text-base')}
+          >
+            {primaryCta.label}
+          </a>
           {secondaryCta && (
-            <Button
-              size="lg"
-              variant="ghost"
-              className="border border-white/30 text-base text-white hover:bg-white/10 hover:text-white"
-              asChild
+            <a
+              href={secondaryCta.href}
+              className={cn(
+                buttonVariants({ variant: 'ghost', size: 'lg' }),
+                'border border-white/30 text-base text-white hover:bg-white/10 hover:text-white',
+              )}
             >
-              <a href={secondaryCta.href}>{secondaryCta.label}</a>
-            </Button>
+              {secondaryCta.label}
+            </a>
           )}
         </div>
       </div>
