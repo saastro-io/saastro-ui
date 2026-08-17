@@ -3,7 +3,10 @@
   "name": "newsletter-01",
   "title": "Newsletter Signup",
   "description": "An email newsletter signup section with input and submit button.",
-  "registryDependencies": ["button", "input"],
+  "registryDependencies": [
+    "button",
+    "input"
+  ],
   "files": [
     {
       "path": "registry/default/blocks/newsletter-01.tsx",
@@ -11,6 +14,9 @@
       "type": "registry:component"
     }
   ],
-  "categories": ["newsletter", "cta"],
+  "categories": [
+    "newsletter",
+    "cta"
+  ],
   "type": "registry:block"
 }

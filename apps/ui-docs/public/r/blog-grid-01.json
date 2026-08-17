@@ -3,7 +3,10 @@
   "name": "blog-grid-01",
   "title": "Blog Post Grid",
   "description": "A responsive grid of blog post cards with image, title, excerpt, and metadata.",
-  "registryDependencies": ["card", "badge"],
+  "registryDependencies": [
+    "card",
+    "badge"
+  ],
   "files": [
     {
       "path": "registry/default/blocks/blog-grid-01.tsx",
@@ -11,6 +14,9 @@
       "type": "registry:component"
     }
   ],
-  "categories": ["blog", "content"],
+  "categories": [
+    "blog",
+    "content"
+  ],
   "type": "registry:block"
 }

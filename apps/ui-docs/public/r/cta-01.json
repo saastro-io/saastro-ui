@@ -3,14 +3,19 @@
   "name": "cta-01",
   "title": "CTA Banner — Gradient",
   "description": "A full-width CTA banner with gradient background, heading, and action buttons.",
-  "registryDependencies": ["button"],
+  "registryDependencies": [
+    "button"
+  ],
   "files": [
     {
       "path": "registry/default/blocks/cta-01.tsx",
-      "content": "import { Button } from '@/components/ui/button';\nimport { cn } from '@/lib/utils';\n\ntype Cta01Props = {\n  title: string;\n  description: string;\n  primaryCta: { label: string; href: string };\n  secondaryCta?: { label: string; href: string };\n  className?: string;\n};\n\nexport function Cta01({ title, description, primaryCta, secondaryCta, className }: Cta01Props) {\n  return (\n    <section className={cn('relative w-full overflow-hidden px-6 py-24 md:py-32', className)}>\n      <div className=\"absolute inset-0 bg-gradient-to-r from-primary to-violet-600\" />\n      <div className=\"relative mx-auto max-w-3xl text-center\">\n        <h2 className=\"text-3xl font-bold tracking-tight text-white sm:text-4xl\">{title}</h2>\n        <p className=\"mt-4 text-lg text-white/80\">{description}</p>\n        <div className=\"mt-10 flex items-center justify-center gap-4\">\n          <Button size=\"lg\" variant=\"secondary\" className=\"text-base\" asChild>\n            <a href={primaryCta.href}>{primaryCta.label}</a>\n          </Button>\n          {secondaryCta && (\n            <Button\n              size=\"lg\"\n              variant=\"ghost\"\n              className=\"border border-white/30 text-base text-white hover:bg-white/10 hover:text-white\"\n              asChild\n            >\n              <a href={secondaryCta.href}>{secondaryCta.label}</a>\n            </Button>\n          )}\n        </div>\n      </div>\n    </section>\n  );\n}\n",
+      "content": "import { buttonVariants } from '@/components/ui/button';\nimport { cn } from '@/lib/utils';\n\ntype Cta01Props = {\n  title: string;\n  description: string;\n  primaryCta: { label: string; href: string };\n  secondaryCta?: { label: string; href: string };\n  className?: string;\n};\n\nexport function Cta01({ title, description, primaryCta, secondaryCta, className }: Cta01Props) {\n  return (\n    <section className={cn('relative w-full overflow-hidden px-6 py-24 md:py-32', className)}>\n      <div className=\"absolute inset-0 bg-gradient-to-r from-primary to-violet-600\" />\n      <div className=\"relative mx-auto max-w-3xl text-center\">\n        <h2 className=\"text-3xl font-bold tracking-tight text-white sm:text-4xl\">{title}</h2>\n        <p className=\"mt-4 text-lg text-white/80\">{description}</p>\n        <div className=\"mt-10 flex items-center justify-center gap-4\">\n          <a\n            href={primaryCta.href}\n            className={cn(buttonVariants({ variant: 'secondary', size: 'lg' }), 'text-base')}\n          >\n            {primaryCta.label}\n          </a>\n          {secondaryCta && (\n            <a\n              href={secondaryCta.href}\n              className={cn(\n                buttonVariants({ variant: 'ghost', size: 'lg' }),\n                'border border-white/30 text-base text-white hover:bg-white/10 hover:text-white',\n              )}\n            >\n              {secondaryCta.label}\n            </a>\n          )}\n        </div>\n      </div>\n    </section>\n  );\n}\n",
       "type": "registry:component"
     }
   ],
-  "categories": ["cta", "landing"],
+  "categories": [
+    "cta",
+    "landing"
+  ],
   "type": "registry:block"
 }
