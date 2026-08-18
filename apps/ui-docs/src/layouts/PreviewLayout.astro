@@ -21,6 +21,15 @@ const { title } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
     <title>{title} — preview</title>
+    <!-- Mismas webfonts que el resto del sitio: esta página alimenta el iframe
+         de /blocks/[name] Y las capturas de scripts/capture.mts, así que si no
+         se cargan aquí, los previews y los PNG salen en Helvetica. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Space+Mono:ital,wght@0,400;0,700&display=swap"
+    />
     <script is:inline>
       const t = localStorage.getItem('theme');
       if (t === 'dark' || (!t && matchMedia('(prefers-color-scheme: dark)').matches))

@@ -17,7 +17,11 @@
    que platform-docs, hub-docs y forms-docs siguen con su look actual.
    ========================================================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Space+Mono:ital,wght@0,400;0,700&display=swap');
+/* Las webfonts NO se cargan aquí con `@import url(...)`: este fichero se
+   importa en segunda posición (después del tema) y un `@import` de URL solo es
+   válido al principio de la hoja — el bundler lo descartaba en silencio y el
+   sitio salía en Helvetica. Se cargan con <link> desde el head, en
+   src/layouts/BaseLayout.astro. */
 
 /* ---- Tipografía: una sola voz grotesk + mono para eyebrows/código ---- */
 @theme {
