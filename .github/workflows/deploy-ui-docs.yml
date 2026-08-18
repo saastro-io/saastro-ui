@@ -51,16 +51,10 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      # ORDEN EXPLÍCITO, a propósito: apps/ui-docs NO declara
-      # @saastro/ui-registry como dependencia, así que el `^build` de turbo no
-      # garantiza que el registry se construya antes. Hasta ahora daba igual
-      # porque ui-docs llevaba su propia copia commiteada de public/r — que es
-      # justo lo que había derivado. Se construye a mano hasta que se declare
-      # la dependencia (`pnpm add -D @saastro/ui-registry --workspace
-      # --filter @saastro/ui-docs`, que regenera el lockfile).
-      - run: pnpm --filter @saastro/ui-registry build
-
-      # ui-docs sincroniza ese public/r al suyo en su `prebuild`.
+      # ui-docs declara @saastro/ui-registry como dependencia workspace, así
+      # que el `^build` de turbo construye el registry ANTES del sitio. El
+      # registry escribe directo a apps/ui-docs/public/r (única copia, ya no
+      # commiteada) y no hay paso de sync.
       - run: pnpm run build
 
       # Falla pronto y en voz alta si el registry servido no se generó.

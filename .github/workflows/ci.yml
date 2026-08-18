@@ -36,6 +36,11 @@ jobs:
       # Valida el registry construido antes de que llegue a ui.saastro.io:
       # nombres duplicados, rutas rotas, errores de schema. Es el único gate
       # que ve los 17 JSON que sirve el sitio — el build sólo los escribe.
+      - name: Verify registry output
+        run: |
+          test -f apps/ui-docs/dist/r/registry.json \
+            || { echo "::error::apps/ui-docs/dist/r/registry.json no existe — el build del registry no corrió antes que el del sitio"; exit 1; }
+
       - name: Validate registry
         run: pnpm dlx shadcn@4.18.0 registry validate
         working-directory: packages/ui-registry
