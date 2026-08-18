@@ -1,0 +1,38 @@
+---
+/**
+ * hero-01 — Hero centrado con badge, título, descripción y doble CTA.
+ * Bloque Astro puro: cero JS, cero dependencias (ni React ni primitivas).
+ * Las clases de botón/badge replican el estilo base-nova de shadcn.
+ */
+interface Props {
+  badge?: string;
+  title: string;
+  description: string;
+  primaryCta: { label: string; href: string };
+  secondaryCta?: { label: string; href: string };
+  class?: string;
+}
+const { badge, title, description, primaryCta, secondaryCta, class: className } = Astro.props;
+
+const btn =
+  'inline-flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-lg border border-transparent px-2.5 text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:translate-y-px';
+const btnPrimary = 'bg-primary text-primary-foreground hover:bg-primary/80';
+const btnOutline =
+  'border-border bg-background hover:bg-muted hover:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50';
+const badgeCls =
+  'mb-4 inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-4xl border border-transparent bg-secondary px-2 py-0.5 text-xs font-medium whitespace-nowrap text-secondary-foreground';
+---
+
+<section class:list={['w-full px-6 py-24 md:py-32 lg:py-40', className]}>
+  <div class="mx-auto max-w-3xl text-center">
+    {badge && <span class={badgeCls}>{badge}</span>}
+    <h1 class="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">{title}</h1>
+    <p class="mt-6 text-lg text-muted-foreground sm:text-xl">{description}</p>
+    <div class="mt-10 flex items-center justify-center gap-4">
+      <a href={primaryCta.href} class:list={[btn, btnPrimary]}>{primaryCta.label}</a>
+      {secondaryCta && (
+        <a href={secondaryCta.href} class:list={[btn, btnOutline]}>{secondaryCta.label}</a>
+      )}
+    </div>
+  </div>
+</section>

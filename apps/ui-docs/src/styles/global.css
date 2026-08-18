@@ -7,7 +7,7 @@
 @source "../../node_modules/@saastro-io/shell/src/**/*.{astro,tsx,ts}";
 
 /* Project-specific: scan workspace packages for Tailwind classes */
-@source "../../../../packages/ui-registry/registry/default/blocks/**/*.tsx";
+@source "../../../../packages/ui-registry/registry/default/blocks/**/*.{tsx,astro}";
 @source "../../../../packages/ui-registry/registry/default/ui/**/*.tsx";
 
 /* Keyframes del acordeón — OVERRIDE del que trae @saastro-io/docs-theme.

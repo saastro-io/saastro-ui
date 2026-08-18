@@ -1,6 +1,4 @@
-import type { ComponentProps } from 'react';
-import type { Features02 } from '@blocks/features-02';
-
+// Demo props de features-02 — objeto plano: el bloque es .astro (las Props viven en su frontmatter).
 export const props = {
   title: 'Built for developers',
   description: 'Blocks designed to accelerate your workflow.',
@@ -18,4 +16,4 @@ export const props = {
         'Every block uses standard Tailwind CSS classes and shadcn/ui components. Customize colors, spacing, and typography with CSS variables.',
     },
   ],
-} satisfies ComponentProps<typeof Features02>;
+};

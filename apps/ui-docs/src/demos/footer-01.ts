@@ -1,6 +1,4 @@
-import type { ComponentProps } from 'react';
-import type { Footer01 } from '@blocks/footer-01';
-
+// Demo props de footer-01 — objeto plano: el bloque es .astro (las Props viven en su frontmatter).
 // `logo` acepta ReactNode; un string ES un ReactNode válido y además es
 // serializable — no hace falta JSX para la demo.
 export const props = {
@@ -30,4 +28,4 @@ export const props = {
       ],
     },
   ],
-} satisfies ComponentProps<typeof Footer01>;
+};

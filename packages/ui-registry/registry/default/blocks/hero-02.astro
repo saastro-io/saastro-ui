@@ -1,0 +1,59 @@
+---
+/**
+ * hero-02 — Hero partido: contenido a la izquierda, imagen/screenshot a la
+ * derecha. Bloque Astro puro: cero JS, cero dependencias.
+ */
+interface Props {
+  badge?: string;
+  title: string;
+  description: string;
+  primaryCta: { label: string; href: string };
+  secondaryCta?: { label: string; href: string };
+  imageSrc?: string;
+  imageAlt?: string;
+  class?: string;
+}
+const {
+  badge,
+  title,
+  description,
+  primaryCta,
+  secondaryCta,
+  imageSrc,
+  imageAlt = '',
+  class: className,
+} = Astro.props;
+
+const btn =
+  'inline-flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-lg border border-transparent px-2.5 text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:translate-y-px';
+const btnPrimary = 'bg-primary text-primary-foreground hover:bg-primary/80';
+const btnOutline =
+  'border-border bg-background hover:bg-muted hover:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50';
+const badgeCls =
+  'mb-4 inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-4xl border border-transparent bg-secondary px-2 py-0.5 text-xs font-medium whitespace-nowrap text-secondary-foreground';
+---
+
+<section class:list={['w-full px-6 py-24 md:py-32', className]}>
+  <div class="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2">
+    <div>
+      {badge && <span class={badgeCls}>{badge}</span>}
+      <h1 class="text-4xl font-bold tracking-tight sm:text-5xl">{title}</h1>
+      <p class="mt-6 text-lg text-muted-foreground">{description}</p>
+      <div class="mt-10 flex items-center gap-4">
+        <a href={primaryCta.href} class:list={[btn, btnPrimary]}>{primaryCta.label}</a>
+        {secondaryCta && (
+          <a href={secondaryCta.href} class:list={[btn, btnOutline]}>{secondaryCta.label}</a>
+        )}
+      </div>
+    </div>
+    <div class="relative aspect-video overflow-hidden rounded-xl border bg-muted">
+      {imageSrc ? (
+        <img src={imageSrc} alt={imageAlt} class="h-full w-full object-cover" />
+      ) : (
+        <div class="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary/20 to-primary/5">
+          <span class="text-4xl text-muted-foreground/30">Screenshot</span>
+        </div>
+      )}
+    </div>
+  </div>
+</section>
