@@ -1,0 +1,10 @@
+---
+// Wrapper de preview de navbar-01 — import LITERAL a propósito: la hidratación
+// (client:*) exige que el compiler vea el import; un componente dinámico
+// sacado de import.meta.glob NO emite client:component-path y revienta en
+// runtime con NoMatchingImport (verificado contra @astrojs/compiler 4.0.0).
+import { Navbar01 } from '@blocks/navbar-01';
+import { props } from './navbar-01';
+---
+
+<Navbar01 client:load {...props} />

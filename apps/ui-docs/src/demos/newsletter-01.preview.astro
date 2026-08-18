@@ -1,0 +1,10 @@
+---
+// Wrapper de preview de newsletter-01 — import LITERAL a propósito: la hidratación
+// (client:*) exige que el compiler vea el import; un componente dinámico
+// sacado de import.meta.glob NO emite client:component-path y revienta en
+// runtime con NoMatchingImport (verificado contra @astrojs/compiler 4.0.0).
+import { Newsletter01 } from '@blocks/newsletter-01';
+import { props } from './newsletter-01';
+---
+
+<Newsletter01 client:load {...props} />

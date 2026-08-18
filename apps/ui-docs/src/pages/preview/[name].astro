@@ -1,0 +1,55 @@
+---
+/**
+ * /preview/<name> — render aislado de un bloque, sin chrome del sitio.
+ * Consumidores: el <iframe> de /blocks/[name] y scripts/capture.mts.
+ *
+ * Resolución, en orden:
+ *  1. Wrapper `demos/<name>.preview.astro` — bloques interactivos (import
+ *     literal + client:*; ver el comentario de cualquier wrapper) o demos
+ *     no serializables.
+ *  2. Bloque `.astro` del registry — render server-side dinámico (válido
+ *     desde glob porque no lleva directivas de hidratación).
+ *  3. Bloque `.tsx` del registry — render server-side sin hidratar.
+ */
+import PreviewLayout from '@/layouts/PreviewLayout.astro';
+import { blocks } from '@/lib/catalog';
+
+const wrappers = import.meta.glob<{ default: any }>('../../demos/*.preview.astro', {
+  eager: true,
+});
+const astroBlocks = import.meta.glob<{ default: any }>(
+  '../../../../../packages/ui-registry/registry/default/blocks/*.astro',
+  { eager: true },
+);
+const tsxBlocks = import.meta.glob<Record<string, any>>(
+  '../../../../../packages/ui-registry/registry/default/blocks/*.tsx',
+  { eager: true },
+);
+const demos = import.meta.glob<{ props?: Record<string, unknown> }>('../../demos/*.ts', {
+  eager: true,
+});
+
+export function getStaticPaths() {
+  return blocks.map((block) => ({ params: { name: block.name }, props: { block } }));
+}
+
+const { block } = Astro.props;
+
+const find = <T,>(mods: Record<string, T>, suffix: string): T | undefined =>
+  Object.entries(mods).find(([k]) => k.endsWith(suffix))?.[1];
+
+const Wrapper = find(wrappers, `/${block.name}.preview.astro`)?.default;
+const AstroBlock = find(astroBlocks, `/${block.name}.astro`)?.default;
+const tsxMod = find(tsxBlocks, `/${block.name}.tsx`);
+const TsxBlock = tsxMod && Object.values(tsxMod).find((v) => typeof v === 'function');
+const demoProps = find(demos, `/${block.name}.ts`)?.props ?? {};
+
+if (!Wrapper && !AstroBlock && !TsxBlock) {
+  // Falla el BUILD (la página es estática): nunca llega roto a producción.
+  throw new Error(`preview: no se encontró componente para "${block.name}"`);
+}
+---
+
+<PreviewLayout title={block.title}>
+  {Wrapper ? <Wrapper /> : AstroBlock ? <AstroBlock {...demoProps} /> : <TsxBlock {...demoProps} />}
+</PreviewLayout>

@@ -1,0 +1,37 @@
+---
+/**
+ * PreviewLayout — página de preview AISLADA, sin ningún chrome del sitio.
+ * La usan /preview/[name] (iframe del detalle de bloque) y el script de
+ * capturas (scripts/capture.mts). Tema por localStorage ANTES del paint,
+ * compatible con el shell del sitio padre (misma clave `theme`), y sincronía
+ * en vivo vía evento `storage` cuando vive dentro del iframe (mismo origen).
+ */
+import '@/styles/global.css';
+
+interface Props {
+  title: string;
+}
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>{title} — preview</title>
+    <script is:inline>
+      const t = localStorage.getItem('theme');
+      if (t === 'dark' || (!t && matchMedia('(prefers-color-scheme: dark)').matches))
+        document.documentElement.classList.add('dark');
+      addEventListener('storage', (e) => {
+        if (e.key === 'theme')
+          document.documentElement.classList.toggle('dark', e.newValue === 'dark');
+      });
+    </script>
+  </head>
+  <body class="min-h-screen bg-background text-foreground">
+    <slot />
+  </body>
+</html>
