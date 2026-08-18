@@ -6,7 +6,8 @@ Block registry and showcase site for the Saastro ecosystem.
 
 ```
 packages/
-  ui-registry/     → @saastro-io/ui-registry  (16 shadcn-compatible landing page blocks)
+  ui-registry/     → @saastro/ui-registry     (15 bloques de landing + button-pro, que es
+                                                una primitiva registry:ui, no un bloque)
 apps/
   ui-docs/         → @saastro/ui-docs         (showcase site at ui.saastro.io)
 ```
@@ -45,7 +46,11 @@ pnpm run release          # Build + publish to npm
 ## Rules
 
 1. Blocks use React + shadcn/ui primitives — zero JS in final Astro output
-2. `@saastro-io/ui-registry` is private (blocks consumed via shadcn CLI, not npm install)
+2. `@saastro/ui-registry` es **`private: true`** y NO se publica a npm: los bloques se
+   consumen copy-in con el CLI de shadcn contra `ui.saastro.io/r/{name}.json`, nunca por
+   `npm install`. Ojo: la sección Publishing de arriba describe el flujo genérico de
+   changesets del monorepo — sobre este paquete `changeset publish` no hace nada, porque
+   salta los `private` en silencio
 3. Docs site serves registry JSON at `/r/{name}.json`
 4. Conventional commits: `feat(blocks):`, `docs(ui-docs):`
 
