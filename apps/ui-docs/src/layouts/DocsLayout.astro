@@ -4,7 +4,7 @@ import Sidebar from "@saastro-io/docs-theme/components/Sidebar.astro";
 import type { SidebarSection } from "@saastro-io/docs-theme";
 import { getCollection } from "astro:content";
 import { makePermalinks } from "@saastro-io/shell/urls/permalinks";
-import { blocks, categories } from "@/data/blocks";
+import { blocks, categories } from "@/lib/catalog";
 
 export interface Props {
   metadata?: any;

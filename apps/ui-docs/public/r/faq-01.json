@@ -2,17 +2,24 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "faq-01",
   "title": "FAQ — Accordion",
-  "description": "A FAQ section with accordion for expandable questions and answers.",
+  "author": "SAASTRO <https://saastro.io>",
+  "description": "FAQ section with accordion for expandable questions and answers.",
   "registryDependencies": [
     "accordion"
   ],
   "files": [
     {
       "path": "registry/default/blocks/faq-01.tsx",
-      "content": "import {\n  Accordion,\n  AccordionContent,\n  AccordionItem,\n  AccordionTrigger,\n} from '@/components/ui/accordion';\nimport { cn } from '@/lib/utils';\n\ntype FaqItem = {\n  question: string;\n  answer: string;\n};\n\ntype Faq01Props = {\n  title?: string;\n  description?: string;\n  items: FaqItem[];\n  className?: string;\n};\n\nexport function Faq01({\n  title = 'Frequently Asked Questions',\n  description,\n  items,\n  className,\n}: Faq01Props) {\n  return (\n    <section className={cn('w-full px-6 py-24 md:py-32', className)}>\n      <div className=\"mx-auto max-w-3xl\">\n        <div className=\"mb-12 text-center\">\n          <h2 className=\"text-3xl font-bold tracking-tight sm:text-4xl\">{title}</h2>\n          {description && <p className=\"mt-4 text-lg text-muted-foreground\">{description}</p>}\n        </div>\n        <Accordion type=\"single\" collapsible className=\"w-full\">\n          {items.map((item, index) => (\n            <AccordionItem key={index} value={`item-${index}`}>\n              <AccordionTrigger className=\"text-left text-base\">{item.question}</AccordionTrigger>\n              <AccordionContent className=\"text-muted-foreground\">{item.answer}</AccordionContent>\n            </AccordionItem>\n          ))}\n        </Accordion>\n      </div>\n    </section>\n  );\n}\n",
-      "type": "registry:component"
+      "content": "import {\n  Accordion,\n  AccordionContent,\n  AccordionItem,\n  AccordionTrigger,\n} from '@/components/ui/accordion';\nimport { cn } from '@/lib/utils';\n\ntype FaqItem = {\n  question: string;\n  answer: string;\n};\n\ntype Faq01Props = {\n  title?: string;\n  description?: string;\n  items: FaqItem[];\n  className?: string;\n};\n\nexport function Faq01({\n  title = 'Frequently Asked Questions',\n  description,\n  items,\n  className,\n}: Faq01Props) {\n  return (\n    <section className={cn('w-full px-6 py-24 md:py-32', className)}>\n      <div className=\"mx-auto max-w-3xl\">\n        <div className=\"mb-12 text-center\">\n          <h2 className=\"text-3xl font-bold tracking-tight sm:text-4xl\">{title}</h2>\n          {description && <p className=\"mt-4 text-lg text-muted-foreground\">{description}</p>}\n        </div>\n        {/* Base UI: no existen `type` ni `collapsible`. Un solo panel abierto es\n            el comportamiento por defecto (sin `multiple`), y el colapso libre\n            también — es decir, `type=\"single\" collapsible` era exactamente esto. */}\n        <Accordion className=\"w-full\">\n          {items.map((item, index) => (\n            <AccordionItem key={index} value={`item-${index}`}>\n              <AccordionTrigger className=\"text-left text-base\">{item.question}</AccordionTrigger>\n              <AccordionContent className=\"text-muted-foreground\">{item.answer}</AccordionContent>\n            </AccordionItem>\n          ))}\n        </Accordion>\n      </div>\n    </section>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "@components/blocks/faq-01.tsx"
     }
   ],
+  "meta": {
+    "group": "FAQ",
+    "iframeHeight": "820px"
+  },
+  "docs": "Import: `import { Faq01 } from '@/components/blocks/faq-01'`. Props: title?, description?, items [{question, answer}], className?. Interactive (accordion, Base UI) — in Astro hydrate with client:visible. Requires the base-nova (Base UI) accordion primitive.",
   "categories": [
     "faq",
     "landing"

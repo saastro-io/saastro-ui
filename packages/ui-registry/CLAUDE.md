@@ -79,6 +79,18 @@ npx shadcn@latest add @saastro/hero-01
 | Stats        | stats-01                  | Key metrics display        |
 | Logos        | logos-01                  | Logo cloud / "Trusted by"  |
 
+## registry.json es la ÚNICA fuente de verdad
+
+Títulos, descripciones, grupos (`meta.group`), deps, `docs`, `author` y
+`meta.iframeHeight` viven en `registry.json`; el catálogo del showcase
+(`apps/ui-docs/src/lib/catalog.ts`) se DERIVA de él importando el JSON.
+No existe ningún otro sitio que editar.
+
+⚠️ **El ORDEN del array `items` es semántico**: define prev/next en
+`/blocks/[name]`, el orden de la galería y el sidebar de docs. Reordenar
+items = reordenar la navegación (JSON no admite comentarios; por eso el
+aviso vive aquí).
+
 ## Block Design Rules
 
 - All blocks are React components (`.tsx`)
