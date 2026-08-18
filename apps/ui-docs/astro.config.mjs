@@ -33,7 +33,7 @@ export default defineConfig({
         "@blocks": fileURLToPath(new URL("../../packages/ui-registry/registry/default/blocks", import.meta.url)),
         "@ui-registry": fileURLToPath(new URL("../../packages/ui-registry/registry/default/ui", import.meta.url)),
       },
-      dedupe: ['class-variance-authority', '@radix-ui/react-slot', 'react', 'react-dom', '@saastro-io/shell', '@saastro-io/docs-theme'],
+      dedupe: ['class-variance-authority', '@radix-ui/react-slot', 'react', 'react-dom'],
     },
     build: {
       minify: 'esbuild',

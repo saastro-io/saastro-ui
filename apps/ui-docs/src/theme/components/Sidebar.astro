@@ -1,0 +1,90 @@
+---
+/**
+ * Sidebar.astro — rail de navegación de la documentación.
+ *
+ * Tema VENDORIZADO (ver theme/README.md).
+ *
+ * Diferencia respecto al original: en el original este aside era
+ * `hidden lg:block` sin ningún listener, mientras el Header pintaba un botón
+ * `[data-docs-sidebar-toggle]` visible por debajo de lg — o sea, una
+ * hamburguesa que no hacía nada. Aquí el rail se despliega de verdad en móvil
+ * (drawer con scrim), y el botón del header lo controla. Vanilla, sin islands.
+ */
+import type { SidebarSection } from '../types';
+
+export interface Props {
+  sections: SidebarSection[];
+}
+
+const { sections } = Astro.props;
+---
+
+<!-- Scrim: solo por debajo de lg y solo con el rail abierto -->
+<div
+  data-docs-sidebar-scrim
+  class="fixed inset-0 z-40 hidden bg-foreground/20 backdrop-blur-[2px] lg:!hidden"
+>
+</div>
+
+<aside
+  data-docs-sidebar
+  class="fixed inset-y-0 left-0 z-50 hidden w-64 overflow-y-auto border-r border-border bg-background lg:sticky lg:top-0 lg:z-auto lg:block lg:h-screen"
+>
+  <div class="p-6">
+    <nav class="space-y-6">
+      {
+        sections.map((section) => (
+          <div>
+            <h3 class="mb-2 text-xs font-semibold tracking-wider text-muted-foreground uppercase">
+              {section.title}
+            </h3>
+            <ul class="space-y-1">
+              {section.items.map((item) => (
+                <li>
+                  <a
+                    href={item.href}
+                    class:list={[
+                      'block rounded-md px-2 py-1 text-sm transition-colors',
+                      item.active
+                        ? 'bg-primary font-medium text-primary-foreground'
+                        : 'text-muted-foreground hover:bg-accent hover:text-foreground',
+                    ]}
+                  >
+                    {item.label}
+                    {item.badge && (
+                      <span class="ml-2 rounded-full bg-muted px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground">
+                        {item.badge}
+                      </span>
+                    )}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </nav>
+  </div>
+</aside>
+
+<script>
+  // El botón vive en el header (theme/internal/Header.astro).
+  const sidebar = document.querySelector<HTMLElement>('[data-docs-sidebar]');
+  const scrim = document.querySelector<HTMLElement>('[data-docs-sidebar-scrim]');
+  const toggle = document.querySelector<HTMLButtonElement>('[data-docs-sidebar-toggle]');
+
+  function setOpen(open: boolean) {
+    sidebar?.classList.toggle('hidden', !open);
+    scrim?.classList.toggle('hidden', !open);
+    toggle?.setAttribute('aria-expanded', String(open));
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+
+  toggle?.addEventListener('click', () => setOpen(sidebar?.classList.contains('hidden') ?? true));
+  scrim?.addEventListener('click', () => setOpen(false));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setOpen(false);
+  });
+  // Al navegar (ClientRouter) el rail debe quedar cerrado.
+  document.addEventListener('astro:after-swap', () => setOpen(false));
+</script>

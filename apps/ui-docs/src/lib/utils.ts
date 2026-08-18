@@ -1,1 +1,1 @@
-export { cn } from '@saastro-io/docs-theme/lib/utils';
+export { cn } from '@/theme/lib/utils';
