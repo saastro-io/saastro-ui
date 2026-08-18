@@ -1,0 +1,60 @@
+---
+/**
+ * Bloque de código con resaltado shiki (el <Code> nativo de Astro) en tema
+ * dual: github-light / github-dark siguen a la clase .dark del html
+ * (defaultColor: false emite ambos como variables CSS). Botón de copiar en
+ * vanilla JS — cero islands.
+ */
+import { Code } from 'astro/components';
+import type { BundledLanguage } from 'shiki';
+
+interface Props {
+  code: string;
+  lang: BundledLanguage | 'astro' | 'tsx';
+}
+const { code, lang } = Astro.props;
+---
+
+<div class="code-block group relative overflow-hidden rounded-lg border">
+  <button
+    type="button"
+    class="copy-btn absolute top-3 right-3 z-10 rounded-md border bg-background/80 px-2 py-1 text-xs text-muted-foreground opacity-0 backdrop-blur transition-opacity group-hover:opacity-100 hover:text-foreground"
+    data-code={code}
+  >
+    Copy
+  </button>
+  <div class="max-h-[560px] overflow-auto text-sm [&_pre]:p-4">
+    <Code
+      code={code}
+      lang={lang as BundledLanguage}
+      themes={{ light: 'github-light', dark: 'github-dark' }}
+      defaultColor={false}
+    />
+  </div>
+</div>
+
+<style is:global>
+  /* Con defaultColor:false shiki emite --shiki-light/--shiki-dark; activarlos
+     según la clase .dark del html (mismo mecanismo que el resto del sitio). */
+  .code-block pre.astro-code,
+  .code-block pre.astro-code span {
+    color: var(--shiki-light);
+    background-color: var(--shiki-light-bg);
+  }
+  .dark .code-block pre.astro-code,
+  .dark .code-block pre.astro-code span {
+    color: var(--shiki-dark);
+    background-color: var(--shiki-dark-bg);
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.copy-btn').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      await navigator.clipboard.writeText(btn.dataset.code ?? '');
+      const prev = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(() => (btn.textContent = prev), 1500);
+    });
+  });
+</script>

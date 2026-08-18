@@ -1,0 +1,32 @@
+---
+/** Comando de instalación con copiar — vanilla, sin island (antes era React client:load). */
+interface Props {
+  name: string;
+}
+const { name } = Astro.props;
+const cmd = `npx shadcn@latest add @saastro/${name}`;
+---
+
+<div
+  class="install-cmd flex items-center justify-between gap-4 rounded-lg border bg-muted/50 px-4 py-3 font-mono text-sm"
+>
+  <code>{cmd}</code>
+  <button
+    type="button"
+    class="copy-btn shrink-0 rounded-md border bg-background px-2 py-1 text-xs text-muted-foreground transition-colors hover:text-foreground"
+    data-code={cmd}
+  >
+    Copy
+  </button>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.install-cmd .copy-btn').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      await navigator.clipboard.writeText(btn.dataset.code ?? '');
+      const prev = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(() => (btn.textContent = prev), 1500);
+    });
+  });
+</script>
