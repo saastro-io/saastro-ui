@@ -20,7 +20,7 @@ apps/
 - **Orchestration**: Turborepo
 - **Language**: TypeScript strict
 - **Blocks**: React + shadcn/ui primitives
-- **Docs site**: Astro 6 SSR + Cloudflare Pages
+- **Docs site**: Astro 6 estático servido por un Worker CF de static assets (deploy vía Actions + wrangler)
 - **Publishing**: Changesets → npm (public)
 
 ## Commands

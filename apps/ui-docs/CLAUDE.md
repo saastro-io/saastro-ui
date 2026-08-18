@@ -1,189 +1,54 @@
 # @saastro/ui-docs
 
-Block showcase and registry site for @saastro/ui-registry.
-Deployed at ui.saastro.io via Cloudflare Pages.
+Showcase + servidor del registry en **ui.saastro.io**. Astro estático (sin
+adapter), desplegado como **Worker de Cloudflare de static assets** (ya NO es
+Pages) vía `.github/workflows/deploy-ui-docs.yml` + `wrangler.jsonc`.
 
-## Purpose
-
-1. **Block showcase** — Live previews, source code, and install commands for all Saastro blocks
-2. **Registry endpoint** — Serves `public/r/*.json` for shadcn CLI consumption
-3. **Documentation** — How to install, configure, and use blocks in Astro projects
-
-## Structure
+## Arquitectura (Registry v2, ago-2026)
 
 ```
-src/
-├── pages/
-│   ├── index.astro                  # Landing page — "Blocks for Astro"
-│   ├── blocks/
-│   │   ├── index.astro              # Block gallery with category filter
-│   │   └── [name].astro             # Block detail (preview + code + install)
-│   ├── docs.astro                   # Docs listing
-│   └── docs/[...slug].astro         # Dynamic doc pages
-├── components/
-│   ├── ui/                          # 43 React components (shadcn/Radix primitives)
-│   ├── block-renderer.tsx           # Renders blocks with sample data (client:visible)
-│   └── code-viewer.tsx              # Code display + copy button, install command
-├── data/
-│   ├── blocks.ts                    # Block metadata (name, title, category, deps)
-│   └── settings.yaml                # Site configuration (i18n, metadata, analytics)
-├── content/
-│   └── docs/                        # Markdown documentation pages
-│       ├── introduction/
-│       ├── installation/
-│       ├── cli/
-│       ├── components-json/
-│       ├── dark-mode/
-│       ├── theming/
-│       ├── typography/
-│       └── changelog/
-├── layouts/
-│   ├── BaseLayout.astro             # Root layout (shell header/footer/meta)
-│   └── DocsLayout.astro             # Sidebar layout (docs + block categories)
-├── navigation/
-│   ├── header.ts                    # Header nav (Home, Blocks, Docs)
-│   └── footer.ts                    # Footer links
-└── styles/
-    └── global.css                   # Tailwind + theme variables
+packages/ui-registry/registry.json      ← ÚNICA fuente de verdad (items, meta, docs)
+    ├─→ src/lib/catalog.ts              ← catálogo DERIVADO (import directo del JSON)
+    ├─→ shadcn build --output public/r  ← lo corre el build de ui-registry (turbo ordena
+    │                                     por la dep workspace); public/r está GITIGNORADO
+    ├─→ src/pages/preview/[name].astro  ← preview aislado sin chrome (iframe + capturas)
+    └─→ scripts/capture.mts             ← PNG light/dark COMMITEADOS en public/previews/
 ```
 
-## Registry Serving
+- `src/demos/<name>.ts` — demo props por bloque (serializables). Los 3 bloques
+  interactivos + button-pro tienen wrapper `.preview.astro` con **import
+  literal** + `client:load` (la hidratación no admite componentes dinámicos de
+  glob — el compiler no emite `client:component-path`).
+- Galería `/blocks` y `/ui`: tarjetas con PNG dual-theme (`dark:hidden` /
+  `hidden dark:block`) — cero islands.
+- Detalle `/blocks/[name]`: iframe vivo de `/preview/<name>` en md+ (altura
+  `meta.iframeHeight`, toggle de anchos) + PNG en móvil + código shiki
+  (`<Code>` de astro/components, temas github-light/dark).
+- `src/components/ui/` — 41 primitivas shadcn **base-nova (Base UI)** usadas
+  por los bloques `.tsx` interactivos en los previews.
 
-Registry JSON files in `public/r/` served at `https://ui.saastro.io/r/{name}.json`.
-
-Users configure in their `components.json`:
-
-```json
-{
-  "registries": {
-    "@saastro": "https://ui.saastro.io/r/{name}.json"
-  }
-}
-```
-
-## Block Preview System
-
-- `block-renderer.tsx` — Imports all 15 blocks from `@blocks/*` alias
-- Each block rendered with hardcoded sample data for showcase
-- Uses `client:visible` for lazy hydration (only on interactive blocks)
-- Source code read at build time via `import.meta.glob` with `?raw`
-
-## Vite Aliases
-
-- `@` → `./src`
-- `@blocks` → `../../packages/ui-registry/registry/default/blocks`
-
-## Key Details
-
-- Port: 4911 (`ui-docs.saastro.test`)
-- Output: static (all pages prerendered at build time)
-- No SSR adapter — pure static HTML served by Cloudflare Pages CDN
-
-## Dependencies
-
-- `@saastro/shell` — Header, Footer, SEO, Analytics
-- `astro` ^6.0.3 + `@astrojs/cloudflare`
-- Full Radix UI + Tailwind CSS 4 stack
-
-## Dev Server
+## Comandos
 
 ```bash
-pnpm run dev     # Port 4911
-pnpm run build   # Build for production
+pnpm dev                  # dev server (puerto 4911)
+pnpm build                # turbo construye ui-registry ANTES (dep workspace)
+pnpm capture              # screenshots light+dark → public/previews/ (COMMITEAR)
+pnpm capture --force --only=<name>   # regenerar uno tras tocarlo
+node scripts/check-previews.mjs      # gate de CI: 2 PNG por item
 ```
 
-## Deployment — Cloudflare Pages (Static)
+Puppeteer: pnpm 10 bloquea su postinstall — una vez por máquina:
+`pnpm exec puppeteer browsers install chrome`.
 
-Production: `ui.saastro.io` · Pages project: `saastro-ui`
+## Al tocar un bloque
 
-Switched from SSR to Static on 2026-04-03. All pages are prerendered at build
-time — no Cloudflare Worker, no adapter, no wrangler.jsonc.
+1. Editar en `packages/ui-registry/registry/default/blocks/`.
+2. Si cambian props → actualizar `src/demos/<name>.ts` y el `docs` del item.
+3. `pnpm build && pnpm capture --force --only=<name>` y commitear el PNG.
 
-### Pages dashboard config
+## Deploy
 
-⚠️ **Pendiente de aplicar en el dashboard tras la migración a pnpm** — el repo
-ya no tiene `bun.lock`, así que el build command con `bun install` está obsoleto.
-
-| Field | Value |
-|-------|-------|
-| Framework preset | Astro |
-| Root directory | `apps/ui-docs` |
-| Build command | `cd ../.. && echo "//npm.pkg.github.com/:_authToken=${GH_PACKAGES_TOKEN}" >> .npmrc && pnpm install --frozen-lockfile && pnpm exec turbo run build --filter=@saastro/ui-docs` |
-| Build output directory | `dist` |
-
-**Env vars (Prod + Preview):**
-
-| Variable | Value | Notes |
-|----------|-------|-------|
-| `GH_PACKAGES_TOKEN` | PAT with `read:packages` | For `@saastro-io/*` from GitHub Packages |
-| `NODE_VERSION` | `24` | Ecosystem standard (CI + `mise.toml`); Astro 6 needs ≥20 |
-| `PNPM_VERSION` | `10.33.2` | Sin esto la imagen de Pages usa su pnpm por defecto (8.x) y `--frozen-lockfile` falla contra un lockfile v9 |
-| `SKIP_DEPENDENCY_INSTALL` | `true` | Prevents Pages from running `npm install` before build command |
-
-Recuerda: las env vars de Pages son **separadas por entorno** (Production y
-Preview). Poner `PNPM_VERSION` solo en Production deja los builds de PR en rojo.
-
-No GitHub Actions workflow, no `CLOUDFLARE_API_TOKEN`, no `CLOUDFLARE_ACCOUNT_ID`
-needed. Pages git integration handles deploy on push to main.
-
-### Why static, not SSR
-
-1. All pages use `getCollection`/`getStaticPaths` — no server-side logic
-2. `@astrojs/cloudflare` v13 generates Workers-model output that Pages git
-   integration cannot deploy (requires `wrangler pages deploy` via GitHub Actions)
-3. Static removes the Worker middleman — CDN serves HTML directly (faster, simpler)
-
-### If SSR is ever needed again
-
-See `saastro-docs/cloudflare-pages.md` for the full SSR setup (GitHub Actions
-workflow, wrangler.jsonc, adapter config, and how to switch between modes).
-
-### Known Issues
-
-- **Glob paths in `[name].astro`**: Uses 5 levels of `../` from `src/pages/blocks/` to reach `packages/ui-registry/registry/default/blocks/*.tsx`. If source code shows "Source not found", check the relative path depth.
-- **Zod v4 in Astro 6**: Complex union/record schemas crash content store JSON schema generation. Settings schema uses `z.any()` for non-critical fields as workaround.
-
-## Pro/Monetization (FUTURE)
-
-Pro blocks will live in a **separate private repo** (`saastro/blocks-pro`), NOT in this monorepo.
-
-- Free blocks (15): `packages/ui-registry/` in Saastro-HUB monorepo → served at `ui.saastro.io/r/`
-- Pro blocks: `saastro/blocks-pro` repo → served at `pro.ui.saastro.io/r/`
-- Users configure two registries in `components.json`:
-  ```json
-  {
-    "registries": {
-      "@saastro": "https://ui.saastro.io/r/{name}.json",
-      "@saastro-pro": "https://pro.ui.saastro.io/r/{name}.json"
-    }
-  }
-  ```
-- Purchase = GitHub access to the private repo (via Lemon Squeezy / Gumroad)
-- No auth middleware, no Stripe, no license tokens needed
-- See `TODO-UI-PIVOT.md` Phase 5 for full details
-
-
-<claude-mem-context>
-# Recent Activity
-
-<!-- This section is auto-generated by claude-mem. Edit content outside the tags. -->
-
-### Apr 13, 2026
-
-| ID | Time | T | Title | Read |
-|----|------|---|-------|------|
-| #4488 | 12:01 PM | ✅ | Upgraded shell to 0.2.0 and removed .d.astro.js workaround | ~269 |
-| #4486 | " | ✅ | Updated @saastro-io/shell to 0.2.0 | ~259 |
-| #4485 | " | ✅ | Removed custom Vite plugin for .d.astro.js import rewriting | ~285 |
-| #4484 | " | 🔄 | Removed fixDeclAstroImportsPlugin from Vite config | ~265 |
-| #4476 | 11:26 AM | 🔴 | Fixed build failure with @saastro-io/shell imports | ~350 |
-| #4475 | 11:25 AM | 🔴 | Fixed Vite plugin name reference | ~283 |
-| #4474 | 11:23 AM | 🔴 | Fixed Astro declaration file handling with virtual module | ~342 |
-| #4472 | 11:22 AM | 🔄 | Removed redundant Rollup external config | ~241 |
-| #4471 | " | 🔴 | Added Vite plugin to ignore Astro declaration files | ~267 |
-| #4470 | " | ✅ | Excluded Astro declaration files from bundling | ~253 |
-| #4469 | 11:20 AM | 🔄 | Removed saastro-io packages from SSR noExternal config | ~286 |
-| #4468 | " | 🔴 | Added shell and docs-theme to Vite dedupe configuration | ~273 |
-| #4467 | 11:19 AM | ✅ | Added @saastro-io packages to SSR noExternal list | ~275 |
-| #4465 | 11:15 AM | 🔄 | Restructured saastro-ui monorepo: ui-docs to apps/, removed themes/ | ~385 |
-</claude-mem-context>
+Push a `main` (paths de ui-docs/ui-registry) → `deploy-ui-docs.yml` → wrangler
+deploy del Worker `saastro-ui`. Si el build falla, el commit queda en rojo —
+ese es el motivo del cambio desde Pages (un deploy de Pages fallido dejaba lo
+viejo publicado en silencio).
