@@ -1,16 +1,23 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "logos-01",
-  "title": "Logo Cloud — Trusted By",
-  "description": "A 'Trusted by' logo cloud section with grayscale logos.",
+  "title": "Logos — Trusted By",
+  "author": "SAASTRO <https://saastro.io>",
+  "description": "\"Trusted by\" logo cloud section with grayscale hover effect.",
   "registryDependencies": [],
   "files": [
     {
       "path": "registry/default/blocks/logos-01.tsx",
       "content": "import type { ReactNode } from 'react';\nimport { cn } from '@/lib/utils';\n\ntype Logo = {\n  name: string;\n  imageUrl?: string;\n  icon?: ReactNode;\n};\n\ntype Logos01Props = {\n  title?: string;\n  logos: Logo[];\n  className?: string;\n};\n\nexport function Logos01({\n  title = 'Trusted by leading companies',\n  logos,\n  className,\n}: Logos01Props) {\n  return (\n    <section className={cn('w-full px-6 py-16 md:py-24', className)}>\n      <div className=\"mx-auto max-w-6xl\">\n        {title && (\n          <p className=\"mb-10 text-center text-sm font-medium text-muted-foreground\">{title}</p>\n        )}\n        <div className=\"flex flex-wrap items-center justify-center gap-x-12 gap-y-8\">\n          {logos.map((logo) => (\n            <div\n              key={logo.name}\n              className=\"grayscale opacity-60 transition-all hover:opacity-100 hover:grayscale-0\"\n            >\n              {logo.imageUrl ? (\n                <img src={logo.imageUrl} alt={logo.name} className=\"h-8 w-auto object-contain\" />\n              ) : logo.icon ? (\n                <div className=\"flex h-8 items-center\">{logo.icon}</div>\n              ) : (\n                <span className=\"text-lg font-semibold text-foreground\">{logo.name}</span>\n              )}\n            </div>\n          ))}\n        </div>\n      </div>\n    </section>\n  );\n}\n",
-      "type": "registry:component"
+      "type": "registry:component",
+      "target": "@components/blocks/logos-01.tsx"
     }
   ],
+  "meta": {
+    "group": "Social Proof",
+    "iframeHeight": "420px"
+  },
+  "docs": "Import: `import { Logos01 } from '@/components/blocks/logos-01'`. Props: title?, logos [{name, imageUrl?, icon?}], className?. Static — render server-side in Astro.",
   "categories": [
     "logos",
     "landing"

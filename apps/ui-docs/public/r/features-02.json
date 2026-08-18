@@ -1,7 +1,8 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "features-02",
-  "title": "Features — Alternating Sections",
+  "title": "Features — Alternating",
+  "author": "SAASTRO <https://saastro.io>",
   "description": "Alternating image and text sections to showcase features.",
   "registryDependencies": [
     "badge"
@@ -10,9 +11,15 @@
     {
       "path": "registry/default/blocks/features-02.tsx",
       "content": "import { Badge } from '@/components/ui/badge';\nimport { cn } from '@/lib/utils';\n\ntype Feature = {\n  badge?: string;\n  title: string;\n  description: string;\n  imageSrc?: string;\n  imageAlt?: string;\n};\n\ntype Features02Props = {\n  title?: string;\n  description?: string;\n  features: Feature[];\n  className?: string;\n};\n\nexport function Features02({ title, description, features, className }: Features02Props) {\n  return (\n    <section className={cn('w-full px-6 py-24 md:py-32', className)}>\n      <div className=\"mx-auto max-w-6xl\">\n        {(title || description) && (\n          <div className=\"mx-auto mb-20 max-w-2xl text-center\">\n            {title && <h2 className=\"text-3xl font-bold tracking-tight sm:text-4xl\">{title}</h2>}\n            {description && <p className=\"mt-4 text-lg text-muted-foreground\">{description}</p>}\n          </div>\n        )}\n        <div className=\"flex flex-col gap-20\">\n          {features.map((feature, index) => (\n            <div\n              key={index}\n              className={cn(\n                'grid items-center gap-12 lg:grid-cols-2',\n                index % 2 === 1 && 'lg:direction-rtl',\n              )}\n            >\n              <div className={cn(index % 2 === 1 && 'lg:order-2')}>\n                {feature.badge && (\n                  <Badge variant=\"secondary\" className=\"mb-4\">\n                    {feature.badge}\n                  </Badge>\n                )}\n                <h3 className=\"text-2xl font-bold tracking-tight sm:text-3xl\">{feature.title}</h3>\n                <p className=\"mt-4 text-muted-foreground\">{feature.description}</p>\n              </div>\n              <div\n                className={cn(\n                  'aspect-video overflow-hidden rounded-xl border bg-muted',\n                  index % 2 === 1 && 'lg:order-1',\n                )}\n              >\n                {feature.imageSrc ? (\n                  <img\n                    src={feature.imageSrc}\n                    alt={feature.imageAlt ?? ''}\n                    className=\"h-full w-full object-cover\"\n                  />\n                ) : (\n                  <div className=\"flex h-full w-full items-center justify-center bg-gradient-to-br from-muted to-muted-foreground/5\">\n                    <span className=\"text-2xl text-muted-foreground/30\">Image</span>\n                  </div>\n                )}\n              </div>\n            </div>\n          ))}\n        </div>\n      </div>\n    </section>\n  );\n}\n",
-      "type": "registry:component"
+      "type": "registry:component",
+      "target": "@components/blocks/features-02.tsx"
     }
   ],
+  "meta": {
+    "group": "Features",
+    "iframeHeight": "1150px"
+  },
+  "docs": "Import: `import { Features02 } from '@/components/blocks/features-02'`. Props: title?, description?, features [{badge?, title, description, imageSrc?, imageAlt?}], className?. Static — render server-side in Astro.",
   "categories": [
     "features",
     "landing"
