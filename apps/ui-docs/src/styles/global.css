@@ -1,5 +1,9 @@
 @import '@saastro-io/docs-theme/styles/global.css';
 
+/* Design System de SAASTRO — redefine los tokens base (ver el fichero). Va
+   DESPUÉS del theme a propósito: gana por orden de cascada. */
+@import './saastro-ds.css';
+
 /* Scan docs-theme components (npm package, not workspace) */
 @source "../../node_modules/@saastro-io/docs-theme/src/**/*.{astro,tsx,ts}";
 

@@ -1,0 +1,166 @@
+/* =========================================================================
+   Saastro Design System — capa de aplicación para ui.saastro.io
+   =========================================================================
+   Fuente: proyecto "Saastro Design System" de Claude Design (colors_and_type.css
+   + components.css), traído con la tool DesignSync. Dirección claude.ai → repo.
+
+   Cómo funciona, y por qué no hay que tocar el markup existente:
+   docs-theme declara `@theme inline { --color-background: var(--background); … }`,
+   así que todas las utilidades Tailwind del sitio (bg-background, text-muted-
+   foreground, border, …) se resuelven contra los tokens BASE de shadcn. Aquí
+   redefinimos esos tokens base apuntándolos a los del design system, y el look
+   se propaga solo. Los estilos del DS que no tienen equivalente en shadcn
+   (eyebrow mono, dot-grid, crosshairs, botón machined) se añaden como
+   utilidades al final.
+
+   Alcance decidido: SOLO ui.saastro.io. No se toca @saastro-io/docs-theme, así
+   que platform-docs, hub-docs y forms-docs siguen con su look actual.
+   ========================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Space+Mono:ital,wght@0,400;0,700&display=swap');
+
+/* ---- Tipografía: una sola voz grotesk + mono para eyebrows/código ---- */
+@theme {
+  --font-sans: 'Hanken Grotesk', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-mono: 'Space Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+}
+
+:root {
+  /* ============ Escala neutra del DS (OKLCH, gris real, algo fría) ======= */
+  --neutral-0: oklch(1 0 0);
+  --neutral-25: oklch(0.992 0.001 270);
+  --neutral-50: oklch(0.978 0.002 270);
+  --neutral-100: oklch(0.96 0.003 270);
+  --neutral-150: oklch(0.94 0.004 270);
+  --neutral-200: oklch(0.91 0.005 270);
+  --neutral-300: oklch(0.86 0.006 270);
+  --neutral-400: oklch(0.745 0.008 270);
+  --neutral-500: oklch(0.61 0.01 270);
+  --neutral-600: oklch(0.49 0.011 270);
+  --neutral-700: oklch(0.38 0.011 270);
+  --neutral-800: oklch(0.27 0.01 270);
+  --neutral-900: oklch(0.19 0.009 270);
+  --neutral-950: oklch(0.13 0.008 270);
+  --neutral-1000: oklch(0.09 0.006 270);
+
+  /* Tokens propios del DS que usan las utilidades de abajo */
+  --ds-bg-sunken: var(--neutral-100);
+  --ds-border-strong: var(--neutral-300);
+  --ds-shadow-machined: inset 0 1px 0 rgb(255 255 255 / 0.1), 0 1px 0 rgb(0 0 0 / 0.06),
+    0 1px 2px rgb(0 0 0 / 0.1);
+  --ds-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  /* ============ Mapeo DS → tokens shadcn (light) ======================== */
+  --background: var(--neutral-25);
+  --foreground: var(--neutral-1000);
+  --card: var(--neutral-0);
+  --card-foreground: var(--neutral-1000);
+  --popover: var(--neutral-0);
+  --popover-foreground: var(--neutral-1000);
+  --primary: var(--neutral-1000); /* la acción primaria es casi-negro, no un color de marca */
+  --primary-foreground: var(--neutral-25);
+  --secondary: var(--neutral-100);
+  --secondary-foreground: var(--neutral-1000);
+  --muted: var(--neutral-100);
+  --muted-foreground: var(--neutral-600);
+  --accent: var(--neutral-100);
+  --accent-foreground: var(--neutral-1000);
+  --destructive: oklch(0.58 0.18 25);
+  --destructive-foreground: var(--neutral-25);
+  --border: var(--neutral-200);
+  --input: var(--neutral-200);
+  --ring: oklch(0.19 0.02 270);
+
+  /* Radios del DS: 10px por defecto (docs-theme calcula sm/md/lg desde aquí) */
+  --radius: 0.625rem;
+}
+
+.dark {
+  --background: var(--neutral-1000);
+  --foreground: var(--neutral-25);
+  --card: var(--neutral-950);
+  --card-foreground: var(--neutral-25);
+  --popover: var(--neutral-950);
+  --popover-foreground: var(--neutral-25);
+  --primary: var(--neutral-25);
+  --primary-foreground: var(--neutral-1000);
+  --secondary: var(--neutral-900);
+  --secondary-foreground: var(--neutral-25);
+  --muted: var(--neutral-900);
+  --muted-foreground: var(--neutral-400);
+  --accent: var(--neutral-900);
+  --accent-foreground: var(--neutral-25);
+  --destructive: oklch(0.68 0.18 25);
+  --destructive-foreground: var(--neutral-1000);
+  --border: oklch(0.22 0.008 270);
+  --input: oklch(0.22 0.008 270);
+  --ring: var(--neutral-300);
+
+  --ds-bg-sunken: oklch(0.07 0.005 270);
+  --ds-border-strong: oklch(0.3 0.01 270);
+  --ds-shadow-machined: inset 0 1px 0 rgb(255 255 255 / 0.06), 0 1px 0 rgb(0 0 0 / 0.4),
+    0 1px 2px rgb(0 0 0 / 0.4);
+}
+
+/* ============ Movimientos distintivos del DS ============================ */
+@layer utilities {
+  /* Eyebrow mono con bullet: `• PLATFORM` */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    line-height: 1;
+    color: var(--muted-foreground);
+  }
+  .eyebrow::before {
+    content: '• ';
+    opacity: 0.6;
+  }
+
+  /* Rejilla de puntos: solo en secciones focales (hero) */
+  .dot-grid {
+    background-image: radial-gradient(circle, var(--ds-border-strong) 1px, transparent 1px);
+    background-size: 16px 16px;
+  }
+
+  /* Crosshairs hairline en las esquinas de un bloque focal */
+  .crosshair {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    pointer-events: none;
+  }
+  .crosshair::before,
+  .crosshair::after {
+    content: '';
+    position: absolute;
+    background: var(--ds-border-strong);
+  }
+  .crosshair::before {
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    transform: translateX(-50%);
+  }
+  .crosshair::after {
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    transform: translateY(-50%);
+  }
+
+  /* Botón "machined": realce interior 1px + anillo exterior */
+  .machined {
+    box-shadow: var(--ds-shadow-machined);
+  }
+
+  /* Presión sobria: 0.98 en 80ms, sin bounce */
+  .press:active {
+    transform: scale(0.98);
+    transition: transform 80ms var(--ds-ease);
+  }
+}

@@ -91,7 +91,15 @@ try {
           timeout: 15_000,
         });
         await page.evaluate(() => document.fonts.ready);
-        await page.screenshot({ path: file as `${string}.png`, fullPage: true });
+        // Fotografiar el ELEMENTO, no la página: los bloques más cortos que el
+        // viewport dejaban una banda muerta debajo. Fallback a fullPage con aviso.
+        const target = await page.$('[data-capture-target]');
+        if (target) {
+          await target.screenshot({ path: file as `${string}.png` });
+        } else {
+          console.warn(`  ! ${name}: sin [data-capture-target], capturando la página entera`);
+          await page.screenshot({ path: file as `${string}.png`, fullPage: true });
+        }
         console.log(`✓ ${name} ${theme}`);
         captured++;
       }
