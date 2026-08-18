@@ -1,0 +1,46 @@
+---
+/**
+ * newsletter-01 — Alta de newsletter con input y botón.
+ * Bloque Astro puro con FORM NATIVO: cero JS, cero dependencias, y funciona
+ * sin JavaScript en el navegador. Antes era React con un handler `onSubmit`
+ * por props — una función no cruza la frontera de island/adapter, así que en
+ * la práctica era inutilizable desde Astro. Ahora el submit es `action` +
+ * `method` estándar (apunta a tu endpoint: Astro Action, worker, Formspree…).
+ */
+interface Props {
+  title?: string;
+  description?: string;
+  placeholder?: string;
+  buttonText?: string;
+  /** Endpoint del submit nativo. Sin él, el form no navega (útil en demos). */
+  action?: string;
+  method?: 'get' | 'post';
+  class?: string;
+}
+const {
+  title = 'Stay up to date',
+  description = 'Subscribe to our newsletter for the latest updates.',
+  placeholder = 'Enter your email',
+  buttonText = 'Subscribe',
+  action,
+  method = 'post',
+  class: className,
+} = Astro.props;
+
+const inputCls =
+  'flex h-9 w-full flex-1 rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 md:text-sm';
+const btnCls =
+  'inline-flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-lg border border-transparent bg-primary px-2.5 text-sm font-medium whitespace-nowrap text-primary-foreground transition-all outline-none select-none hover:bg-primary/80 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:translate-y-px';
+---
+
+<section class:list={['w-full px-6 py-24 md:py-32', className]}>
+  <div class="mx-auto max-w-xl text-center">
+    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">{title}</h2>
+    <p class="mt-4 text-muted-foreground">{description}</p>
+    <form action={action} method={action ? method : undefined} class="mt-8 flex gap-3">
+      <input type="email" name="email" placeholder={placeholder} required class={inputCls} />
+      <button type="submit" class={btnCls}>{buttonText}</button>
+    </form>
+    <p class="mt-3 text-xs text-muted-foreground">No spam. Unsubscribe at any time.</p>
+  </div>
+</section>

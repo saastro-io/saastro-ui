@@ -1,0 +1,36 @@
+---
+/**
+ * stats-01 — Fila de métricas clave con números grandes y etiquetas.
+ * Bloque Astro puro: cero JS, cero dependencias.
+ */
+interface Stat {
+  value: string | number;
+  label: string;
+  prefix?: string;
+  suffix?: string;
+}
+interface Props {
+  title?: string;
+  stats: Stat[];
+  class?: string;
+}
+const { title, stats, class: className } = Astro.props;
+---
+
+<section class:list={['w-full px-6 py-24 md:py-32', className]}>
+  <div class="mx-auto max-w-6xl">
+    {title && (
+      <h2 class="mb-12 text-center text-3xl font-bold tracking-tight sm:text-4xl">{title}</h2>
+    )}
+    <div class="grid grid-cols-2 gap-8 lg:grid-cols-4">
+      {stats.map((stat, index) => (
+        <div class:list={['text-center', index > 0 && 'lg:border-l lg:border-border']}>
+          <p class="text-4xl font-bold tracking-tight sm:text-5xl">
+            {stat.prefix}{stat.value}{stat.suffix}
+          </p>
+          <p class="mt-2 text-sm text-muted-foreground">{stat.label}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -10,7 +10,7 @@ Provides landing page blocks (hero, features, pricing, testimonials, etc.) that 
 npx shadcn@latest add @saastro/hero-01
 ```
 
-Blocks are React components using shadcn/ui primitives (Button, Card, Badge, etc.). In Astro, they render server-side as HTML by default — zero JS shipped unless `client:*` directive is used.
+Los bloques estáticos son componentes `.astro` puros (cero JS, cero dependencias — instalables en un proyecto Astro sin React); los interactivos son React sobre Base UI y se hidratan con `client:*`.
 
 ## Structure
 
@@ -93,13 +93,33 @@ aviso vive aquí).
 
 ## Block Design Rules
 
-- All blocks are React components (`.tsx`)
-- Import shadcn primitives from `@/components/ui/*`
-- Use `cn()` from `@/lib/utils` for conditional classes
-- Accept props for all dynamic content — no hardcoded text
-- Use inline SVGs for icons — no icon library dependency
-- Responsive by default (mobile-first Tailwind)
-- Named exports (not default)
+**Astro-first (desde ago-2026):** un bloque nace `.astro` salvo que necesite
+estado o primitivas interactivas en cliente.
+
+Bloques `.astro` (12 de 16 — todos los estáticos):
+- **Cero JS y cero dependencias**: ni React, ni primitivas, ni `cn()`. Un
+  proyecto Astro sin la integración de React puede instalarlos y compilar
+  (smoke verificado). Las clases de botón/badge/card replican el estilo
+  base-nova inline — el bloque es copy-in autocontenido.
+- **Props serializables SIEMPRE**: nada de ReactNode/funciones. Iconos = clave
+  de un set interno de SVGs inline (`icon: 'zap' | 'shield' | …`); logos =
+  string. Formularios = submit NATIVO (`action`/`method`), nunca handlers.
+- Un componente por fichero (limitación de `.astro`); helpers como funciones
+  planas en el frontmatter. Import por DEFAULT:
+  `import Hero01 from '@/components/blocks/hero-01.astro'`.
+- Si un item necesitara sub-partes: item multi-fichero del registry (un
+  `.astro` por parte) — `registry/astro.d.ts` ya tipa `module '*.astro'`.
+
+Bloques `.tsx` (solo interactivos: faq-01, navbar-01, pricing-01 + button-pro):
+- React sobre primitivas Base UI (`@/components/ui/*`), `cn()` de `@/lib/utils`.
+- Named exports (not default). En Astro se hidratan con `client:load`/`client:visible`.
+
+Comunes:
+- Props para todo el contenido — nada hardcodeado.
+- SVGs inline — sin dependencia de librería de iconos.
+- Responsive por defecto (mobile-first Tailwind).
+- Al tocar un bloque: `pnpm --filter @saastro/ui-docs build && pnpm --filter
+  @saastro/ui-docs capture --force --only=<name>` y commitear los PNG.
 
 ### Base de primitivas: Base UI, no Radix (migración de agosto 2026)
 

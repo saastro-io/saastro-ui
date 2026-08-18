@@ -1,6 +1,4 @@
-import type { ComponentProps } from 'react';
-import type { Logos01 } from '@blocks/logos-01';
-
+// Demo props de logos-01 — objeto plano: el bloque es .astro (las Props viven en su frontmatter).
 export const props = {
   title: 'Trusted by leading companies',
   logos: [
@@ -11,4 +9,4 @@ export const props = {
     { name: 'Stark Inc' },
     { name: 'Wayne Co' },
   ],
-} satisfies ComponentProps<typeof Logos01>;
+};

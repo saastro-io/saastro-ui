@@ -1,6 +1,4 @@
-import type { ComponentProps } from 'react';
-import type { Stats01 } from '@blocks/stats-01';
-
+// Demo props de stats-01 — objeto plano: el bloque es .astro (las Props viven en su frontmatter).
 export const props = {
   title: 'Trusted by developers worldwide',
   stats: [
@@ -9,4 +7,4 @@ export const props = {
     { value: '99', label: 'Lighthouse score', suffix: '%' },
     { value: '0', label: 'JS shipped', suffix: 'kb' },
   ],
-} satisfies ComponentProps<typeof Stats01>;
+};

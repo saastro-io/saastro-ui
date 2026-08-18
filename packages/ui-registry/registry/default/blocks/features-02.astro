@@ -1,0 +1,63 @@
+---
+/**
+ * features-02 — Secciones alternadas de imagen y texto.
+ * Bloque Astro puro: cero JS, cero dependencias.
+ */
+interface Feature {
+  badge?: string;
+  title: string;
+  description: string;
+  imageSrc?: string;
+  imageAlt?: string;
+}
+interface Props {
+  title?: string;
+  description?: string;
+  features: Feature[];
+  class?: string;
+}
+const { title, description, features, class: className } = Astro.props;
+
+const badgeCls =
+  'mb-4 inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-4xl border border-transparent bg-secondary px-2 py-0.5 text-xs font-medium whitespace-nowrap text-secondary-foreground';
+---
+
+<section class:list={['w-full px-6 py-24 md:py-32', className]}>
+  <div class="mx-auto max-w-6xl">
+    {(title || description) && (
+      <div class="mx-auto mb-20 max-w-2xl text-center">
+        {title && <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">{title}</h2>}
+        {description && <p class="mt-4 text-lg text-muted-foreground">{description}</p>}
+      </div>
+    )}
+    <div class="flex flex-col gap-20">
+      {features.map((feature, index) => (
+        <div class="grid items-center gap-12 lg:grid-cols-2">
+          <div class:list={[index % 2 === 1 && 'lg:order-2']}>
+            {feature.badge && <span class={badgeCls}>{feature.badge}</span>}
+            <h3 class="text-2xl font-bold tracking-tight sm:text-3xl">{feature.title}</h3>
+            <p class="mt-4 text-muted-foreground">{feature.description}</p>
+          </div>
+          <div
+            class:list={[
+              'aspect-video overflow-hidden rounded-xl border bg-muted',
+              index % 2 === 1 && 'lg:order-1',
+            ]}
+          >
+            {feature.imageSrc ? (
+              <img
+                src={feature.imageSrc}
+                alt={feature.imageAlt ?? ''}
+                class="h-full w-full object-cover"
+              />
+            ) : (
+              <div class="flex h-full w-full items-center justify-center bg-gradient-to-br from-muted to-muted-foreground/5">
+                <span class="text-2xl text-muted-foreground/30">Image</span>
+              </div>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

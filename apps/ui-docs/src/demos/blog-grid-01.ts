@@ -1,6 +1,4 @@
-import type { ComponentProps } from 'react';
-import type { BlogGrid01 } from '@blocks/blog-grid-01';
-
+// Demo props de blog-grid-01 — objeto plano: el bloque es .astro (las Props viven en su frontmatter).
 export const props = {
   title: 'Latest from the blog',
   description: 'Read our latest articles and tutorials.',
@@ -27,4 +25,4 @@ export const props = {
       href: '#',
     },
   ],
-} satisfies ComponentProps<typeof BlogGrid01>;
+};

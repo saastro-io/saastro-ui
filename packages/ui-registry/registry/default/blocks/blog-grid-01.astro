@@ -1,0 +1,66 @@
+---
+/**
+ * blog-grid-01 — Grid responsive de tarjetas de post con imagen, título,
+ * extracto y metadatos. Bloque Astro puro: cero JS, cero dependencias.
+ */
+interface Post {
+  title: string;
+  excerpt: string;
+  date: string;
+  category?: string;
+  imageUrl?: string;
+  href: string;
+}
+interface Props {
+  title?: string;
+  description?: string;
+  posts: Post[];
+  class?: string;
+}
+const { title, description, posts, class: className } = Astro.props;
+
+const badgeCls =
+  'inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-4xl border border-transparent bg-secondary px-2 py-0.5 text-xs font-medium whitespace-nowrap text-secondary-foreground';
+---
+
+<section class:list={['w-full px-6 py-24 md:py-32', className]}>
+  <div class="mx-auto max-w-6xl">
+    {(title || description) && (
+      <div class="mx-auto mb-16 max-w-2xl text-center">
+        {title && <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">{title}</h2>}
+        {description && <p class="mt-4 text-lg text-muted-foreground">{description}</p>}
+      </div>
+    )}
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {posts.map((post) => (
+        <a href={post.href} class="group">
+          <div class="flex h-full flex-col gap-6 overflow-hidden rounded-xl border bg-card py-6 text-card-foreground shadow-sm transition-shadow group-hover:shadow-lg">
+            <div class="-mt-6 aspect-video overflow-hidden bg-muted">
+              {post.imageUrl ? (
+                <img
+                  src={post.imageUrl}
+                  alt={post.title}
+                  class="h-full w-full object-cover transition-transform group-hover:scale-105"
+                />
+              ) : (
+                <div class="flex h-full w-full items-center justify-center bg-gradient-to-br from-muted to-muted-foreground/5">
+                  <span class="text-xl text-muted-foreground/30">Blog</span>
+                </div>
+              )}
+            </div>
+            <div class="flex flex-col gap-1.5 px-6">
+              {post.category && <span class={badgeCls}>{post.category}</span>}
+              <h3 class="line-clamp-2 text-lg leading-none font-semibold group-hover:text-primary">
+                {post.title}
+              </h3>
+            </div>
+            <div class="px-6">
+              <p class="line-clamp-2 text-sm text-muted-foreground">{post.excerpt}</p>
+              <p class="mt-4 text-xs text-muted-foreground">{post.date}</p>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

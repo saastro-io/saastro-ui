@@ -1,6 +1,4 @@
-import type { ComponentProps } from 'react';
-import type { Testimonials01 } from '@blocks/testimonials-01';
-
+// Demo props de testimonials-01 — objeto plano: el bloque es .astro (las Props viven en su frontmatter).
 export const props = {
   title: 'What people are saying',
   description: 'Hear from developers who use our blocks.',
@@ -27,4 +25,4 @@ export const props = {
       company: 'Studio',
     },
   ],
-} satisfies ComponentProps<typeof Testimonials01>;
+};
