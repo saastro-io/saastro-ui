@@ -35,12 +35,15 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm run build
 
-      - name: Create Release Pull Request or Publish
+      # Sin `publish:` a propósito: este repo no publica ningún paquete a npm.
+      # @saastro/ui-registry es private (los bloques se consumen copy-in vía el
+      # CLI de shadcn contra ui.saastro.io) y `changeset publish` se salta los
+      # private EN SILENCIO — el publish era un no-op que además fallaba el
+      # workflow en cada push a main. Mismo patrón que saastro-forms.
+      - name: Create Release Pull Request (no publish)
         id: changesets
         uses: changesets/action@v1
         with:
-          publish: pnpm run release
           version: pnpm run version-packages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

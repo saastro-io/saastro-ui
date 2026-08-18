@@ -8,3 +8,7 @@ dist/
 .astro/
 apps/ui-docs/.wrangler/
 .playwright-mcp/
+
+# Salida generada del registry (shadcn build) — la única copia viva va a dist/
+apps/ui-docs/public/r/
+packages/ui-registry/public/r/
