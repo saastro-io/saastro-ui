@@ -1,0 +1,29 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "saastro-ui",
+  "compatibility_date": "2026-08-17",
+
+  // Sin `main`: es un sitio 100% estático, no hace falta código de Worker.
+  // Las requests a assets estáticos son gratis e ilimitadas.
+  "workers_dev": false,
+
+  "assets": {
+    "directory": "./dist",
+
+    // Astro genera `carpeta/index.html` (build.format: 'directory') y el sitio
+    // declara trailingSlash: "never" en src/data/settings.yaml.
+    // `drop-trailing-slash` sirve /docs con 200 y redirige /docs/ → /docs,
+    // que es justo la forma canónica que emite Astro. Con el default
+    // (`auto-trailing-slash`) cada URL interna se comería un 307 extra.
+    "html_handling": "drop-trailing-slash",
+
+    // Sirve el 404.html más cercano con status 404 (src/pages/404.astro).
+    "not_found_handling": "404-page"
+  }
+
+  // El dominio ui.saastro.io se asigna UNA VEZ desde el dashboard
+  // (Worker → Settings → Domains & Routes → Add → Custom Domain).
+  // Se hace así a propósito: declararlo aquí como `routes` obligaría a que el
+  // token de CI tuviera permisos de zona (DNS + Workers Routes) además de
+  // Workers Scripts. Ojo: hay que borrar antes el CNAME que hoy apunta a Pages.
+}

@@ -1,7 +1,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 
@@ -62,16 +62,16 @@ export function Navbar01({ logo, links, cta, className }: Navbar01Props) {
         </div>
         <div className="flex items-center gap-4">
           {cta && (
-            <Button className="hidden md:inline-flex" asChild>
-              <a href={cta.href}>{cta.label}</a>
-            </Button>
+            <a href={cta.href} className={cn(buttonVariants(), 'hidden md:inline-flex')}>
+              {cta.label}
+            </a>
           )}
           <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden">
-                <MenuIcon />
-                <span className="sr-only">Open menu</span>
-              </Button>
+            <SheetTrigger
+              render={<Button variant="ghost" size="icon" className="md:hidden" />}
+            >
+              <MenuIcon />
+              <span className="sr-only">Open menu</span>
             </SheetTrigger>
             <SheetContent side="right">
               <nav className="flex flex-col gap-4 pt-8">
@@ -81,9 +81,9 @@ export function Navbar01({ logo, links, cta, className }: Navbar01Props) {
                   </a>
                 ))}
                 {cta && (
-                  <Button className="mt-4" asChild>
-                    <a href={cta.href}>{cta.label}</a>
-                  </Button>
+                  <a href={cta.href} className={cn(buttonVariants(), 'mt-4')}>
+                    {cta.label}
+                  </a>
                 )}
               </nav>
             </SheetContent>

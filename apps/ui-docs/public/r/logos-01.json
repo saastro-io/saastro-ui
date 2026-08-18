@@ -11,6 +11,9 @@
       "type": "registry:component"
     }
   ],
-  "categories": ["logos", "landing"],
+  "categories": [
+    "logos",
+    "landing"
+  ],
   "type": "registry:block"
 }

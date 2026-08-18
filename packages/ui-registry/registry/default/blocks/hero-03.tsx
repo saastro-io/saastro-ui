@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 type Hero03Props = {
@@ -28,9 +28,12 @@ export function Hero03({ badge, title, description, cta, className }: Hero03Prop
         </h1>
         <p className="mt-6 text-lg text-white/80 sm:text-xl">{description}</p>
         <div className="mt-10">
-          <Button size="lg" variant="secondary" className="text-base" asChild>
-            <a href={cta.href}>{cta.label}</a>
-          </Button>
+          <a
+            href={cta.href}
+            className={cn(buttonVariants({ variant: 'secondary', size: 'lg' }), 'text-base')}
+          >
+            {cta.label}
+          </a>
         </div>
       </div>
     </section>

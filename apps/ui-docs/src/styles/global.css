@@ -9,3 +9,28 @@
 /* Project-specific: scan workspace packages for Tailwind classes */
 @source "../../../../packages/ui-registry/registry/default/blocks/**/*.tsx";
 @source "../../../../packages/ui-registry/registry/default/ui/**/*.tsx";
+
+/* Keyframes del acordeón — OVERRIDE del que trae @saastro-io/docs-theme.
+   El del paquete (0.2.0) anima hacia
+     var(--radix-accordion-content-height, var(--accordion-content-height))
+   y Base UI no expone ninguna de las dos: la suya es --accordion-panel-height.
+   Sin este override la altura queda indefinida y el acordeón anima a 0 SIN dar
+   ningún error — el fallo silencioso clásico de esta migración.
+   Va después del @import a propósito, para ganar por orden de cascada.
+   Pendiente: arreglarlo en docs-theme, que lo consumen más sitios. */
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--accordion-panel-height);
+  }
+}
+@keyframes accordion-up {
+  from {
+    height: var(--accordion-panel-height);
+  }
+  to {
+    height: 0;
+  }
+}

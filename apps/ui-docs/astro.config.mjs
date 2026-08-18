@@ -46,10 +46,10 @@ export default defineConfig({
       },
     },
     ssr: {
-      noExternal: ['class-variance-authority', '@radix-ui/react-slot'],
+      noExternal: ['class-variance-authority', '@base-ui/react'],
     },
     optimizeDeps: {
-      include: ['react', 'react-dom', 'class-variance-authority', '@radix-ui/react-slot'],
+      include: ['react', 'react-dom', 'class-variance-authority', '@base-ui/react'],
     },
   },
 });
