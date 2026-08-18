@@ -1,17 +1,25 @@
 ---
-import "@/styles/global.css";
-import ThemeBaseLayout from "@saastro-io/docs-theme/layouts/BaseLayout.astro";
-import type { Props as ThemeProps } from "@saastro-io/docs-theme/layouts/BaseLayout.astro";
-import SubNav from "@/components/SubNav.astro";
+/**
+ * Layout base del sitio. Envuelve el BaseLayout del tema VENDORIZADO
+ * (src/theme/) y le añade el SubNav propio de ui.saastro.io.
+ *
+ * Antes esto envolvía `@saastro-io/docs-theme/layouts/BaseLayout.astro`, que a
+ * su vez leía `settings.yaml` a través de `@saastro-io/shell`. Ahora los
+ * valores del sitio (nombre, menú, idioma) se pasan explícitos aquí: una sola
+ * fuente, visible, sin dos paquetes privados en medio.
+ */
+import '@/styles/global.css';
+import ThemeBaseLayout from '@/theme/layouts/BaseLayout.astro';
+import type { Props as ThemeProps } from '@/theme/layouts/BaseLayout.astro';
+import SubNav from '@/components/SubNav.astro';
 
 export type Props = ThemeProps;
 
 const props = Astro.props;
 ---
 
-<ThemeBaseLayout {...props}>
+<ThemeBaseLayout siteName="Saastro UI" homeUrl="/" language="en" {...props}>
   <slot name="head" slot="head" />
-  <slot name="announcement" slot="announcement" />
   <slot name="header" slot="header" />
   <SubNav currentPath={Astro.url.pathname} slot="after-header" />
   <slot name="footer" slot="footer" />

@@ -1,0 +1,101 @@
+---
+/**
+ * BaseLayout.astro — top-level layout for the docs-theme.
+ *
+ * Standalone: no dependency on `@saastro-io/shell`. All head + chrome pieces
+ * come from `../internal/`. Marketing concerns (Analytics, Announcement,
+ * platform switcher) have been removed entirely.
+ */
+import { ClientRouter } from 'astro:transitions'
+import Meta from '../internal/Meta.astro'
+import CommonHead from '../internal/CommonHead.astro'
+import Favicons from '../internal/Favicons.astro'
+import SiteVerification from '../internal/SiteVerification.astro'
+import ApplyColorMode from '../internal/ApplyColorMode.astro'
+import Header from '../internal/Header.astro'
+import Footer from '../internal/Footer.astro'
+import type { MenuItem } from '../internal/types'
+
+export interface MetadataProps {
+  title?: string
+  description?: string
+  canonical?: string
+  ogImage?: string
+  noindex?: boolean
+}
+
+export interface Props {
+  metadata?: MetadataProps
+  /** Site name shown in the header / footer. */
+  siteName?: string
+  /** Home URL (defaults to '/'). */
+  homeUrl?: string
+  /** Top-level navigation links shown in the header. */
+  menu?: MenuItem[]
+  /** Document language (defaults to 'en'). */
+  language?: string
+  /** Document text direction (defaults to 'ltr'). */
+  textDirection?: 'ltr' | 'rtl'
+  /** Initial color mode strategy. */
+  defaultTheme?: 'system' | 'light' | 'dark' | 'light:only' | 'dark:only'
+  /** Optional Google site verification ID. */
+  googleSiteVerificationId?: string
+  /** Favicon href (defaults to /favicon.svg). */
+  faviconHref?: string
+  /** Theme color meta tag value. */
+  themeColor?: string
+  /** Show the sidebar toggle button in the header (DocsLayout sets this). */
+  showSidebarToggle?: boolean
+}
+
+const {
+  metadata = {},
+  siteName = 'Docs',
+  homeUrl = '/',
+  menu,
+  language = 'en',
+  textDirection = 'ltr',
+  defaultTheme = 'system',
+  googleSiteVerificationId,
+  faviconHref,
+  themeColor,
+  showSidebarToggle = false,
+} = Astro.props as Props
+---
+
+<!doctype html>
+<html lang={language} dir={textDirection}>
+  <head>
+    <CommonHead />
+    <Meta {...metadata} />
+    <Favicons href={faviconHref} themeColor={themeColor} />
+    <ApplyColorMode defaultTheme={defaultTheme} />
+    <SiteVerification googleSiteVerificationId={googleSiteVerificationId} />
+    <ClientRouter fallback="swap" />
+    <slot name="head" />
+    <slot name="meta" />
+    <slot name="scripts" />
+    <slot name="styles" />
+  </head>
+  <body class="flex flex-col min-h-screen">
+    <slot name="header">
+      <Header
+        siteName={siteName}
+        homeUrl={homeUrl}
+        menu={menu}
+        currentPath={Astro.url.pathname}
+        showSidebarToggle={showSidebarToggle}
+      />
+    </slot>
+
+    <slot name="after-header" />
+
+    <main class="flex-1">
+      <slot />
+    </main>
+
+    <slot name="footer">
+      <Footer siteName={siteName} />
+    </slot>
+  </body>
+</html>

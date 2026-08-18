@@ -1,0 +1,16 @@
+---
+/**
+ * SiteVerification.astro — optional Google site verification meta tag.
+ *
+ * Self-contained replacement for `@saastro-io/shell/head/SiteVerification.astro`.
+ * Pass the verification ID as a prop instead of pulling it from settings.
+ */
+export interface Props {
+  googleSiteVerificationId?: string
+}
+
+const { googleSiteVerificationId } = Astro.props as Props
+---
+{googleSiteVerificationId && (
+  <meta name="google-site-verification" content={googleSiteVerificationId} />
+)}

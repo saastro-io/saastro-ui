@@ -1,0 +1,17 @@
+---
+/**
+ * Favicons.astro — single-asset favicon link.
+ *
+ * Self-contained replacement for `@saastro-io/shell/head/Favicons.astro`.
+ * Consumers can override the favicon by passing a different `href` prop or
+ * by placing a `/favicon.svg` (default) in their public/ directory.
+ */
+export interface Props {
+  href?: string
+  themeColor?: string
+}
+
+const { href = '/favicon.svg', themeColor } = Astro.props as Props
+---
+<link rel="icon" type="image/svg+xml" href={href} />
+{themeColor && <meta name="theme-color" content={themeColor} />}

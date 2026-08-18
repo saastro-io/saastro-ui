@@ -1,14 +1,13 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
-import Sidebar from "@saastro-io/docs-theme/components/Sidebar.astro";
-import type { SidebarSection } from "@saastro-io/docs-theme";
+import Sidebar from "@/theme/components/Sidebar.astro";
+import type { SidebarSection } from "@/theme/types";
 import { getCollection } from "astro:content";
-import { makePermalinks } from "@saastro-io/shell/urls/permalinks";
+import { makePermalinks } from "@/theme/internal/utils";
 import { blocks, categories } from "@/lib/catalog";
 
 export interface Props {
   metadata?: any;
-  showAnnouncement?: boolean;
 }
 
 const { getPermalink } = await makePermalinks(Astro);
