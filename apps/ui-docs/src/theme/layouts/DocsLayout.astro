@@ -1,0 +1,27 @@
+---
+import BaseLayout from './BaseLayout.astro'
+import Sidebar from '../components/Sidebar.astro'
+import type { SidebarSection } from '../types'
+import type { Props as BaseLayoutProps } from './BaseLayout.astro'
+
+export interface Props extends Omit<BaseLayoutProps, 'showSidebarToggle'> {
+  sidebar: SidebarSection[]
+}
+
+const { sidebar, ...rest } = Astro.props as Props
+---
+
+<BaseLayout {...rest} showSidebarToggle>
+  <slot name="head" slot="head" />
+  <slot name="after-header" slot="after-header" />
+
+  <div class="flex min-h-screen">
+    <Sidebar sections={sidebar} />
+
+    <main class="flex-1 min-w-0">
+      <div class="container mx-auto px-4 py-8 lg:px-8 max-w-4xl">
+        <slot />
+      </div>
+    </main>
+  </div>
+</BaseLayout>

@@ -1,7 +1,7 @@
 ---
 import DocsLayout from "@/layouts/DocsLayout.astro";
 import { getCollection } from "astro:content";
-import { makePermalinks } from "@saastro-io/shell/urls/permalinks";
+import { makePermalinks } from "@/theme/internal/utils";
 
 const { getPermalink } = await makePermalinks(Astro);
 const docs = await getCollection("docs");

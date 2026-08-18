@@ -1,0 +1,38 @@
+---
+/**
+ * Meta.astro — minimal SEO meta tags for documentation pages.
+ *
+ * Self-contained replacement for `@saastro-io/shell/head/Meta.astro` which
+ * pulled in `astro-seo` + settings collection. Docs sites only need title +
+ * description + canonical, so we render plain meta tags.
+ */
+export interface Props {
+  title?: string
+  description?: string
+  canonical?: string
+  ogImage?: string
+  noindex?: boolean
+}
+
+const {
+  title,
+  description,
+  canonical,
+  ogImage,
+  noindex = false,
+} = Astro.props as Props
+---
+{title && <title>{title}</title>}
+{description && <meta name="description" content={description} />}
+{canonical && <link rel="canonical" href={canonical} />}
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+{title && <meta property="og:title" content={title} />}
+{description && <meta property="og:description" content={description} />}
+{ogImage && <meta property="og:image" content={ogImage} />}
+<meta property="og:type" content="article" />
+
+<meta name="twitter:card" content="summary_large_image" />
+{title && <meta name="twitter:title" content={title} />}
+{description && <meta name="twitter:description" content={description} />}
+{ogImage && <meta name="twitter:image" content={ogImage} />}

@@ -1,6 +1,6 @@
 import { glob } from 'astro/loaders';
 import { defineCollection } from 'astro:content';
-import { settingsSchema, docsSchema } from '@saastro-io/docs-theme/content/schemas';
+import { settingsSchema, docsSchema } from '@/theme/content/schemas';
 
 const settings = defineCollection({
   loader: glob({ pattern: 'settings.yaml', base: 'src/data' }),

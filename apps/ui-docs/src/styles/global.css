@@ -1,40 +1,17 @@
-@import '@saastro-io/docs-theme/styles/global.css';
+/* Tema VENDORIZADO (src/theme/) — ya no se importa @saastro-io/docs-theme.
+   Ver src/theme/README.md para el porqué. */
+@import '../theme/styles/global.css';
 
 /* Design System de SAASTRO — redefine los tokens base (ver el fichero). Va
-   DESPUÉS del theme a propósito: gana por orden de cascada. */
+   DESPUÉS del tema a propósito: gana por orden de cascada. */
 @import './saastro-ds.css';
 
-/* Scan docs-theme components (npm package, not workspace) */
-@source "../../node_modules/@saastro-io/docs-theme/src/**/*.{astro,tsx,ts}";
-
-/* Scan shell components (npm package, not workspace) */
-@source "../../node_modules/@saastro-io/shell/src/**/*.{astro,tsx,ts}";
-
-/* Project-specific: scan workspace packages for Tailwind classes */
+/* Escaneo de clases Tailwind: el tema local y los ficheros del registry */
+@source "../theme/**/*.{astro,ts}";
 @source "../../../../packages/ui-registry/registry/default/blocks/**/*.{tsx,astro}";
 @source "../../../../packages/ui-registry/registry/default/ui/**/*.tsx";
 
-/* Keyframes del acordeón — OVERRIDE del que trae @saastro-io/docs-theme.
-   El del paquete (0.2.0) anima hacia
-     var(--radix-accordion-content-height, var(--accordion-content-height))
-   y Base UI no expone ninguna de las dos: la suya es --accordion-panel-height.
-   Sin este override la altura queda indefinida y el acordeón anima a 0 SIN dar
-   ningún error — el fallo silencioso clásico de esta migración.
-   Va después del @import a propósito, para ganar por orden de cascada.
-   Pendiente: arreglarlo en docs-theme, que lo consumen más sitios. */
-@keyframes accordion-down {
-  from {
-    height: 0;
-  }
-  to {
-    height: var(--accordion-panel-height);
-  }
-}
-@keyframes accordion-up {
-  from {
-    height: var(--accordion-panel-height);
-  }
-  to {
-    height: 0;
-  }
-}
+/* Los keyframes del acordeón ya NO se sobreescriben aquí: el tema vendorizado
+   los trae con la cadena de fallbacks correcta
+   (--accordion-panel-height → --radix-accordion-content-height → …), que era
+   justo el fix que estaba atascado sin publicar en el paquete. */

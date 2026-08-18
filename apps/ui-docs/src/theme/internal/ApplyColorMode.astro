@@ -1,0 +1,51 @@
+---
+/**
+ * ApplyColorMode.astro — inline script to apply dark/light theme before paint.
+ *
+ * Self-contained replacement for `@saastro-io/shell/scripts/ApplyColorMode.astro`.
+ * Reads localStorage `theme` first, then the prefers-color-scheme media query.
+ *
+ * Exposes `window.applyTheme(theme)` for toggle components and dispatches a
+ * `themechange` CustomEvent when the theme is updated.
+ *
+ * @param defaultTheme - 'system' | 'light' | 'dark' | 'light:only' | 'dark:only'.
+ *                       Suffix `:only` forces the theme regardless of localStorage.
+ */
+export interface Props {
+  defaultTheme?: 'system' | 'light' | 'dark' | 'light:only' | 'dark:only'
+}
+
+const { defaultTheme = 'system' } = Astro.props as Props
+---
+<script is:inline define:vars={{ defaultTheme }}>
+  window.applyTheme = function (theme) {
+    const isDark = theme === 'dark'
+    document.documentElement.classList.toggle('dark', isDark)
+    try {
+      localStorage.setItem('theme', theme)
+    } catch (_e) {
+      /* ignore (private mode / disabled storage) */
+    }
+    window.dispatchEvent(new CustomEvent('themechange', { detail: { theme } }))
+  }
+
+  let stored = null
+  try {
+    stored = localStorage.getItem('theme')
+  } catch (_e) {
+    /* ignore */
+  }
+
+  if (defaultTheme && defaultTheme.endsWith(':only')) {
+    window.applyTheme(defaultTheme.replace(':only', ''))
+  } else if (!stored && defaultTheme !== 'system') {
+    window.applyTheme(defaultTheme)
+  } else if (
+    stored === 'dark' ||
+    (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches)
+  ) {
+    window.applyTheme('dark')
+  } else {
+    window.applyTheme('light')
+  }
+</script>
