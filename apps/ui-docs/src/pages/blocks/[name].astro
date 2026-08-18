@@ -1,16 +1,16 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { blocks } from '@/lib/catalog';
-import { BlockRenderer } from '@/components/block-renderer';
-import { CodeViewer, InstallCommand } from '@/components/code-viewer';
+import CodeBlock from '@/components/CodeBlock.astro';
+import InstallCommand from '@/components/InstallCommand.astro';
 // Read all block and UI sources at build time via Vite's raw import
 const blockSources = {
   ...import.meta.glob(
-    '../../../../../packages/ui-registry/registry/default/blocks/*.tsx',
+    '../../../../../packages/ui-registry/registry/default/blocks/*.{tsx,astro}',
     { query: '?raw', import: 'default', eager: true },
   ),
   ...import.meta.glob(
-    '../../../../../packages/ui-registry/registry/default/ui/*.tsx',
+    '../../../../../packages/ui-registry/registry/default/ui/*.{tsx,astro}',
     { query: '?raw', import: 'default', eager: true },
   ),
 } as Record<string, string>;
@@ -25,7 +25,7 @@ export function getStaticPaths() {
 const { block } = Astro.props;
 
 // Find source code from the glob results
-const sourceKey = Object.keys(blockSources).find((k) => k.endsWith(`/${block.name}.tsx`));
+const sourceKey = Object.keys(blockSources).find((k) => k.endsWith(`/${block.name}.${block.ext}`));
 const sourceCode = sourceKey ? blockSources[sourceKey] : '// Source not found';
 
 const metadata = {
@@ -69,7 +69,7 @@ const metadata = {
         <h2 class="mb-3 text-sm font-semibold text-muted-foreground uppercase tracking-wider">
           Installation
         </h2>
-        <InstallCommand name={block.name} client:load />
+        <InstallCommand name={block.name} />
       </div>
 
       <!-- Preview -->
@@ -77,8 +77,40 @@ const metadata = {
         <h2 class="mb-3 text-sm font-semibold text-muted-foreground uppercase tracking-wider">
           Preview
         </h2>
-        <div class="rounded-xl border overflow-hidden bg-background">
-          <BlockRenderer name={block.name} client:visible />
+        <!-- Desktop: iframe VIVO de /preview/<name> (interactivo, tema sincronizado
+             por localStorage al cargar y por evento storage en vivo). Móvil: la
+             captura commiteada — un iframe de 1440px no aporta en pantalla estrecha. -->
+        <div class="preview-frame hidden overflow-hidden rounded-xl border bg-background md:block">
+          <div class="flex items-center justify-end gap-1 border-b bg-muted/30 px-3 py-2">
+            <button type="button" data-width="100%" class="width-btn rounded border bg-background px-2 py-0.5 text-xs text-foreground">Desktop</button>
+            <button type="button" data-width="768px" class="width-btn rounded border px-2 py-0.5 text-xs text-muted-foreground hover:text-foreground">Tablet</button>
+            <button type="button" data-width="390px" class="width-btn rounded border px-2 py-0.5 text-xs text-muted-foreground hover:text-foreground">Mobile</button>
+          </div>
+          <div class="flex justify-center bg-muted/10">
+            <iframe
+              src={`/preview/${block.name}`}
+              title={`${block.title} preview`}
+              loading="lazy"
+              class="w-full border-0 transition-[width] duration-300"
+              style={`height: ${block.iframeHeight}`}></iframe>
+          </div>
+        </div>
+        <div class="overflow-hidden rounded-xl border bg-background md:hidden">
+          <img
+            src={`/previews/${block.name}-light.png`}
+            alt={`${block.title} preview`}
+            width="1440"
+            height="900"
+            class="w-full dark:hidden"
+          />
+          <img
+            src={`/previews/${block.name}-dark.png`}
+            alt=""
+            aria-hidden="true"
+            width="1440"
+            height="900"
+            class="hidden w-full dark:block"
+          />
         </div>
       </div>
 
@@ -87,7 +119,7 @@ const metadata = {
         <h2 class="mb-3 text-sm font-semibold text-muted-foreground uppercase tracking-wider">
           Source Code
         </h2>
-        <CodeViewer code={sourceCode} client:visible />
+        <CodeBlock code={sourceCode} lang={block.ext} />
       </div>
 
       <!-- Registry config -->
@@ -144,3 +176,19 @@ const metadata = {
     </div>
   </div>
 </BaseLayout>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.preview-frame').forEach((frame) => {
+    const iframe = frame.querySelector('iframe');
+    frame.querySelectorAll<HTMLButtonElement>('.width-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (iframe) iframe.style.width = btn.dataset.width ?? '100%';
+        frame.querySelectorAll('.width-btn').forEach((b) => {
+          b.classList.toggle('bg-background', b === btn);
+          b.classList.toggle('text-foreground', b === btn);
+          b.classList.toggle('text-muted-foreground', b !== btn);
+        });
+      });
+    });
+  });
+</script>

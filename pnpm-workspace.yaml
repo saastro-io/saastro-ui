@@ -11,4 +11,5 @@ packages:
 # what makes CI / CF Pages builds run them.)
 onlyBuiltDependencies:
   - esbuild
+  - puppeteer
   - sharp

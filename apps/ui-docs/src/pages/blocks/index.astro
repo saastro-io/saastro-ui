@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { blockItems as blocks, blockCategories as categories } from "@/lib/catalog";
-import { BlockRenderer } from "@/components/block-renderer";
+import BlockCard from "@/components/BlockCard.astro";
 
 const metadata = {
   title: "All Blocks — Saastro",
@@ -40,28 +40,10 @@ const metadata = {
         ))}
       </div>
 
-      <!-- Block cards -->
-      <div id="block-grid" class="grid gap-8">
+      <!-- Block cards — capturas commiteadas (light/dark por clase), cero islands -->
+      <div id="block-grid" class="grid gap-6 sm:grid-cols-2">
         {blocks.map(block => (
-          <div class="block-card rounded-xl border bg-card overflow-hidden" data-category={block.category}>
-            <!-- Block header -->
-            <div class="flex items-center justify-between border-b px-6 py-4">
-              <div class="flex items-center gap-3">
-                <h2 class="font-semibold">{block.title}</h2>
-                <span class="rounded-md bg-muted px-2 py-0.5 text-xs text-muted-foreground">{block.category}</span>
-              </div>
-              <a
-                href={`/blocks/${block.name}`}
-                class="rounded-md border bg-background px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-              >
-                View &rarr;
-              </a>
-            </div>
-            <!-- Block preview -->
-            <div class="bg-background">
-              <BlockRenderer name={block.name} client:visible />
-            </div>
-          </div>
+          <BlockCard block={block} />
         ))}
       </div>
     </div>

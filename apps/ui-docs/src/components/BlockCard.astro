@@ -1,0 +1,47 @@
+---
+/**
+ * Tarjeta de galería con la captura commiteada del bloque (light+dark vía
+ * clases: sin JS, el tema lo decide la clase .dark del html). Carga
+ * instantánea — antes cada tarjeta hidrataba el bloque entero con
+ * client:visible.
+ */
+import type { CatalogItem } from '@/lib/catalog';
+
+interface Props {
+  block: CatalogItem;
+}
+const { block } = Astro.props;
+---
+
+<div class="block-card overflow-hidden rounded-xl border bg-card" data-category={block.category}>
+  <a href={`/blocks/${block.name}`} class="group block">
+    <div class="relative aspect-[1440/900] overflow-hidden border-b bg-background">
+      <img
+        src={`/previews/${block.name}-light.png`}
+        alt={`${block.title} preview`}
+        width="1440"
+        height="900"
+        loading="lazy"
+        class="size-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.02] dark:hidden"
+      />
+      <img
+        src={`/previews/${block.name}-dark.png`}
+        alt=""
+        aria-hidden="true"
+        width="1440"
+        height="900"
+        loading="lazy"
+        class="hidden size-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.02] dark:block"
+      />
+    </div>
+    <div class="flex items-center justify-between px-5 py-4">
+      <div>
+        <h2 class="font-semibold">{block.title}</h2>
+        <p class="mt-0.5 line-clamp-1 text-sm text-muted-foreground">{block.description}</p>
+      </div>
+      <span class="ml-4 shrink-0 rounded-md bg-muted px-2 py-0.5 text-xs text-muted-foreground">
+        {block.category}
+      </span>
+    </div>
+  </a>
+</div>
