@@ -31,7 +31,12 @@ const { title } = Astro.props;
       });
     </script>
   </head>
-  <body class="min-h-screen bg-background text-foreground">
-    <slot />
+  <body class="bg-background text-foreground">
+    <!-- data-capture-target: scripts/capture.mts fotografía ESTE elemento, no la
+         página. Con fullPage los bloques más cortos que el viewport salían con
+         una banda muerta debajo, que es lo que se veía en las tarjetas. -->
+    <div data-capture-target>
+      <slot />
+    </div>
   </body>
 </html>

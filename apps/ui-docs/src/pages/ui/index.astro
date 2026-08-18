@@ -12,7 +12,7 @@ const metadata = {
   <div class="w-full px-6 py-12">
     <div class="mx-auto max-w-6xl">
       <div class="mb-8">
-        <h1 class="text-3xl font-bold tracking-tight sm:text-4xl">UI Primitives</h1>
+        <h1 class="text-3xl font-medium tracking-[-0.02em] sm:text-4xl">UI Primitives</h1>
         <p class="mt-2 text-muted-foreground">
           Enhanced components built on shadcn/ui and Radix. Install via the shadcn CLI.
         </p>
@@ -46,9 +46,9 @@ const metadata = {
             data-category={item.category}
             class="ui-card group overflow-hidden rounded-xl border bg-card transition-colors hover:bg-accent/50"
           >
-            <div class="relative aspect-[1440/900] overflow-hidden border-b bg-background">
-              <img src={`/previews/${item.name}-light.png`} alt={`${item.title} preview`} width="1440" height="900" loading="lazy" class="size-full object-cover object-top dark:hidden" />
-              <img src={`/previews/${item.name}-dark.png`} alt="" aria-hidden="true" width="1440" height="900" loading="lazy" class="hidden size-full object-cover object-top dark:block" />
+            <div class="relative flex h-52 items-center justify-center overflow-hidden border-b bg-muted/20 p-3">
+              <img src={`/previews/${item.name}-light.png`} alt={`${item.title} preview`} loading="lazy" class="h-full w-full rounded-sm object-contain dark:hidden" />
+              <img src={`/previews/${item.name}-dark.png`} alt="" aria-hidden="true" loading="lazy" class="hidden h-full w-full rounded-sm object-contain dark:block" />
             </div>
             <div class="p-6 pt-4">
             <h2 class="font-semibold group-hover:text-foreground">{item.title}</h2>

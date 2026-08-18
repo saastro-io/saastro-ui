@@ -15,23 +15,23 @@ const { block } = Astro.props;
 
 <div class="block-card overflow-hidden rounded-xl border bg-card" data-category={block.category}>
   <a href={`/blocks/${block.name}`} class="group block">
-    <div class="relative aspect-[1440/900] overflow-hidden border-b bg-background">
+    <!-- Altura fija + object-contain: cada bloque tiene su proporción natural
+         (de 1.28 a 5.14) porque la captura recorta al elemento. En un catálogo
+         interesa ver la pieza ENTERA, no un recorte, así que se encaja
+         completa en un marco uniforme. -->
+    <div class="relative flex h-52 items-center justify-center overflow-hidden border-b bg-muted/20 p-3 sm:h-60">
       <img
         src={`/previews/${block.name}-light.png`}
         alt={`${block.title} preview`}
-        width="1440"
-        height="900"
         loading="lazy"
-        class="size-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.02] dark:hidden"
+        class="h-full w-full rounded-sm object-contain transition-transform duration-300 group-hover:scale-[1.02] dark:hidden"
       />
       <img
         src={`/previews/${block.name}-dark.png`}
         alt=""
         aria-hidden="true"
-        width="1440"
-        height="900"
         loading="lazy"
-        class="hidden size-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.02] dark:block"
+        class="hidden h-full w-full rounded-sm object-contain transition-transform duration-300 group-hover:scale-[1.02] dark:block"
       />
     </div>
     <div class="flex items-center justify-between px-5 py-4">
