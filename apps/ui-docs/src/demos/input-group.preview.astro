@@ -1,0 +1,17 @@
+---
+// Demo de preview. 
+import { InputGroup, InputGroupInput, InputGroupAddon, InputGroupText } from '@ui-registry/input-group';
+---
+
+<div class="flex min-h-[400px] flex-col items-center justify-center gap-6 p-12">
+  <div class="w-full max-w-sm space-y-4">
+    <InputGroup>
+      <InputGroupAddon><InputGroupText>https://</InputGroupText></InputGroupAddon>
+      <InputGroupInput placeholder="tudominio.com" />
+    </InputGroup>
+    <InputGroup>
+      <InputGroupInput placeholder="Importe" />
+      <InputGroupAddon align="inline-end"><InputGroupText>€</InputGroupText></InputGroupAddon>
+    </InputGroup>
+  </div>
+</div>

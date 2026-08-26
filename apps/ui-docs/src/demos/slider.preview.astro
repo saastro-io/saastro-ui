@@ -1,0 +1,10 @@
+---
+// Import LITERAL + client:load: la hidratación exige que el compiler vea el
+// import; un componente dinámico de import.meta.glob no emite
+// client:component-path y revienta en runtime.
+import { SliderDemo } from './slider.demo';
+---
+
+<div class="flex min-h-[400px] items-center justify-center p-12">
+  <SliderDemo client:load />
+</div>

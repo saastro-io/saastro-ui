@@ -1,0 +1,17 @@
+---
+// Demo de preview. Nativo: funciona sin JavaScript.
+import { NativeSelect, NativeSelectOption } from '@ui-registry/native-select';
+import { Label } from '@ui-registry/label';
+---
+
+<div class="flex min-h-[400px] flex-col items-center justify-center gap-6 p-12">
+  <div class="w-full max-w-sm space-y-2">
+    <Label htmlFor="ns">¿Sobre qué nos escribes?</Label>
+    <NativeSelect id="ns">
+      <NativeSelectOption value="">Elige una opción</NativeSelectOption>
+      <NativeSelectOption value="auto">Seguro de coche o moto</NativeSelectOption>
+      <NativeSelectOption value="hogar">Seguro de hogar</NativeSelectOption>
+      <NativeSelectOption value="otro">Otro seguro o consulta</NativeSelectOption>
+    </NativeSelect>
+  </div>
+</div>

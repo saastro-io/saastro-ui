@@ -1,0 +1,21 @@
+---
+// Demo de preview. Estático: el botón no guarda estado.
+import { Button } from '@ui-registry/button';
+---
+
+<div class="flex min-h-[400px] flex-col items-center justify-center gap-6 p-12">
+  <div class="flex flex-wrap items-center justify-center gap-3">
+    <Button>Default</Button>
+    <Button variant="secondary">Secondary</Button>
+    <Button variant="outline">Outline</Button>
+    <Button variant="ghost">Ghost</Button>
+    <Button variant="destructive">Destructive</Button>
+    <Button variant="link">Link</Button>
+  </div>
+  <div class="flex flex-wrap items-center justify-center gap-3">
+    <Button size="sm">Small</Button>
+    <Button>Default</Button>
+    <Button size="lg">Large</Button>
+    <Button disabled>Disabled</Button>
+  </div>
+</div>

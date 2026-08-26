@@ -1,0 +1,20 @@
+---
+// Demo de preview. Field es lo que consume @saastro/forms para pintar cada campo.
+import { Field, FieldLabel, FieldDescription, FieldError } from '@ui-registry/field';
+import { Input } from '@ui-registry/input';
+---
+
+<div class="flex min-h-[400px] flex-col items-center justify-center gap-6 p-12">
+  <div class="w-full max-w-sm space-y-6">
+    <Field>
+      <FieldLabel htmlFor="f1">Email</FieldLabel>
+      <Input id="f1" type="email" placeholder="tucorreo@email.com" />
+      <FieldDescription>No lo compartimos con nadie.</FieldDescription>
+    </Field>
+    <Field data-invalid>
+      <FieldLabel htmlFor="f2">Teléfono</FieldLabel>
+      <Input id="f2" aria-invalid="true" placeholder="600 000 000" />
+      <FieldError errors={[{ message: 'Introduce un teléfono válido.' }]} />
+    </Field>
+  </div>
+</div>
