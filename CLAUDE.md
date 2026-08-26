@@ -58,3 +58,9 @@ pnpm run release          # Build + publish to npm
 
 - `@saastro-io/config` (from saastro-infra, GitHub Packages)
 - `@saastro-io/shell` (from saastro-infra, GitHub Packages) — used by ui-docs for layout
+
+## saastro-office
+- `office_init` con project `saastro-ui` al empezar la sesión.
+- `office_state` con done/next/needs antes de parar. El hook de Stop la exige.
+- Lo que no puedas decidir: `office_decide` (`guarded` si es dinero, legal, destructivo o producción).
+- Encargos a otro proyecto: `SendMessage` a su sesión, no por la office.

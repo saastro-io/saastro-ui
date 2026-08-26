@@ -13,8 +13,7 @@ apps/ui-docs/.wrangler/
 apps/ui-docs/public/r/
 packages/ui-registry/public/r/
 
-# Artefactos locales de saastro-relay: `knowledge/` se REGENERA en cada sync
-# (INDEX.md lleva un `last_sync` que cambia solo) y ensuciaba todos los commits.
-# Mismo criterio que hub, platform y forms.
-.saastro-relay
+# `knowledge/` lo reescribe `office watch` en cada sincronización (los
+# `.snap.md` se rehacen solos) y ensuciaba todos los commits. Mismo criterio
+# que hub, platform y forms.
 knowledge/

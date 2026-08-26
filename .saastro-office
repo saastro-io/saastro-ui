@@ -1,0 +1,33 @@
+{
+  "project": "saastro-ui",
+  "watch": {
+    "paths": [
+      "./packages",
+      "./apps",
+      "./docs"
+    ],
+    "extensions": [
+      ".ts",
+      ".tsx",
+      ".astro",
+      ".mdx",
+      ".mjs",
+      ".mts",
+      ".js",
+      ".css",
+      ".json",
+      ".md"
+    ],
+    "sections": {
+      "packages/ui-registry/registry": "bloques",
+      "packages/ui-registry": "registry",
+      "apps/ui-docs/src/theme": "tema",
+      "apps/ui-docs/src/content": "guias",
+      "apps/ui-docs/src/pages": "sitio",
+      "apps/ui-docs/scripts": "previews",
+      "apps/ui-docs": "ui-docs",
+      "docs/superpowers": "decisiones"
+    },
+    "knowledge": "./knowledge"
+  }
+}
