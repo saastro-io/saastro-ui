@@ -45,7 +45,11 @@ pnpm run release          # Build + publish to npm
 
 ## Rules
 
-1. Blocks use React + shadcn/ui primitives — zero JS in final Astro output
+1. **`.astro` para lo visual, isla `.tsx` para lo interactivo.** No es una
+   preferencia: es la frontera real del adaptador. Hoy son 12 `.astro` (cero JS,
+   cero `registryDependencies`) y 3 `.tsx` — `faq-01`, `navbar-01` y
+   `pricing-01`, que son justo los que llevan estado. Los primitivos son **Base
+   UI**, no shadcn: de shadcn solo queda el CLI que construye el registry.
 2. `@saastro/ui-registry` es **`private: true`** y NO se publica a npm: los bloques se
    consumen copy-in con el CLI de shadcn contra `ui.saastro.io/r/{name}.json`, nunca por
    `npm install`. Ojo: la sección Publishing de arriba describe el flujo genérico de
@@ -54,10 +58,38 @@ pnpm run release          # Build + publish to npm
 3. Docs site serves registry JSON at `/r/{name}.json`
 4. Conventional commits: `feat(blocks):`, `docs(ui-docs):`
 
+## Dónde está la frontera: `.astro` vs isla
+
+Lo aprendimos rompiéndolo, así que queda escrito.
+
+**Las props de un componente Astro cruzan serializadas.** Una función NO cruza.
+`newsletter-01` era React con un `onSubmit` por props y era inutilizable desde
+Astro: el handler llegaba `undefined`. Se rehizo con `action` + `method`
+nativos, y ahora funciona incluso con JavaScript desactivado.
+
+De ahí la regla:
+
+| Qué | Cómo | Por qué |
+|---|---|---|
+| Secciones visuales (hero, features, stats, footer, logos, testimonials…) | `.astro` | Cero JS al cliente. Es todo lo que necesitan |
+| Formulario de captura simple | `.astro` con `action`/`method` nativos | Funciona sin JS. Nada de handlers por props |
+| Acordeón, menú, toggles, estado local | isla `.tsx` + `client:*` | Necesitan React de verdad |
+| **Formularios con validación, pasos, lógica condicional o submit a API** | isla `.tsx` con **`@saastro/forms`** | Nunca `.astro`: eso es RHF + Zod + plugins, no HTML |
+
+**El registry no es el sitio de los formularios de negocio.** Para eso está
+`@saastro/forms`, que se instala por npm y se monta como isla. Un bloque del
+registry puede traer el *maquetado* de un formulario; la *lógica* no.
+
+Y una trampa de Base UI específica de Astro: **`render={<a/>}` no funciona
+dentro de un `.astro`** — ahí las llaves no son JSX de React, Astro compila su
+propio elemento y React recibe `undefined`. En `.astro` se usa
+`class={buttonVariants(...)}` sobre el elemento nativo.
+
 ## External Dependencies
 
-- `@saastro-io/config` (from saastro-infra, GitHub Packages)
-- `@saastro-io/shell` (from saastro-infra, GitHub Packages) — used by ui-docs for layout
+- `@saastro-io/config` (from saastro-infra, GitHub Packages) — la única
+- `shadcn` (devDependency): **solo el CLI** que construye el registry a
+  `apps/ui-docs/public/r`. No aporta primitivos: ésos son Base UI desde el 17-ago
 
 ## saastro-office
 - `office_init` con project `saastro-ui` al empezar la sesión.
