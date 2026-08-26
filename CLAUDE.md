@@ -6,8 +6,8 @@ Block registry and showcase site for the Saastro ecosystem.
 
 ```
 packages/
-  ui-registry/     → @saastro/ui-registry     (15 bloques de landing + button-pro, que es
-                                                una primitiva registry:ui, no un bloque)
+  ui-registry/     → @saastro/ui-registry     (40 items: 15 bloques de landing
+                                                + 25 primitivos registry:ui)
 apps/
   ui-docs/         → @saastro/ui-docs         (showcase site at ui.saastro.io)
 ```
@@ -40,8 +40,17 @@ pnpm run release          # Build + publish to npm
 
 ## Products
 
-- **Blocks**: Install via `npx shadcn@latest add saastro/hero-01`
-- **Docs**: Deployed at ui.saastro.io
+- **Blocks**: `npx shadcn@latest add @saastro/hero-01`
+- **Primitivos**: `npx shadcn@latest add @saastro/button` — 25, todos sobre Base UI
+- **Docs**: ui.saastro.io
+
+**Por qué los primitivos están aquí y no se cogen de shadcn.** Un
+`registryDependencies: ["button"]` a secas lo resuelve el CLI contra el registry
+de shadcn, que sirve las versiones **Radix**. Instalar un bloque de Saastro te
+traía primitivos de otra base UI, justo lo contrario de la regla del ecosistema.
+Por eso todo item declara `@saastro/<nombre>` y ninguna dependencia sale fuera:
+un bloque de Saastro se instala entero desde Saastro. Los 25 se cosecharon de
+`saastro-theme`, donde llevan en producción desde el 17-ago.
 
 ## Rules
 
