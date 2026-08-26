@@ -538,6 +538,215 @@
       ],
       "author": "SAASTRO <https://saastro.io>",
       "docs": "Primitivo sobre Base UI. En Base UI se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro — ahí usa las clases sobre el elemento nativo."
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "Campo de texto sobre Base UI, con los estados de foco e invalidez del sistema.",
+      "registryDependencies": [],
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "files": [
+        {
+          "path": "registry/default/ui/input.tsx",
+          "type": "registry:ui",
+          "target": "@ui/input.tsx"
+        }
+      ],
+      "categories": [
+        "ui",
+        "forms"
+      ],
+      "author": "SAASTRO <https://saastro.io>",
+      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un .astro — un formulario con validación va en isla con @saastro/forms, nunca en .astro."
+    },
+    {
+      "name": "label",
+      "type": "registry:ui",
+      "title": "Label",
+      "description": "Etiqueta de campo. La necesita `field`, y es markup puro.",
+      "registryDependencies": [],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "registry/default/ui/label.tsx",
+          "type": "registry:ui",
+          "target": "@ui/label.tsx"
+        }
+      ],
+      "categories": [
+        "ui",
+        "forms"
+      ],
+      "author": "SAASTRO <https://saastro.io>",
+      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un .astro — un formulario con validación va en isla con @saastro/forms, nunca en .astro."
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "Textarea",
+      "description": "Área de texto multilínea.",
+      "registryDependencies": [],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "registry/default/ui/textarea.tsx",
+          "type": "registry:ui",
+          "target": "@ui/textarea.tsx"
+        }
+      ],
+      "categories": [
+        "ui",
+        "forms"
+      ],
+      "author": "SAASTRO <https://saastro.io>",
+      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un .astro — un formulario con validación va en isla con @saastro/forms, nunca en .astro."
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "Desplegable sobre Base UI. Pasa `items` al Root: sin eso el trigger pinta el value crudo en vez de la etiqueta.",
+      "registryDependencies": [],
+      "dependencies": [
+        "@base-ui/react",
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/default/ui/select.tsx",
+          "type": "registry:ui",
+          "target": "@ui/select.tsx"
+        }
+      ],
+      "categories": [
+        "ui",
+        "forms"
+      ],
+      "author": "SAASTRO <https://saastro.io>",
+      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un .astro — un formulario con validación va en isla con @saastro/forms, nunca en .astro."
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "Casilla sobre Base UI.",
+      "registryDependencies": [],
+      "dependencies": [
+        "@base-ui/react",
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/default/ui/checkbox.tsx",
+          "type": "registry:ui",
+          "target": "@ui/checkbox.tsx"
+        }
+      ],
+      "categories": [
+        "ui",
+        "forms"
+      ],
+      "author": "SAASTRO <https://saastro.io>",
+      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un .astro — un formulario con validación va en isla con @saastro/forms, nunca en .astro."
+    },
+    {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "title": "Radio Group",
+      "description": "Grupo de opciones excluyentes sobre Base UI.",
+      "registryDependencies": [],
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "files": [
+        {
+          "path": "registry/default/ui/radio-group.tsx",
+          "type": "registry:ui",
+          "target": "@ui/radio-group.tsx"
+        }
+      ],
+      "categories": [
+        "ui",
+        "forms"
+      ],
+      "author": "SAASTRO <https://saastro.io>",
+      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un .astro — un formulario con validación va en isla con @saastro/forms, nunca en .astro."
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "Interruptor sobre Base UI.",
+      "registryDependencies": [],
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "files": [
+        {
+          "path": "registry/default/ui/switch.tsx",
+          "type": "registry:ui",
+          "target": "@ui/switch.tsx"
+        }
+      ],
+      "categories": [
+        "ui",
+        "forms"
+      ],
+      "author": "SAASTRO <https://saastro.io>",
+      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un .astro — un formulario con validación va en isla con @saastro/forms, nunca en .astro."
+    },
+    {
+      "name": "field",
+      "type": "registry:ui",
+      "title": "Field",
+      "description": "Envoltorio de campo: label, descripción y error. Es lo que consume @saastro/forms.",
+      "registryDependencies": [
+        "@saastro/label",
+        "@saastro/separator"
+      ],
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "files": [
+        {
+          "path": "registry/default/ui/field.tsx",
+          "type": "registry:ui",
+          "target": "@ui/field.tsx"
+        }
+      ],
+      "categories": [
+        "ui",
+        "forms"
+      ],
+      "author": "SAASTRO <https://saastro.io>",
+      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un .astro — un formulario con validación va en isla con @saastro/forms, nunca en .astro."
+    },
+    {
+      "name": "form",
+      "type": "registry:ui",
+      "title": "Form",
+      "description": "Puente entre react-hook-form y los primitivos. FormField/FormControl.",
+      "registryDependencies": [],
+      "dependencies": [
+        "@base-ui/react",
+        "react-hook-form"
+      ],
+      "files": [
+        {
+          "path": "registry/default/ui/form.tsx",
+          "type": "registry:ui",
+          "target": "@ui/form.tsx"
+        }
+      ],
+      "categories": [
+        "ui",
+        "forms"
+      ],
+      "author": "SAASTRO <https://saastro.io>",
+      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un .astro — un formulario con validación va en isla con @saastro/forms, nunca en .astro."
     }
   ],
   "description": "Landing page blocks for Astro sites, installable with the shadcn CLI."
