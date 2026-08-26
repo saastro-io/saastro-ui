@@ -129,10 +129,10 @@
       "title": "Pricing — 3 Tiers",
       "description": "Three-tier pricing cards with monthly/annual toggle and feature lists.",
       "registryDependencies": [
-        "button",
-        "card",
-        "badge",
-        "separator"
+        "@saastro/button",
+        "@saastro/card",
+        "@saastro/badge",
+        "@saastro/separator"
       ],
       "files": [
         {
@@ -182,7 +182,7 @@
       "title": "FAQ — Accordion",
       "description": "FAQ section with accordion for expandable questions and answers.",
       "registryDependencies": [
-        "accordion"
+        "@saastro/accordion"
       ],
       "files": [
         {
@@ -256,8 +256,8 @@
       "title": "Navbar — Responsive",
       "description": "Responsive navbar with desktop navigation and mobile hamburger menu.",
       "registryDependencies": [
-        "button",
-        "sheet"
+        "@saastro/button",
+        "@saastro/sheet"
       ],
       "files": [
         {
@@ -400,6 +400,144 @@
         "group": "Buttons",
         "iframeHeight": "640px"
       }
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "El botón base sobre Base UI. Variantes CVA (variant, size) y `render` en vez de `asChild`.",
+      "registryDependencies": [],
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority"
+      ],
+      "files": [
+        {
+          "path": "registry/default/ui/button.tsx",
+          "type": "registry:ui",
+          "target": "@ui/button.tsx"
+        }
+      ],
+      "categories": [
+        "ui",
+        "buttons"
+      ],
+      "author": "SAASTRO <https://saastro.io>",
+      "docs": "Primitivo sobre Base UI. En Base UI se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro — ahí usa las clases sobre el elemento nativo."
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "Etiqueta compacta con variantes CVA.",
+      "registryDependencies": [],
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority"
+      ],
+      "files": [
+        {
+          "path": "registry/default/ui/badge.tsx",
+          "type": "registry:ui",
+          "target": "@ui/badge.tsx"
+        }
+      ],
+      "categories": [
+        "ui"
+      ],
+      "author": "SAASTRO <https://saastro.io>",
+      "docs": "Primitivo sobre Base UI. En Base UI se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro — ahí usa las clases sobre el elemento nativo."
+    },
+    {
+      "name": "separator",
+      "type": "registry:ui",
+      "title": "Separator",
+      "description": "Separador horizontal o vertical, accesible.",
+      "registryDependencies": [],
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "files": [
+        {
+          "path": "registry/default/ui/separator.tsx",
+          "type": "registry:ui",
+          "target": "@ui/separator.tsx"
+        }
+      ],
+      "categories": [
+        "ui"
+      ],
+      "author": "SAASTRO <https://saastro.io>",
+      "docs": "Primitivo sobre Base UI. En Base UI se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro — ahí usa las clases sobre el elemento nativo."
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "Tarjeta y sus partes (header, title, description, content, footer). Markup puro, sin dependencias.",
+      "registryDependencies": [],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "registry/default/ui/card.tsx",
+          "type": "registry:ui",
+          "target": "@ui/card.tsx"
+        }
+      ],
+      "categories": [
+        "ui"
+      ],
+      "author": "SAASTRO <https://saastro.io>",
+      "docs": "Primitivo sobre Base UI. En Base UI se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro — ahí usa las clases sobre el elemento nativo."
+    },
+    {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "Acordeón sobre Base UI, con animación de altura por CSS.",
+      "registryDependencies": [],
+      "dependencies": [
+        "@base-ui/react",
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/default/ui/accordion.tsx",
+          "type": "registry:ui",
+          "target": "@ui/accordion.tsx"
+        }
+      ],
+      "categories": [
+        "ui"
+      ],
+      "author": "SAASTRO <https://saastro.io>",
+      "docs": "Primitivo sobre Base UI. En Base UI se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro — ahí usa las clases sobre el elemento nativo."
+    },
+    {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "Panel lateral (drawer) sobre Base UI Dialog, con los cuatro lados.",
+      "registryDependencies": [
+        "@saastro/button"
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/default/ui/sheet.tsx",
+          "type": "registry:ui",
+          "target": "@ui/sheet.tsx"
+        }
+      ],
+      "categories": [
+        "ui",
+        "overlays"
+      ],
+      "author": "SAASTRO <https://saastro.io>",
+      "docs": "Primitivo sobre Base UI. En Base UI se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro — ahí usa las clases sobre el elemento nativo."
     }
   ],
   "description": "Landing page blocks for Astro sites, installable with the shadcn CLI."
