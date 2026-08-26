@@ -1,0 +1,16 @@
+---
+// Demo de preview. 
+import { Input } from '@ui-registry/input';
+import { Label } from '@ui-registry/label';
+---
+
+<div class="flex min-h-[400px] flex-col items-center justify-center gap-6 p-12">
+  <div class="w-full max-w-sm space-y-4">
+    <div class="space-y-2">
+      <Label htmlFor="email">Email</Label>
+      <Input id="email" type="email" placeholder="tucorreo@email.com" />
+    </div>
+    <Input placeholder="Deshabilitado" disabled />
+    <Input placeholder="Inválido" aria-invalid="true" />
+  </div>
+</div>

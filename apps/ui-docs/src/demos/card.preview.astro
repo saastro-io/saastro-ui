@@ -1,0 +1,20 @@
+---
+// Demo de preview. 
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@ui-registry/card';
+import { Button } from '@ui-registry/button';
+---
+
+<div class="flex min-h-[400px] flex-col items-center justify-center gap-6 p-12">
+  <Card className="w-full max-w-sm">
+    <CardHeader>
+      <CardTitle>Plan Profesional</CardTitle>
+      <CardDescription>Todo lo del plan básico, y el soporte prioritario.</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <p class="text-3xl font-bold">29 € <span class="text-sm font-normal text-muted-foreground">/mes</span></p>
+    </CardContent>
+    <CardFooter>
+      <Button className="w-full">Empezar</Button>
+    </CardFooter>
+  </Card>
+</div>
