@@ -21,5 +21,9 @@ packages/ui-registry/public/r/
 # y en la base de la office, así que quien clonaba el repo no recibía el
 # contrato. Se versionan.
 **/knowledge/*.snap.md
-# La vista de la raíz son symlinks que regenera `pnpm office:link`.
-/knowledge/
+# La vista de la raíz SÍ se versiona, aunque la genere `pnpm office:link`.
+# Git guarda symlinks sin problema, y es lo que da sentido al `office:check`
+# de CI: si no estuviera versionada, un clon limpio no la tendría y el check
+# o fallaría siempre o habría que regenerarla antes — y entonces no detectaría
+# nunca el caso que existe para detectar (alguien añade una sección y no
+# relinka, y la office deja de verla en silencio).
