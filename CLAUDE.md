@@ -117,7 +117,8 @@ con `office:check`): la ficha vive en su workspace.
 
 **De quién dependo**
 - dev: nadie — este repo ES la fuente: theme y los sites consumen el registry.
-- ops: nadie — el registry se publica, no se opera.
+- ops: nadie — el registry se consume copy-in, no se opera. (Y no «se publica»:
+  es `private: true`, regla 2.)
 
 El detalle de símbolos está en el snap, no aquí. El contexto vivo se pide
 con `office_context`/`office_search`. El mapa del ecosistema lo tiene el
