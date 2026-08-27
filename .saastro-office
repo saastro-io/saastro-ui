@@ -3,8 +3,7 @@
   "watch": {
     "paths": [
       "./packages",
-      "./apps",
-      "./docs"
+      "./apps"
     ],
     "extensions": [
       ".ts",
@@ -25,8 +24,7 @@
       "apps/ui-docs/src/content": "guias",
       "apps/ui-docs/src/pages": "sitio",
       "apps/ui-docs/scripts": "previews",
-      "apps/ui-docs": "ui-docs",
-      "docs/superpowers": "decisiones"
+      "apps/ui-docs": "ui-docs"
     },
     "knowledge": "./knowledge"
   }

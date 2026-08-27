@@ -111,7 +111,6 @@ propio elemento y React recibe `undefined`. En `.astro` se usa
 | apps/ui-docs/src/content | guias | `apps/ui-docs/knowledge/guias.snap.md` (+ `.md`) |
 | apps/ui-docs/src/pages | sitio | `apps/ui-docs/knowledge/sitio.snap.md` (+ `.md`) |
 | apps/ui-docs/scripts | previews | `apps/ui-docs/knowledge/previews.snap.md` (+ `.md`) |
-| docs/superpowers | decisiones | `docs/superpowers/knowledge/decisiones.snap.md` (+ `.md`) |
 
 `knowledge/` en la raíz es una vista de symlinks (`pnpm office:link`, check
 con `office:check`): la ficha vive en su workspace.
