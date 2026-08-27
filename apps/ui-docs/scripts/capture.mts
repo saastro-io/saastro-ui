@@ -36,6 +36,21 @@ const names: string[] = registry.items
   .map((i: { name: string }) => i.name)
   .filter((n: string) => !only || n === only);
 
+/**
+ * Los BLOQUES son secciones de página: llenan un viewport de 1440 y su
+ * miniatura se lee bien. Los PRIMITIVOS no — un `button` centrado en 1440×400
+ * se convierte, escalado a la tarjeta de ~320px de la galería, en un punto
+ * rodeado de vacío. Se capturan en un lienzo estrecho para que el componente
+ * ocupe el encuadre.
+ */
+const esPrimitivo = new Set<string>(
+  registry.items
+    .filter((i: { type: string }) => i.type === 'registry:ui')
+    .map((i: { name: string }) => i.name),
+);
+const VIEWPORT_BLOQUE = { width: 1440, height: 900 };
+const VIEWPORT_PRIMITIVO = { width: 720, height: 420 };
+
 if (!existsSync(`${APP}dist`)) {
   console.error('✗ No hay dist/ — corre `pnpm build` antes de capturar.');
   process.exit(1);
@@ -77,7 +92,8 @@ try {
         continue;
       }
       const page = await browser.newPage();
-      await page.setViewport({ width: 1440, height: 900, deviceScaleFactor: 2 });
+      const vp = esPrimitivo.has(name) ? VIEWPORT_PRIMITIVO : VIEWPORT_BLOQUE;
+      await page.setViewport({ ...vp, deviceScaleFactor: 2 });
       for (const [theme, file] of [
         ['light', light],
         ['dark', dark],
