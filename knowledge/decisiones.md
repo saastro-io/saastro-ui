@@ -1,1 +1,0 @@
-../docs/superpowers/knowledge/decisiones.md
