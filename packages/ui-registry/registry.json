@@ -203,6 +203,31 @@
       }
     },
     {
+      "name": "faq-02",
+      "type": "registry:block",
+      "title": "FAQ — sin JavaScript",
+      "description": "FAQ con `<details>` nativo: cero JS, respuestas dentro del HTML servido e indexables. El hermano sin hidratar de faq-01.",
+      "registryDependencies": [],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "registry/default/blocks/faq-02.astro",
+          "type": "registry:component",
+          "target": "@components/blocks/faq-02.astro"
+        }
+      ],
+      "categories": [
+        "faq",
+        "landing"
+      ],
+      "author": "SAASTRO <https://saastro.io>",
+      "docs": "Import por defecto: `import Faq02 from '@/components/blocks/faq-02.astro'`. Props: title?, description?, items [{question, answer}], openFirst?, class?. Bloque Astro puro — NO lleva client:*, y no debe llevarlo: si lo hidratas pierdes lo único que lo distingue de faq-01. Elige faq-01 si necesitas animación de altura o un solo panel abierto a la vez.",
+      "meta": {
+        "group": "FAQ",
+        "iframeHeight": "820px"
+      }
+    },
+    {
       "name": "testimonials-01",
       "type": "registry:block",
       "title": "Testimonials — Card Grid",

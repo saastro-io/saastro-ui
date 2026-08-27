@@ -1,0 +1,79 @@
+---
+/**
+ * faq-02 — FAQ con `<details>` nativo. Cero JS, cero dependencias.
+ *
+ * Es el hermano sin JavaScript de `faq-01`, que es una isla React sobre el
+ * accordion de Base UI. La diferencia importa donde importa la velocidad: en
+ * una landing de campaña de pago, `faq-01` obliga a hidratar y deja las
+ * respuestas detrás del JS; `<details>` las sirve dentro del HTML, indexables
+ * y funcionando con JavaScript desactivado.
+ *
+ * Elige faq-01 si necesitas animación de altura o que solo haya un panel
+ * abierto a la vez. Para todo lo demás, éste.
+ *
+ * La flecha se dibuja con CSS (`group-open:`): sin librería de iconos y sin
+ * dependencias de registry.
+ */
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  title?: string;
+  description?: string;
+  items: FaqItem[];
+  /** Abre el primero al cargar. Útil cuando la primera pregunta es la que todos hacen. */
+  openFirst?: boolean;
+  class?: string;
+}
+
+const {
+  title = 'Preguntas frecuentes',
+  description,
+  items,
+  openFirst = false,
+  class: className,
+} = Astro.props;
+---
+
+<section class:list={['w-full px-6 py-24 md:py-32', className]}>
+  <div class="mx-auto max-w-3xl">
+    <div class="mb-12 text-center">
+      <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">{title}</h2>
+      {description && <p class="mt-4 text-lg text-muted-foreground">{description}</p>}
+    </div>
+
+    <div class="flex flex-col">
+      {
+        items.map((item, index) => (
+          <details class="group border-b border-border" open={openFirst && index === 0}>
+            <summary
+              class="flex cursor-pointer list-none items-center gap-4 py-5 [&::-webkit-details-marker]:hidden"
+            >
+              <span class="flex-1 text-left text-base font-medium text-foreground">
+                {item.question}
+              </span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="shrink-0 text-muted-foreground transition-transform duration-200 group-open:rotate-180"
+                aria-hidden="true"
+              >
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </summary>
+            <p class="pb-5 pr-8 text-muted-foreground">{item.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
