@@ -423,7 +423,11 @@
         "buttons"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. En Base UI se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro — ahí usa las clases sobre el elemento nativo."
+      "docs": "Primitivo sobre Base UI. En Base UI se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro — ahí usa las clases sobre el elemento nativo.",
+      "meta": {
+        "group": "Buttons",
+        "iframeHeight": "480px"
+      }
     },
     {
       "name": "badge",
@@ -446,7 +450,11 @@
         "ui"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. En Base UI se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro — ahí usa las clases sobre el elemento nativo."
+      "docs": "Primitivo sobre Base UI. En Base UI se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro — ahí usa las clases sobre el elemento nativo.",
+      "meta": {
+        "group": "Display",
+        "iframeHeight": "480px"
+      }
     },
     {
       "name": "separator",
@@ -468,7 +476,11 @@
         "ui"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. En Base UI se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro — ahí usa las clases sobre el elemento nativo."
+      "docs": "Primitivo sobre Base UI. En Base UI se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro — ahí usa las clases sobre el elemento nativo.",
+      "meta": {
+        "group": "Display",
+        "iframeHeight": "480px"
+      }
     },
     {
       "name": "card",
@@ -488,7 +500,11 @@
         "ui"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. En Base UI se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro — ahí usa las clases sobre el elemento nativo."
+      "docs": "Primitivo sobre Base UI. En Base UI se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro — ahí usa las clases sobre el elemento nativo.",
+      "meta": {
+        "group": "Display",
+        "iframeHeight": "480px"
+      }
     },
     {
       "name": "accordion",
@@ -511,7 +527,11 @@
         "ui"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. En Base UI se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro — ahí usa las clases sobre el elemento nativo."
+      "docs": "Primitivo sobre Base UI. En Base UI se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro — ahí usa las clases sobre el elemento nativo.",
+      "meta": {
+        "group": "Disclosure",
+        "iframeHeight": "480px"
+      }
     },
     {
       "name": "sheet",
@@ -537,7 +557,11 @@
         "overlays"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. En Base UI se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro — ahí usa las clases sobre el elemento nativo."
+      "docs": "Primitivo sobre Base UI. En Base UI se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro — ahí usa las clases sobre el elemento nativo.",
+      "meta": {
+        "group": "Overlays",
+        "iframeHeight": "420px"
+      }
     },
     {
       "name": "input",
@@ -560,7 +584,11 @@
         "forms"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un .astro — un formulario con validación va en isla con @saastro/forms, nunca en .astro."
+      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un .astro — un formulario con validación va en isla con @saastro/forms, nunca en .astro.",
+      "meta": {
+        "group": "Forms",
+        "iframeHeight": "480px"
+      }
     },
     {
       "name": "label",
@@ -581,7 +609,11 @@
         "forms"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un .astro — un formulario con validación va en isla con @saastro/forms, nunca en .astro."
+      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un .astro — un formulario con validación va en isla con @saastro/forms, nunca en .astro.",
+      "meta": {
+        "group": "Forms",
+        "iframeHeight": "480px"
+      }
     },
     {
       "name": "textarea",
@@ -602,7 +634,11 @@
         "forms"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un .astro — un formulario con validación va en isla con @saastro/forms, nunca en .astro."
+      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un .astro — un formulario con validación va en isla con @saastro/forms, nunca en .astro.",
+      "meta": {
+        "group": "Forms",
+        "iframeHeight": "480px"
+      }
     },
     {
       "name": "select",
@@ -626,7 +662,11 @@
         "forms"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un .astro — un formulario con validación va en isla con @saastro/forms, nunca en .astro."
+      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un .astro — un formulario con validación va en isla con @saastro/forms, nunca en .astro.",
+      "meta": {
+        "group": "Forms",
+        "iframeHeight": "480px"
+      }
     },
     {
       "name": "checkbox",
@@ -650,7 +690,11 @@
         "forms"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un .astro — un formulario con validación va en isla con @saastro/forms, nunca en .astro."
+      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un .astro — un formulario con validación va en isla con @saastro/forms, nunca en .astro.",
+      "meta": {
+        "group": "Forms",
+        "iframeHeight": "480px"
+      }
     },
     {
       "name": "radio-group",
@@ -673,7 +717,11 @@
         "forms"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un .astro — un formulario con validación va en isla con @saastro/forms, nunca en .astro."
+      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un .astro — un formulario con validación va en isla con @saastro/forms, nunca en .astro.",
+      "meta": {
+        "group": "Forms",
+        "iframeHeight": "480px"
+      }
     },
     {
       "name": "switch",
@@ -696,7 +744,11 @@
         "forms"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un .astro — un formulario con validación va en isla con @saastro/forms, nunca en .astro."
+      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un .astro — un formulario con validación va en isla con @saastro/forms, nunca en .astro.",
+      "meta": {
+        "group": "Forms",
+        "iframeHeight": "480px"
+      }
     },
     {
       "name": "field",
@@ -722,7 +774,11 @@
         "forms"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un .astro — un formulario con validación va en isla con @saastro/forms, nunca en .astro."
+      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un .astro — un formulario con validación va en isla con @saastro/forms, nunca en .astro.",
+      "meta": {
+        "group": "Forms",
+        "iframeHeight": "480px"
+      }
     },
     {
       "name": "form",
@@ -746,7 +802,11 @@
         "forms"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un .astro — un formulario con validación va en isla con @saastro/forms, nunca en .astro."
+      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un .astro — un formulario con validación va en isla con @saastro/forms, nunca en .astro.",
+      "meta": {
+        "group": "Forms",
+        "iframeHeight": "480px"
+      }
     },
     {
       "name": "dialog",
@@ -772,7 +832,11 @@
         "overlays"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro."
+      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro.",
+      "meta": {
+        "group": "Overlays",
+        "iframeHeight": "420px"
+      }
     },
     {
       "name": "popover",
@@ -795,7 +859,11 @@
         "overlays"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro."
+      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro.",
+      "meta": {
+        "group": "Overlays",
+        "iframeHeight": "420px"
+      }
     },
     {
       "name": "tooltip",
@@ -818,7 +886,11 @@
         "overlays"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro."
+      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro.",
+      "meta": {
+        "group": "Overlays",
+        "iframeHeight": "420px"
+      }
     },
     {
       "name": "scroll-area",
@@ -840,7 +912,11 @@
         "ui"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro."
+      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro.",
+      "meta": {
+        "group": "Display",
+        "iframeHeight": "480px"
+      }
     },
     {
       "name": "navigation-menu",
@@ -865,7 +941,11 @@
         "navigation"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro."
+      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro.",
+      "meta": {
+        "group": "Navigation",
+        "iframeHeight": "420px"
+      }
     },
     {
       "name": "slider",
@@ -888,7 +968,11 @@
         "forms"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro."
+      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro.",
+      "meta": {
+        "group": "Forms",
+        "iframeHeight": "480px"
+      }
     },
     {
       "name": "native-select",
@@ -911,7 +995,11 @@
         "forms"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro."
+      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro.",
+      "meta": {
+        "group": "Forms",
+        "iframeHeight": "480px"
+      }
     },
     {
       "name": "input-group",
@@ -938,7 +1026,11 @@
         "forms"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro."
+      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro.",
+      "meta": {
+        "group": "Forms",
+        "iframeHeight": "480px"
+      }
     },
     {
       "name": "input-otp",
@@ -962,7 +1054,11 @@
         "forms"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro."
+      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro.",
+      "meta": {
+        "group": "Forms",
+        "iframeHeight": "480px"
+      }
     },
     {
       "name": "calendar",
@@ -988,7 +1084,11 @@
         "forms"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro."
+      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro.",
+      "meta": {
+        "group": "Forms",
+        "iframeHeight": "560px"
+      }
     }
   ],
   "description": "Landing page blocks for Astro sites, installable with the shadcn CLI."
