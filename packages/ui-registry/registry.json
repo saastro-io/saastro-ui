@@ -500,7 +500,7 @@
         "ui"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. En Base UI se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro — ahí usa las clases sobre el elemento nativo.",
+      "docs": "Markup puro: no lleva primitivo externo. No usa Base UI, así que `render` no aplica aquí. Se instala y se edita como cualquier otro fichero copy-in.",
       "meta": {
         "group": "Display",
         "iframeHeight": "480px"
@@ -609,7 +609,7 @@
         "forms"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un .astro — un formulario con validación va en isla con @saastro/forms, nunca en .astro.",
+      "docs": "Markup puro: no lleva primitivo externo. No usa Base UI, así que `render` no aplica aquí. Se instala y se edita como cualquier otro fichero copy-in.",
       "meta": {
         "group": "Forms",
         "iframeHeight": "480px"
@@ -634,7 +634,7 @@
         "forms"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un .astro — un formulario con validación va en isla con @saastro/forms, nunca en .astro.",
+      "docs": "Markup puro: no lleva primitivo externo. No usa Base UI, así que `render` no aplica aquí. Se instala y se edita como cualquier otro fichero copy-in.",
       "meta": {
         "group": "Forms",
         "iframeHeight": "480px"
@@ -774,7 +774,7 @@
         "forms"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un .astro — un formulario con validación va en isla con @saastro/forms, nunca en .astro.",
+      "docs": "Markup puro: no lleva primitivo externo. No usa Base UI, así que `render` no aplica aquí. Se instala y se edita como cualquier otro fichero copy-in.",
       "meta": {
         "group": "Forms",
         "iframeHeight": "480px"
@@ -995,7 +995,7 @@
         "forms"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro.",
+      "docs": "Markup puro: no lleva primitivo externo. No usa Base UI, así que `render` no aplica aquí. Se instala y se edita como cualquier otro fichero copy-in.",
       "meta": {
         "group": "Forms",
         "iframeHeight": "480px"
@@ -1026,7 +1026,7 @@
         "forms"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro.",
+      "docs": "Markup puro: no lleva primitivo externo. No usa Base UI, así que `render` no aplica aquí. Se instala y se edita como cualquier otro fichero copy-in.",
       "meta": {
         "group": "Forms",
         "iframeHeight": "480px"
@@ -1054,7 +1054,7 @@
         "forms"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro.",
+      "docs": "Sobre `input-otp`. No usa Base UI, así que `render` no aplica aquí. Se instala y se edita como cualquier otro fichero copy-in.",
       "meta": {
         "group": "Forms",
         "iframeHeight": "480px"
@@ -1084,7 +1084,7 @@
         "forms"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro.",
+      "docs": "Sobre `react-day-picker`. No usa Base UI, así que `render` no aplica aquí. Se instala y se edita como cualquier otro fichero copy-in.",
       "meta": {
         "group": "Forms",
         "iframeHeight": "560px"

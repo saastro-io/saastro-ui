@@ -19,21 +19,21 @@ packages/ui-registry/
 ├── registry.json                    # shadcn v4 registry definition
 ├── registry/default/
 │   ├── blocks/                      # Block components (.tsx)
-│   │   ├── hero-01.tsx
-│   │   ├── hero-02.tsx
-│   │   ├── hero-03.tsx
-│   │   ├── features-01.tsx
-│   │   ├── features-02.tsx
+│   │   ├── hero-01.astro
+│   │   ├── hero-02.astro
+│   │   ├── hero-03.astro
+│   │   ├── features-01.astro
+│   │   ├── features-02.astro
 │   │   ├── pricing-01.tsx
-│   │   ├── cta-01.tsx
+│   │   ├── cta-01.astro
 │   │   ├── faq-01.tsx
-│   │   ├── testimonials-01.tsx
-│   │   ├── footer-01.tsx
+│   │   ├── testimonials-01.astro
+│   │   ├── footer-01.astro
 │   │   ├── navbar-01.tsx
-│   │   ├── blog-grid-01.tsx
-│   │   ├── newsletter-01.tsx
-│   │   ├── stats-01.tsx
-│   │   └── logos-01.tsx
+│   │   ├── blog-grid-01.astro
+│   │   ├── newsletter-01.astro
+│   │   ├── stats-01.astro
+│   │   └── logos-01.astro
 │   └── lib/
 │       └── utils.ts                 # cn() helper (clsx + tailwind-merge)
 ├── public/r/                        # Built JSON output (shadcn build)
@@ -44,7 +44,7 @@ packages/ui-registry/
 
 ```
 registry.json (item definitions)
-    ↓ npx shadcn build --output ./public/r
+    ↓ shadcn build --output ../../apps/ui-docs/public/r
 public/r/*.json (consumable by shadcn CLI)
     ↓ deployed to
 ui.saastro.io/r/{name}.json
