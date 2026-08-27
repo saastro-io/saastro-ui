@@ -78,7 +78,7 @@ if (comprobar) {
     console.error(`knowledge/ desincronizado —\n  ${problemas.join('\n  ')}\nArregla con: node scripts/office-link.mjs`)
     process.exit(1)
   }
-  console.log(`knowledge/ al día (${esperados.size} secciones enlazadas)`)
+  console.log(`knowledge/ al día (${esperados.size} enlaces)`)
   process.exit(0)
 }
 
@@ -98,4 +98,4 @@ for (const [f, destino] of faltan) {
   symlinkSync(destino, p)
   console.log(`  + ${f} → ${destino}`)
 }
-console.log(`knowledge/: ${esperados.size} secciones enlazadas desde ${CONTENEDORES.join('/')}`)
+console.log(`knowledge/: ${esperados.size} enlaces desde ${CONTENEDORES.join('/')}`)
