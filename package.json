@@ -10,7 +10,9 @@
     "clean": "turbo run clean && rm -rf node_modules",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "release": "turbo run build --filter=@saastro/ui-registry && changeset publish"
+    "release": "turbo run build --filter=@saastro/ui-registry && changeset publish",
+    "office:link": "node scripts/office-link.mjs",
+    "office:check": "node scripts/office-link.mjs --check"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.0",

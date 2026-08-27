@@ -100,6 +100,30 @@ propio elemento y React recibe `undefined`. En `.astro` se usa
 - `shadcn` (devDependency): **solo el CLI** que construye el registry a
   `apps/ui-docs/public/r`. No aporta primitivos: ésos son Base UI desde el 17-ago
 
+## Dónde buscar
+
+| workspace | sección | ficha |
+|---|---|---|
+| packages/ui-registry | registry | `packages/ui-registry/knowledge/registry.snap.md` (+ `.md`) |
+| packages/ui-registry/registry | bloques | `packages/ui-registry/knowledge/bloques.snap.md` (+ `.md`) |
+| apps/ui-docs | ui-docs | `apps/ui-docs/knowledge/ui-docs.snap.md` (+ `.md`) |
+| apps/ui-docs/src/theme | tema | `apps/ui-docs/knowledge/tema.snap.md` (+ `.md`) |
+| apps/ui-docs/src/content | guias | `apps/ui-docs/knowledge/guias.snap.md` (+ `.md`) |
+| apps/ui-docs/src/pages | sitio | `apps/ui-docs/knowledge/sitio.snap.md` (+ `.md`) |
+| apps/ui-docs/scripts | previews | `apps/ui-docs/knowledge/previews.snap.md` (+ `.md`) |
+| docs/superpowers | decisiones | `docs/superpowers/knowledge/decisiones.snap.md` (+ `.md`) |
+
+`knowledge/` en la raíz es una vista de symlinks (`pnpm office:link`, check
+con `office:check`): la ficha vive en su workspace.
+
+**De quién dependo**
+- dev: nadie — este repo ES la fuente: theme y los sites consumen el registry.
+- ops: nadie — el registry se publica, no se opera.
+
+El detalle de símbolos está en el snap, no aquí. El contexto vivo se pide
+con `office_context`/`office_search`. El mapa del ecosistema lo tiene el
+jefe (`office_brief`), no este fichero.
+
 ## saastro-office
 - `office_init` con project `saastro-ui` al empezar la sesión.
 - `office_state` con done/next/needs antes de parar. El hook de Stop la exige.
