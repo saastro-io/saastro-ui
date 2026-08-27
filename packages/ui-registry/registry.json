@@ -963,6 +963,32 @@
       ],
       "author": "SAASTRO <https://saastro.io>",
       "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro."
+    },
+    {
+      "name": "calendar",
+      "type": "registry:ui",
+      "title": "Calendar",
+      "description": "Calendario sobre react-day-picker, con la navegación y los estilos del sistema.",
+      "registryDependencies": [
+        "@saastro/button"
+      ],
+      "dependencies": [
+        "react-day-picker",
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "registry/default/ui/calendar.tsx",
+          "type": "registry:ui",
+          "target": "@ui/calendar.tsx"
+        }
+      ],
+      "categories": [
+        "ui",
+        "forms"
+      ],
+      "author": "SAASTRO <https://saastro.io>",
+      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un fichero .astro."
     }
   ],
   "description": "Landing page blocks for Astro sites, installable with the shadcn CLI."
