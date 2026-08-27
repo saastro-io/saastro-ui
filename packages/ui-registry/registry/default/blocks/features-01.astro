@@ -3,14 +3,17 @@
  * features-01 — Grid de 3 columnas con icono, título y descripción en cards.
  * Bloque Astro puro: cero JS, cero dependencias.
  *
- * `icon` es una CLAVE del set interno ('zap' | 'shield' | 'code' | 'sparkles' |
+ * `icon` es OPCIONAL — sin él la tarjeta es solo título y descripción, que es
+ * lo que necesita una rejilla de valores o de principios. Cuando se pasa, es una
+ * CLAVE del set interno ('zap' | 'shield' | 'code' | 'sparkles' |
  * 'globe' | 'lock'), no un nodo: mantiene las props serializables (la regla del
  * ecosistema: los datos cruzan la frontera de island/adapter, los nodos no).
  */
 type IconName = 'zap' | 'shield' | 'code' | 'sparkles' | 'globe' | 'lock';
 
 interface Feature {
-  icon: IconName;
+  /** Opcional: sin icono, la tarjeta se queda con título y descripción. */
+  icon?: IconName;
   title: string;
   description: string;
 }
@@ -48,20 +51,22 @@ const ICONS: Record<IconName, string> = {
       {features.map((feature) => (
         <div class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm">
           <div class="flex flex-col gap-1.5 px-6">
-            <div class="mb-2 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                set:html={ICONS[feature.icon] ?? ICONS.sparkles}
-              />
-            </div>
+            {feature.icon && (
+              <div class="mb-2 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  set:html={ICONS[feature.icon]}
+                />
+              </div>
+            )}
             <h3 class="leading-none font-semibold">{feature.title}</h3>
           </div>
           <div class="px-6">
