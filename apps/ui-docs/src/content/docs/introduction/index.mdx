@@ -1,6 +1,6 @@
 ---
 title: Introduction
-description: Production-ready landing page blocks for Astro, built with shadcn/ui.
+description: Production-ready landing page blocks for Astro, built on Base UI.
 section: getting-started
 order: 1
 ---
@@ -11,7 +11,7 @@ Saastro Blocks is a collection of production-ready landing page sections built w
 
 ## What are blocks?
 
-Blocks are complete, self-contained landing page sections — hero sections, feature grids, pricing tables, testimonials, and more. Each block is a React component that uses standard shadcn/ui primitives.
+Blocks are complete, self-contained landing page sections — hero sections, feature grids, pricing tables, testimonials, and more. 12 of the 15 blocks are pure `.astro`; the other 3 are React islands using the `@saastro/*` primitives.
 
 In Astro, blocks render as **pure HTML on the server** by default. No JavaScript is shipped unless you explicitly add a `client:*` directive for interactivity.
 
@@ -29,7 +29,7 @@ npx shadcn@latest add @saastro/hero-01
 
 ## Why blocks instead of components?
 
-Individual UI primitives (Button, Card, Badge) are already solved by [shadcn/ui](https://ui.shadcn.com). What takes time is composing them into complete page sections with proper layout, spacing, and responsive behavior.
+Individual UI primitives (Button, Card, Badge) live in [this same registry](/ui) — 26 of them, on Base UI. What takes time is composing them into complete page sections with proper layout, spacing, and responsive behavior.
 
 Saastro Blocks gives you that higher-level layer — ready-made sections you can drop into any landing page.
 
@@ -39,7 +39,7 @@ Saastro Blocks gives you that higher-level layer — ready-made sections you can
 - **Zero JS by default** — server-rendered in Astro, no client bundle
 - **Fully typed** — TypeScript props for every block
 - **Responsive** — mobile-first Tailwind CSS
-- **Accessible** — built on Radix UI primitives
+- **Accessible** — built on Base UI primitives
 - **Customizable** — you own the code, edit anything
 
 ## Ready to start?

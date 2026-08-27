@@ -1,0 +1,1 @@
+../packages/ui-registry/knowledge/registry.md

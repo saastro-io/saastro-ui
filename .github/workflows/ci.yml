@@ -31,6 +31,14 @@ jobs:
         run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
 
       - run: pnpm install --frozen-lockfile
+
+      # La vista `knowledge/` de la raíz son symlinks a los knowledge de cada
+      # workspace (doctrina de la oficina §1). `office watch` lee de esa carpeta
+      # plana, pero la ficha vive junto al código. Si alguien añade una sección y
+      # no relinka, la office deja de verla EN SILENCIO — de ahí el gate.
+      - name: Verify office knowledge links
+        run: pnpm run office:check
+
       - run: pnpm run build
 
       # Valida el registry construido antes de que llegue a ui.saastro.io:

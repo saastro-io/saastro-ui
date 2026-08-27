@@ -11,7 +11,7 @@ Saastro Blocks uses the **shadcn CLI** for installation. If you already have sha
 
 ## Prerequisites
 
-- [Astro](https://astro.build) 5+ (or any React framework)
+- [Astro](https://astro.build) 6+ (or any React framework)
 - [Tailwind CSS](https://tailwindcss.com) 4+
 - [shadcn/ui](https://ui.shadcn.com) initialized in your project
 
@@ -32,7 +32,7 @@ Open your `components.json` and add the Saastro registry:
 ```json
 {
   "$schema": "https://ui.shadcn.com/schema.json",
-  "style": "default",
+  "style": "base-nova",
   "registries": {
     "@saastro": "https://ui.saastro.io/r/{name}.json"
   }
@@ -51,7 +51,7 @@ npx shadcn@latest add @saastro/hero-01
 npx shadcn@latest add @saastro/hero-01 @saastro/features-01 @saastro/pricing-01
 ```
 
-The CLI will automatically install the block source code and any required shadcn/ui dependencies (Button, Card, Badge, etc.).
+The CLI will automatically install the block source code and the `@saastro/*` primitives that block declares (12 of the 15 declare none).
 
 ## 4. Use blocks in your pages
 
@@ -60,7 +60,7 @@ Import the block component and pass your content as props:
 ```astro
 ---
 // src/pages/index.astro
-import { Hero01 } from '@/components/blocks/hero-01';
+import Hero01 from '@/components/blocks/hero-01.astro';
 ---
 
 <Hero01
@@ -72,7 +72,7 @@ import { Hero01 } from '@/components/blocks/hero-01';
 />
 ```
 
-By default, React components in Astro render as **static HTML** with zero JavaScript. If your block needs interactivity (like a pricing toggle), add a client directive:
+**12 of the 15 blocks are `.astro`**: no React involved, nothing shipped to the browser. Only `faq-01`, `navbar-01` and `pricing-01` are React islands — those need a client directive to become interactive:
 
 ```astro
 <Pricing01 client:visible plans={[...]} />

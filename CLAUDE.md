@@ -6,8 +6,8 @@ Block registry and showcase site for the Saastro ecosystem.
 
 ```
 packages/
-  ui-registry/     → @saastro/ui-registry     (40 items: 15 bloques de landing
-                                                + 25 primitivos registry:ui)
+  ui-registry/     → @saastro/ui-registry     (41 items: 15 bloques de landing
+                                                + 26 primitivos registry:ui)
 apps/
   ui-docs/         → @saastro/ui-docs         (showcase site at ui.saastro.io)
 ```
@@ -19,16 +19,16 @@ apps/
   live in `pnpm-workspace.yaml`. **No uses `bun`/`bunx` en este repo.**
 - **Orchestration**: Turborepo
 - **Language**: TypeScript strict
-- **Blocks**: React + shadcn/ui primitives
+- **Blocks**: 12 `.astro` cero-JS + 3 islas React sobre primitivos `@saastro/*`
 - **Docs site**: Astro 6 estático servido por un Worker CF de static assets (deploy vía Actions + wrangler)
-- **Publishing**: Changesets → npm (public)
+- **Publishing**: NADA. `@saastro/ui-registry` es `private: true` y el modelo es copy-in vía `ui.saastro.io/r/{name}.json` (regla 2)
 
 ## Commands
 
 ```bash
 pnpm install              # Install deps
 pnpm run build            # Build all
-pnpm run dev              # Dev mode (docs + registry watch)
+pnpm run dev              # Dev mode (docs + rebuild del registry)
 pnpm run typecheck        # Type check all
 pnpm run format           # Prettier write
 
@@ -49,7 +49,7 @@ pnpm run release          # Build + publish to npm
 de shadcn, que sirve las versiones **Radix**. Instalar un bloque de Saastro te
 traía primitivos de otra base UI, justo lo contrario de la regla del ecosistema.
 Por eso todo item declara `@saastro/<nombre>` y ninguna dependencia sale fuera:
-un bloque de Saastro se instala entero desde Saastro. Los 25 se cosecharon de
+un bloque de Saastro se instala entero desde Saastro. Los 26 se cosecharon de
 `saastro-theme`, donde llevan en producción desde el 17-ago.
 
 ## Rules

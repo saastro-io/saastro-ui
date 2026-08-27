@@ -23,27 +23,31 @@ Install multiple blocks at once:
 npx shadcn@latest add @saastro/hero-01 @saastro/features-01 @saastro/pricing-01
 ```
 
-The CLI automatically resolves dependencies. For example, `hero-01` depends on `button` and `badge` — if you don't already have them, the CLI will install them from the default shadcn registry.
+The CLI resolves dependencies **against this registry, never against shadcn's**. Every `registryDependencies` entry is prefixed `@saastro/`, so a Saastro block only ever pulls Saastro primitives — all of them on Base UI.
+
+That prefix is the whole point: a bare name like `"button"` would resolve against shadcn's default registry and drop a **Radix** component into a Base UI project.
+
+Most blocks need nothing at all: **12 of the 15 are pure `.astro`** with zero JS and zero dependencies.
 
 ## Available blocks
 
-| Block             | Category     | Dependencies                   |
-| ----------------- | ------------ | ------------------------------ |
-| `hero-01`         | Hero         | button, badge                  |
-| `hero-02`         | Hero         | button, badge                  |
-| `hero-03`         | Hero         | button, badge                  |
-| `features-01`     | Features     | card                           |
-| `features-02`     | Features     | badge                          |
-| `pricing-01`      | Pricing      | button, card, badge, separator |
-| `cta-01`          | CTA          | button                         |
-| `faq-01`          | FAQ          | accordion                      |
-| `testimonials-01` | Testimonials | card, avatar                   |
-| `footer-01`       | Navigation   | separator                      |
-| `navbar-01`       | Navigation   | button, sheet                  |
-| `blog-grid-01`    | Content      | card, badge                    |
-| `newsletter-01`   | CTA          | button, input                  |
-| `stats-01`        | Social Proof | —                              |
-| `logos-01`        | Social Proof | —                              |
+| Block | Group | Type | Registry dependencies |
+|---|---|---|---|
+| `hero-01` | Hero | `.astro` | — *(none)* |
+| `hero-02` | Hero | `.astro` | — *(none)* |
+| `hero-03` | Hero | `.astro` | — *(none)* |
+| `features-01` | Features | `.astro` | — *(none)* |
+| `features-02` | Features | `.astro` | — *(none)* |
+| `pricing-01` | Pricing | `.tsx` | `@saastro/button`, `@saastro/card`, `@saastro/badge`, `@saastro/separator` |
+| `cta-01` | CTA | `.astro` | — *(none)* |
+| `faq-01` | FAQ | `.tsx` | `@saastro/accordion` |
+| `testimonials-01` | Testimonials | `.astro` | — *(none)* |
+| `footer-01` | Navigation | `.astro` | — *(none)* |
+| `navbar-01` | Navigation | `.tsx` | `@saastro/button`, `@saastro/sheet` |
+| `blog-grid-01` | Content | `.astro` | — *(none)* |
+| `newsletter-01` | CTA | `.astro` | — *(none)* |
+| `stats-01` | Social Proof | `.astro` | — *(none)* |
+| `logos-01` | Social Proof | `.astro` | — *(none)* |
 
 ## How it works
 
@@ -51,7 +55,7 @@ When you run `npx shadcn@latest add @saastro/hero-01`, the CLI:
 
 1. Fetches `https://ui.saastro.io/r/hero-01.json`
 2. Reads the component source code and dependency list
-3. Installs any missing shadcn primitives (button, badge, etc.)
+3. Installs the `@saastro/*` primitives that block declares — if any; 12 of the 15 declare none
 4. Copies the block source into your project
 
 ## Overwriting existing blocks

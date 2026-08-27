@@ -13,7 +13,17 @@ apps/ui-docs/.wrangler/
 apps/ui-docs/public/r/
 packages/ui-registry/public/r/
 
-# `knowledge/` lo reescribe `office watch` en cada sincronización (los
-# `.snap.md` se rehacen solos) y ensuciaba todos los commits. Mismo criterio
-# que hub, platform y forms.
-knowledge/
+# Del knowledge se ignora SOLO lo generado. `office watch` rehace los
+# `.snap.md` en cada sincronización y ensuciaban todos los commits — ésos
+# fuera. Pero las narrativas `.md` se escriben a mano y son CONTRATO: la
+# doctrina de la oficina (§3) dice que un agente de OTRO repo las lee antes
+# de consumir el registry. Ignorarlas enteras las dejaba solo en esta máquina
+# y en la base de la office, así que quien clonaba el repo no recibía el
+# contrato. Se versionan.
+**/knowledge/*.snap.md
+# La vista de la raíz SÍ se versiona, aunque la genere `pnpm office:link`.
+# Git guarda symlinks sin problema, y es lo que da sentido al `office:check`
+# de CI: si no estuviera versionada, un clon limpio no la tendría y el check
+# o fallaría siempre o habría que regenerarla antes — y entonces no detectaría
+# nunca el caso que existe para detectar (alguien añade una sección y no
+# relinka, y la office deja de verla en silencio).
