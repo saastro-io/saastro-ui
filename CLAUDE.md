@@ -41,7 +41,7 @@ pnpm run release          # Build + publish to npm
 ## Products
 
 - **Blocks**: `npx shadcn@latest add @saastro/hero-01`
-- **Primitivos**: `npx shadcn@latest add @saastro/button` — 25, todos sobre Base UI
+- **Primitivos**: `npx shadcn@latest add @saastro/button` — 26, todos sobre Base UI
 - **Docs**: ui.saastro.io
 
 **Por qué los primitivos están aquí y no se cogen de shadcn.** Un
