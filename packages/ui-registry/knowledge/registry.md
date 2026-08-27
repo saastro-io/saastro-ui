@@ -3,6 +3,11 @@
 > **Esta ficha es CONTRATO.** La leen agentes de otros repos —theme, los nueve
 > sites de ENLOLAB, hub— antes de instalar nada de aquí. Si cambias el contrato,
 > cambia esta ficha en el mismo commit.
+>
+> **Describe `main`, y el registry sirve lo desplegado.** Aquí no hay
+> versiones que pinear (es copy-in), pero lo que tú tengas copiado en tu
+> repo es de cuando lo bajaste: si algo no cuadra, vuelve a bajarlo con
+> `ui:sync` antes de dar por falsa esta ficha.
 
 ## Qué es
 
