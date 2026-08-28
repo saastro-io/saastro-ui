@@ -1,0 +1,1 @@
+../apps/ui-docs/knowledge/previews.snap.md

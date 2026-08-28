@@ -21,6 +21,12 @@ packages/ui-registry/public/r/
 # y en la base de la office, así que quien clonaba el repo no recibía el
 # contrato. Se versionan.
 **/knowledge/*.snap.md
+
+# …pero SÍ los symlinks de la vista de la raíz: son la tubería que hace que
+# `office watch` escriba dentro de cada workspace. Sin versionarlos, el check
+# del CI mira una carpeta vacía en un clon limpio y sale verde sin comprobar
+# nada. Quedan colgando hasta que `office watch` escribe su destino.
+!/knowledge/*.snap.md
 # La vista de la raíz SÍ se versiona, aunque la genere `pnpm office:link`.
 # Git guarda symlinks sin problema, y es lo que da sentido al `office:check`
 # de CI: si no estuviera versionada, un clon limpio no la tendría y el check

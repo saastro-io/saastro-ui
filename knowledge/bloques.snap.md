@@ -1,0 +1,1 @@
+../packages/ui-registry/knowledge/bloques.snap.md
