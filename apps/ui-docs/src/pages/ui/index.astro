@@ -2,9 +2,13 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { uiItems as items, uiCategories as categories } from "@/lib/catalog";
 
+// La cifra se CUENTA, no se escribe: estuvo clavada en 26 hasta que fueron 35
+// y nadie se enteró. Una cifra correcta envejece sin avisar.
+const total = items.length;
+
 const metadata = {
   title: "UI Primitives — Saastro",
-  description: "26 primitivos sobre Base UI, instalables con el CLI de shadcn contra ui.saastro.io. Cero Radix.",
+  description: `${total} primitivos sobre Base UI, instalables con el CLI de shadcn contra ui.saastro.io. Cero Radix.`,
 };
 ---
 
@@ -14,7 +18,7 @@ const metadata = {
       <div class="mb-8">
         <h1 class="text-3xl font-medium tracking-[-0.02em] sm:text-4xl">UI Primitives</h1>
         <p class="mt-2 text-muted-foreground">
-          26 primitivos sobre <strong>Base UI</strong>, no Radix. Se instalan con el CLI de
+          {total} primitivos sobre <strong>Base UI</strong>, no Radix. Se instalan con el CLI de
           shadcn: <code>npx shadcn@latest add @saastro/button</code>.
         </p>
       </div>
