@@ -1114,6 +1114,247 @@
         "group": "Forms",
         "iframeHeight": "560px"
       }
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "Avatar",
+      "description": "Imagen de persona con iniciales de reserva, sobre Base UI.",
+      "registryDependencies": [],
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "files": [
+        {
+          "path": "registry/default/ui/avatar.tsx",
+          "type": "registry:ui",
+          "target": "@ui/avatar.tsx"
+        }
+      ],
+      "categories": [
+        "ui",
+        "display"
+      ],
+      "author": "SAASTRO <https://saastro.io>",
+      "docs": "Primitivo sobre Base UI. En Base UI se compone con `render={<a/>}`, no con `asChild`. OJO: `render` NO funciona dentro de un fichero .astro.",
+      "meta": {
+        "group": "Display",
+        "iframeHeight": "240px"
+      }
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "El hueco de lo que está cargando, con la forma que va a tener.",
+      "registryDependencies": [],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "registry/default/ui/skeleton.tsx",
+          "type": "registry:ui",
+          "target": "@ui/skeleton.tsx"
+        }
+      ],
+      "categories": [
+        "ui",
+        "display"
+      ],
+      "author": "SAASTRO <https://saastro.io>",
+      "docs": "Markup puro: no lleva primitivo externo. Se instala y se edita como cualquier otro fichero copy-in; en .astro se usa tal cual.",
+      "meta": {
+        "group": "Display",
+        "iframeHeight": "240px"
+      }
+    },
+    {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "Barra de avance sobre Base UI. `value={null}` es indeterminado.",
+      "registryDependencies": [],
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "files": [
+        {
+          "path": "registry/default/ui/progress.tsx",
+          "type": "registry:ui",
+          "target": "@ui/progress.tsx"
+        }
+      ],
+      "categories": [
+        "ui",
+        "display"
+      ],
+      "author": "SAASTRO <https://saastro.io>",
+      "docs": "Primitivo sobre Base UI. En Base UI se compone con `render={<a/>}`, no con `asChild`. OJO: `render` NO funciona dentro de un fichero .astro.",
+      "meta": {
+        "group": "Display",
+        "iframeHeight": "240px"
+      }
+    },
+    {
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "Alert",
+      "description": "El aviso que ya está en la página, no el que interrumpe.",
+      "registryDependencies": [],
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "files": [
+        {
+          "path": "registry/default/ui/alert.tsx",
+          "type": "registry:ui",
+          "target": "@ui/alert.tsx"
+        }
+      ],
+      "categories": [
+        "ui",
+        "display"
+      ],
+      "author": "SAASTRO <https://saastro.io>",
+      "docs": "Markup puro: no lleva primitivo externo. Se instala y se edita como cualquier otro fichero copy-in; en .astro se usa tal cual.",
+      "meta": {
+        "group": "Display",
+        "iframeHeight": "320px"
+      }
+    },
+    {
+      "name": "table",
+      "type": "registry:ui",
+      "title": "Table",
+      "description": "Tabla nativa con su propio scroll horizontal.",
+      "registryDependencies": [],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "registry/default/ui/table.tsx",
+          "type": "registry:ui",
+          "target": "@ui/table.tsx"
+        }
+      ],
+      "categories": [
+        "ui",
+        "display"
+      ],
+      "author": "SAASTRO <https://saastro.io>",
+      "docs": "Markup puro: no lleva primitivo externo. Se instala y se edita como cualquier otro fichero copy-in; en .astro se usa tal cual.",
+      "meta": {
+        "group": "Display",
+        "iframeHeight": "380px"
+      }
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "Pestañas sobre Base UI, con indicador deslizante.",
+      "registryDependencies": [],
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "files": [
+        {
+          "path": "registry/default/ui/tabs.tsx",
+          "type": "registry:ui",
+          "target": "@ui/tabs.tsx"
+        }
+      ],
+      "categories": [
+        "ui",
+        "navigation"
+      ],
+      "author": "SAASTRO <https://saastro.io>",
+      "docs": "Primitivo sobre Base UI. En Base UI se compone con `render={<a/>}`, no con `asChild`. OJO: `render` NO funciona dentro de un fichero .astro.",
+      "meta": {
+        "group": "Navigation",
+        "iframeHeight": "320px"
+      }
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown Menu",
+      "description": "Menú desplegable sobre Base UI: items, checkbox, radio y submenús.",
+      "registryDependencies": [],
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "files": [
+        {
+          "path": "registry/default/ui/dropdown-menu.tsx",
+          "type": "registry:ui",
+          "target": "@ui/dropdown-menu.tsx"
+        }
+      ],
+      "categories": [
+        "ui",
+        "overlays"
+      ],
+      "author": "SAASTRO <https://saastro.io>",
+      "docs": "Primitivo sobre Base UI. En Base UI se compone con `render={<a/>}`, no con `asChild`. OJO: `render` NO funciona dentro de un fichero .astro.",
+      "meta": {
+        "group": "Overlays",
+        "iframeHeight": "420px"
+      }
+    },
+    {
+      "name": "context-menu",
+      "type": "registry:ui",
+      "title": "Context Menu",
+      "description": "El menú del botón derecho, sobre Base UI.",
+      "registryDependencies": [],
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "files": [
+        {
+          "path": "registry/default/ui/context-menu.tsx",
+          "type": "registry:ui",
+          "target": "@ui/context-menu.tsx"
+        }
+      ],
+      "categories": [
+        "ui",
+        "overlays"
+      ],
+      "author": "SAASTRO <https://saastro.io>",
+      "docs": "Primitivo sobre Base UI. En Base UI se compone con `render={<a/>}`, no con `asChild`. OJO: `render` NO funciona dentro de un fichero .astro.",
+      "meta": {
+        "group": "Overlays",
+        "iframeHeight": "420px"
+      }
+    },
+    {
+      "name": "alert-dialog",
+      "type": "registry:ui",
+      "title": "Alert Dialog",
+      "description": "El diálogo que exige respuesta: no se cierra con Escape ni pinchando fuera.",
+      "registryDependencies": [
+        "@saastro/button"
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "files": [
+        {
+          "path": "registry/default/ui/alert-dialog.tsx",
+          "type": "registry:ui",
+          "target": "@ui/alert-dialog.tsx"
+        }
+      ],
+      "categories": [
+        "ui",
+        "overlays"
+      ],
+      "author": "SAASTRO <https://saastro.io>",
+      "docs": "Primitivo sobre Base UI. En Base UI se compone con `render={<a/>}`, no con `asChild`. OJO: `render` NO funciona dentro de un fichero .astro.",
+      "meta": {
+        "group": "Overlays",
+        "iframeHeight": "420px"
+      }
     }
   ],
   "description": "Landing page blocks for Astro sites, installable with the shadcn CLI."

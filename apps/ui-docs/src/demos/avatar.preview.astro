@@ -1,0 +1,11 @@
+---
+// Isla, y no composición en .astro: `Avatar` pasa el estado de la imagen a
+// `AvatarImage` y `AvatarFallback` por contexto de React, y en un .astro cada
+// componente es su propia raíz —el contexto no cruza y Base UI lanza el
+// error #13 en el build—. Un primitivo compuesto va siempre en un .tsx.
+import { AvatarDemo } from './avatar.demo';
+---
+
+<div class="flex min-h-[240px] items-center justify-center p-8">
+  <AvatarDemo client:load />
+</div>

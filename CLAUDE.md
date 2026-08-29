@@ -6,8 +6,8 @@ Block registry and showcase site for the Saastro ecosystem.
 
 ```
 packages/
-  ui-registry/     → @saastro/ui-registry     (41 items: 15 bloques de landing
-                                                + 26 primitivos registry:ui)
+  ui-registry/     → @saastro/ui-registry     (51 items: 16 bloques de landing
+                                                + 35 primitivos registry:ui)
 apps/
   ui-docs/         → @saastro/ui-docs         (showcase site at ui.saastro.io)
 ```
@@ -41,7 +41,7 @@ pnpm run release          # Build + publish to npm
 ## Products
 
 - **Blocks**: `npx shadcn@latest add @saastro/hero-01`
-- **Primitivos**: `npx shadcn@latest add @saastro/button` — 26, todos sobre Base UI
+- **Primitivos**: `npx shadcn@latest add @saastro/button` — 35, todos sobre Base UI
 - **Docs**: ui.saastro.io
 
 **Por qué los primitivos están aquí y no se cogen de shadcn.** Un
@@ -49,8 +49,15 @@ pnpm run release          # Build + publish to npm
 de shadcn, que sirve las versiones **Radix**. Instalar un bloque de Saastro te
 traía primitivos de otra base UI, justo lo contrario de la regla del ecosistema.
 Por eso todo item declara `@saastro/<nombre>` y ninguna dependencia sale fuera:
-un bloque de Saastro se instala entero desde Saastro. Los 26 se cosecharon de
-`saastro-theme`, donde llevan en producción desde el 17-ago.
+un bloque de Saastro se instala entero desde Saastro. Los 26 primeros se
+cosecharon de `saastro-theme`, donde llevan en producción desde el 17-ago; los
+nueve del 28-ago se portaron desde shadcn a Base UI para que hub y gen puedan
+terminar de salir de Radix — son justo los que les faltaban.
+
+**Y lo mismo vale para copiar del repo hermano.** El Hub y gen todavía son
+Radix porque están a medio migrar: su `components/ui/` es el pasado, no la
+referencia. Los tokens de `hub-react` sí se copian —`globals.css` ES el design
+system y no depende de ninguna base UI—; los primitivos, nunca.
 
 ## Rules
 
@@ -89,10 +96,20 @@ De ahí la regla:
 `@saastro/forms`, que se instala por npm y se monta como isla. Un bloque del
 registry puede traer el *maquetado* de un formulario; la *lógica* no.
 
-Y una trampa de Base UI específica de Astro: **`render={<a/>}` no funciona
-dentro de un `.astro`** — ahí las llaves no son JSX de React, Astro compila su
-propio elemento y React recibe `undefined`. En `.astro` se usa
-`class={buttonVariants(...)}` sobre el elemento nativo.
+Y dos trampas de Base UI específicas de Astro:
+
+**`render={<a/>}` no funciona dentro de un `.astro`** — ahí las llaves no son
+JSX de React, Astro compila su propio elemento y React recibe `undefined`. En
+`.astro` se usa `class={buttonVariants(...)}` sobre el elemento nativo.
+
+**Un primitivo COMPUESTO no se compone en `.astro`.** Las partes que se hablan
+por contexto de React —`Avatar` con su `AvatarImage` y su `AvatarFallback`,
+`Tabs` con sus `TabsTrigger`, cualquier `Root` + partes— tienen que ir juntas
+dentro de una isla `.tsx`. En un `.astro` cada componente React es su propia
+raíz: el contexto no cruza y Base UI lanza `error #13` al construir. Se
+descubrió el 28-ago con la demo de `avatar`, que era un `.astro` y tiró el
+build entero. La regla práctica: **si el componente tiene partes, el fichero es
+`.tsx`**.
 
 ## External Dependencies
 

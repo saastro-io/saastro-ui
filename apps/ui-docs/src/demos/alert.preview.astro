@@ -1,0 +1,21 @@
+---
+// Markup puro: sin isla.
+import { Alert, AlertDescription, AlertTitle } from '@ui-registry/alert';
+---
+
+<div class="flex min-h-[320px] items-center justify-center p-8">
+  <div class="w-full max-w-md space-y-3">
+    <Alert>
+      <AlertTitle>Póliza renovada</AlertTitle>
+      <AlertDescription>La cobertura sigue activa hasta el 14 de marzo.</AlertDescription>
+    </Alert>
+    <Alert variant="info">
+      <AlertTitle>Faltan datos del conductor</AlertTitle>
+      <AlertDescription>Sin el carnet no se puede tarificar.</AlertDescription>
+    </Alert>
+    <Alert variant="destructive">
+      <AlertTitle>El pago no ha entrado</AlertTitle>
+      <AlertDescription>El banco ha devuelto el recibo de febrero.</AlertDescription>
+    </Alert>
+  </div>
+</div>

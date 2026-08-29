@@ -1,0 +1,42 @@
+---
+// Markup puro: sin isla.
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@ui-registry/table';
+
+const filas = [
+  { poliza: 'ZM-10482', ramo: 'Patinete', tomador: 'Lucía Ferrer', prima: '61,40 €' },
+  { poliza: 'ZM-10483', ramo: 'Vida', tomador: 'Andrés Pinto', prima: '218,00 €' },
+  { poliza: 'ZM-10490', ramo: 'Hogar', tomador: 'Marta Ocaña', prima: '134,75 €' },
+];
+---
+
+<div class="flex min-h-[380px] items-center justify-center p-8">
+  <div class="w-full max-w-lg rounded-xl border bg-card p-1">
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Póliza</TableHead>
+          <TableHead>Ramo</TableHead>
+          <TableHead>Tomador</TableHead>
+          <TableHead class="text-right">Prima</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {filas.map(f => (
+          <TableRow>
+            <TableCell class="font-medium">{f.poliza}</TableCell>
+            <TableCell>{f.ramo}</TableCell>
+            <TableCell>{f.tomador}</TableCell>
+            <TableCell class="text-right tabular-nums">{f.prima}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  </div>
+</div>

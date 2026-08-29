@@ -12,8 +12,16 @@
 ## Qué es
 
 `packages/ui-registry` es el paquete `@saastro/ui-registry`, y su corazón es
-`registry.json`: **41 entradas** —15 bloques de landing y 26 primitivos— que
+`registry.json`: **51 entradas** —16 bloques de landing y 35 primitivos— que
 describen cada pieza para el CLI de shadcn.
+
+Los 26 primeros primitivos se cosecharon de `saastro-theme` el 17-ago. Los
+nueve del 28-ago —`avatar`, `skeleton`, `progress`, `alert`, `table`, `tabs`,
+`dropdown-menu`, `context-menu`, `alert-dialog`— se portaron desde shadcn a
+Base UI por una razón concreta: eran EXACTAMENTE los que el Hub y gen seguían
+usando de Radix, y sin ellos no podían terminar de migrar. La lista no salió de
+una idea de qué estaría bien tener, sino de cruzar `components/ui/` de los dos
+repos contra lo que ya había aquí.
 
 `registry.json` es la **fuente única**. El catálogo del showcase se deriva de
 él (`apps/ui-docs/src/lib/catalog.ts` lo importa), así que el drift entre lo
