@@ -2,6 +2,7 @@
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -23,20 +24,24 @@ export function DropdownMenuDemo() {
         }
       />
       <DropdownMenuContent className="min-w-52">
-        <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-        <DropdownMenuItem>
-          <PencilIcon />
-          Editar datos
-          <DropdownMenuShortcut>⌘E</DropdownMenuShortcut>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <DownloadIcon />
-          Descargar condiciones
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <SendIcon />
-          Enviar al tomador
-        </DropdownMenuItem>
+        {/* El Group no es decorativo: DropdownMenuLabel es Menu.GroupLabel de
+            Base UI y lanza si no lo encuentra. En Radix el Label era libre. */}
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+          <DropdownMenuItem>
+            <PencilIcon />
+            Editar datos
+            <DropdownMenuShortcut>⌘E</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <DownloadIcon />
+            Descargar condiciones
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <SendIcon />
+            Enviar al tomador
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem variant="destructive">
           <Trash2Icon />

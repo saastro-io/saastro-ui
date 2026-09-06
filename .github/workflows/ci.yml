@@ -52,6 +52,18 @@ jobs:
       - name: Verify previews
         run: node apps/ui-docs/scripts/check-previews.mjs
 
+      # El gate de arriba comprueba que EXISTAN los PNG, no que la preview
+      # funcione: el 6-sep-2026 /preview/dropdown-menu y /preview/progress
+      # llevaban rotas en producción con sus cuatro capturas presentes y CI en
+      # verde (la captura fotografía el menú cerrado). Éste las abre y las pulsa.
+      - name: Install Chrome for the preview check
+        run: pnpm exec puppeteer browsers install chrome
+        working-directory: apps/ui-docs
+
+      - name: Previews actually render
+        run: pnpm run comprobar:previews
+        working-directory: apps/ui-docs
+
       - name: Validate registry
         run: pnpm dlx shadcn@4.18.0 registry validate
         working-directory: packages/ui-registry

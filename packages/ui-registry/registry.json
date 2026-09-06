@@ -687,7 +687,7 @@
         "forms"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un .astro — un formulario con validación va en isla con @saastro/forms, nunca en .astro.",
+      "docs": "Primitivo sobre Base UI. Se usa `render={<a/>}`, no `asChild`. OJO: `render` NO funciona dentro de un .astro — un formulario con validación va en isla con @saastro/forms, nunca en .astro. `SelectLabel` EXIGE un `<SelectGroup>` alrededor: es `Select.GroupLabel` y sin grupo lanza «SelectGroupContext is missing» al desplegar (en Radix el Label era libre).",
       "meta": {
         "group": "Forms",
         "iframeHeight": "480px"
@@ -1188,7 +1188,7 @@
         "display"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. En Base UI se compone con `render={<a/>}`, no con `asChild`. OJO: `render` NO funciona dentro de un fichero .astro.",
+      "docs": "Primitivo sobre Base UI. En Base UI se compone con `render={<a/>}`, no con `asChild`. OJO: `render` NO funciona dentro de un fichero .astro. OJO al SSR: `ProgressValue` formatea con `Intl`, así que **pasa `locale` explícito** — si no, el servidor (Node, en-US) escribe «64%», un navegador es-ES pinta «64 %» y React tira la hidratación con el error #418.",
       "meta": {
         "group": "Display",
         "iframeHeight": "240px"
@@ -1294,7 +1294,7 @@
         "overlays"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. En Base UI se compone con `render={<a/>}`, no con `asChild`. OJO: `render` NO funciona dentro de un fichero .astro.",
+      "docs": "Primitivo sobre Base UI. En Base UI se compone con `render={<a/>}`, no con `asChild`. OJO: `render` NO funciona dentro de un fichero .astro. `DropdownMenuLabel` EXIGE un `<DropdownMenuGroup>` alrededor: es `Menu.GroupLabel` y sin grupo lanza «MenuGroupContext is missing» al abrir el menú (en Radix el Label era libre).",
       "meta": {
         "group": "Overlays",
         "iframeHeight": "420px"
@@ -1321,7 +1321,7 @@
         "overlays"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Primitivo sobre Base UI. En Base UI se compone con `render={<a/>}`, no con `asChild`. OJO: `render` NO funciona dentro de un fichero .astro.",
+      "docs": "Primitivo sobre Base UI. En Base UI se compone con `render={<a/>}`, no con `asChild`. OJO: `render` NO funciona dentro de un fichero .astro. `ContextMenuLabel` EXIGE un `<ContextMenuGroup>` alrededor: es `Menu.GroupLabel` y sin grupo lanza «MenuGroupContext is missing» al abrir el menú (en Radix el Label era libre).",
       "meta": {
         "group": "Overlays",
         "iframeHeight": "420px"
