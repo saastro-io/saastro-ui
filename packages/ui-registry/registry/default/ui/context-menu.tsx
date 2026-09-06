@@ -53,6 +53,11 @@ function ContextMenuGroup({ ...props }: ContextMenuPrimitive.Group.Props) {
   return <ContextMenuPrimitive.Group data-slot="context-menu-group" {...props} />
 }
 
+/**
+ * **Exige un `<ContextMenuGroup>` alrededor.** Misma trampa que en
+ * `dropdown-menu`: es `Menu.GroupLabel` de Base UI y sin grupo lanza
+ * «MenuGroupContext is missing» al abrir el menú. En Radix el Label era libre.
+ */
 function ContextMenuLabel({
   className,
   ...props

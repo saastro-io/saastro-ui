@@ -9,7 +9,8 @@
     "astro": "astro",
     "analyze:performance": "node scripts/analyze-performance.js",
     "deploy": "wrangler deploy",
-    "capture": "node scripts/capture.mts"
+    "capture": "node scripts/capture.mts",
+    "comprobar:previews": "node scripts/comprobar-previews-vivas.mts"
   },
   "dependencies": {
     "@astrojs/mdx": "^5.0.0",

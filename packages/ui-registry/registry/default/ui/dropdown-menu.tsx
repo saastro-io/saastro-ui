@@ -58,6 +58,13 @@ function DropdownMenuGroup({ ...props }: MenuPrimitive.Group.Props) {
   return <MenuPrimitive.Group data-slot="dropdown-menu-group" {...props} />
 }
 
+/**
+ * **Exige un `<DropdownMenuGroup>` alrededor.** Es `Menu.GroupLabel` de Base
+ * UI: existe para el `aria-labelledby` del grupo, así que sin grupo lanza
+ * «MenuGroupContext is missing» al ABRIR el menú — no al montar la página.
+ * En Radix el Label era libre: esto es lo que rompe al portar a mano, y lo
+ * que tumbó gen#127 al primer clic (4-sep-2026).
+ */
 function DropdownMenuLabel({
   className,
   ...props
