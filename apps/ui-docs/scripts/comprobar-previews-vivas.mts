@@ -63,7 +63,12 @@ const rotas: { name: string; error: string }[] = [];
 
 try {
   await esperarServidor(`http://localhost:${PORT}/preview/${names[0]}`);
-  const browser = await puppeteer.launch();
+  // El runner de GitHub (Ubuntu 24.04) restringe los user namespaces con
+  // AppArmor y Chrome muere al arrancar con «No usable sandbox». Sólo se le
+  // quita ahí: en local mantiene el sandbox, y aquí sólo carga localhost.
+  const browser = await puppeteer.launch({
+    args: process.env.CI ? ['--no-sandbox', '--disable-dev-shm-usage'] : [],
+  });
   try {
     for (const name of names) {
       const fallos: string[] = [];
