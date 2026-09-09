@@ -9,9 +9,16 @@
  * medio — y en un sitio del ecosistema esas cadenas son i18n, o sea dos
  * idiomas por paso.
  *
- * `eyebrow` y `description` son opcionales porque la mitad de las landings que
- * usan esto no llevan antetítulo. Lo que NO es opcional es `steps`: un bloque
- * de pasos sin pasos no es una sección, es un hueco.
+ * `eyebrow`, `title` y `description` son opcionales: **la cabecera entera puede
+ * no venir**. Hace falta porque hay dos usos legítimos y el segundo apareció el
+ * primer día — un adaptador que pinta la cabecera ÉL para que sea editable
+ * desde Studio (el plugin solo instrumenta las expresiones del fichero que
+ * declara `fieldPrefix`, no las de dentro de un bloque) y le pasa al bloque
+ * solo los pasos. Con `title` obligatorio, ese adaptador tenía que mandar `""`
+ * y el bloque emitía un `<h2></h2>` vacío: un encabezado sin texto en el DOM.
+ *
+ * Lo que NO es opcional es `steps`: un bloque de pasos sin pasos no es una
+ * sección, es un hueco.
  *
  * La línea que une los pasos es un borde de la propia rejilla, no un elemento:
  * así desaparece sola en móvil (una columna) sin una consulta de medios que
@@ -25,7 +32,8 @@ interface Step {
 interface Props {
   /** Antetítulo corto sobre el título. */
   eyebrow?: string;
-  title: string;
+  /** Sin título no se pinta la cabecera: la pone quien use el bloque. */
+  title?: string;
   description?: string;
   steps: Step[];
   class?: string;
@@ -36,13 +44,15 @@ const { eyebrow, title, description, steps, class: className } = Astro.props;
 
 <section class:list={['w-full px-6 py-24 md:py-32', className]}>
   <div class="mx-auto max-w-6xl">
-    <div class="mx-auto mb-16 max-w-2xl text-center">
-      {eyebrow && (
-        <p class="mb-4 text-sm font-semibold tracking-wider text-primary uppercase">{eyebrow}</p>
-      )}
-      <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">{title}</h2>
-      {description && <p class="mt-4 text-lg text-muted-foreground">{description}</p>}
-    </div>
+    {(eyebrow || title || description) && (
+      <div class="mx-auto mb-16 max-w-2xl text-center">
+        {eyebrow && (
+          <p class="mb-4 text-sm font-semibold tracking-wider text-primary uppercase">{eyebrow}</p>
+        )}
+        {title && <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">{title}</h2>}
+        {description && <p class="mt-4 text-lg text-muted-foreground">{description}</p>}
+      </div>
+    )}
 
     <ol class="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
       {steps.map((step, i) => (

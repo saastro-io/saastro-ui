@@ -141,7 +141,7 @@
         "landing"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Astro component — zero JS, no React required. Default import: `import Steps01 from '@/components/blocks/steps-01.astro'`. Props: title, steps[{title, description}], eyebrow?, description?, class?. Los pasos se numeran solos por su orden: no metas el número en el texto.",
+      "docs": "Astro component — zero JS, no React required. Default import: `import Steps01 from '@/components/blocks/steps-01.astro'`. Props: steps[{title, description}], eyebrow?, title?, description?, class?. Los pasos se numeran solos por su orden: no metas el número en el texto. La cabecera entera es opcional — sin eyebrow/title/description el bloque pinta solo los pasos, que es lo que necesita un adaptador que quiera su cabecera editable.",
       "meta": {
         "group": "Features",
         "iframeHeight": "620px"
