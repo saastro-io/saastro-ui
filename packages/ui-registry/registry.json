@@ -124,6 +124,30 @@
       }
     },
     {
+      "name": "steps-01",
+      "type": "registry:block",
+      "title": "Steps — Numbered How-It-Works",
+      "description": "Numbered steps for a how-it-works section, with optional eyebrow and description. Zero-JS Astro component.",
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/default/blocks/steps-01.astro",
+          "type": "registry:component",
+          "target": "@components/blocks/steps-01.astro"
+        }
+      ],
+      "categories": [
+        "features",
+        "landing"
+      ],
+      "author": "SAASTRO <https://saastro.io>",
+      "docs": "Astro component — zero JS, no React required. Default import: `import Steps01 from '@/components/blocks/steps-01.astro'`. Props: title, steps[{title, description}], eyebrow?, description?, class?. Los pasos se numeran solos por su orden: no metas el número en el texto.",
+      "meta": {
+        "group": "Features",
+        "iframeHeight": "620px"
+      }
+    },
+    {
       "name": "pricing-01",
       "type": "registry:block",
       "title": "Pricing — 3 Tiers",
