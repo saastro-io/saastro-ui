@@ -177,6 +177,29 @@
       }
     },
     {
+      "name": "compare-01",
+      "type": "registry:block",
+      "title": "Compare — Two-column table",
+      "description": "Two-column comparison of paired statements, with column labels and check/cross marks. Zero-JS Astro component.",
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/default/blocks/compare-01.astro",
+          "type": "registry:component",
+          "target": "@components/blocks/compare-01.astro"
+        }
+      ],
+      "categories": [
+        "landing"
+      ],
+      "author": "SAASTRO <https://saastro.io>",
+      "docs": "Astro component — zero JS, no React required. Default import: `import Compare01 from '@/components/blocks/compare-01.astro'`. Props: title, labels{left,right}, rows[{left,right}], eyebrow?, description?, class?. La columna derecha es la destacada por convenio; las dos se quedan lado a lado también en móvil, porque apilarlas rompe la comparación.",
+      "meta": {
+        "group": "Landing",
+        "iframeHeight": "820px"
+      }
+    },
+    {
       "name": "cta-01",
       "type": "registry:block",
       "title": "CTA — Gradient Banner",
