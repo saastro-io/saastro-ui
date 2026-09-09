@@ -23,7 +23,11 @@
  * en un theme sin color de marca, y con marca además tiñe el icono.
  *
  * Las etiquetas de columna (`labels`) son obligatorias: una comparación sin
- * decir contra QUÉ compara es media frase.
+ * decir contra QUÉ compara es media frase. La CABECERA, en cambio, es
+ * opcional entera — mismo motivo que en `steps-01`: un adaptador que quiera su
+ * cabecera editable desde Studio la pinta él y le pasa al bloque solo las
+ * filas. Con `title` obligatorio ese adaptador tenía que mandar `""` y el
+ * bloque emitía un `<h2></h2>` vacío en el HTML servido.
  */
 interface Row {
   /** La alternativa (columna izquierda, apagada, con ✗). */
@@ -35,7 +39,8 @@ interface Row {
 interface Props {
   /** Antetítulo corto sobre el título. */
   eyebrow?: string;
-  title: string;
+  /** Sin título no se pinta la cabecera: la pone quien use el bloque. */
+  title?: string;
   description?: string;
   labels: { left: string; right: string };
   rows: Row[];
@@ -47,13 +52,15 @@ const { eyebrow, title, description, labels, rows, class: className } = Astro.pr
 
 <section class:list={['w-full px-6 py-24 md:py-32', className]}>
   <div class="mx-auto max-w-4xl">
-    <div class="mx-auto mb-12 max-w-2xl text-center">
-      {eyebrow && (
-        <p class="mb-4 text-sm font-semibold tracking-wider text-primary uppercase">{eyebrow}</p>
-      )}
-      <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">{title}</h2>
-      {description && <p class="mt-4 text-lg text-muted-foreground">{description}</p>}
-    </div>
+    {(eyebrow || title || description) && (
+      <div class="mx-auto mb-12 max-w-2xl text-center">
+        {eyebrow && (
+          <p class="mb-4 text-sm font-semibold tracking-wider text-primary uppercase">{eyebrow}</p>
+        )}
+        {title && <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">{title}</h2>}
+        {description && <p class="mt-4 text-lg text-muted-foreground">{description}</p>}
+      </div>
+    )}
 
     <div class="grid grid-cols-2 gap-3 sm:gap-6">
       <p class="text-center text-xs font-semibold tracking-wider text-muted-foreground uppercase">

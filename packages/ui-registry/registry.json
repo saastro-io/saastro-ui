@@ -193,7 +193,7 @@
         "landing"
       ],
       "author": "SAASTRO <https://saastro.io>",
-      "docs": "Astro component — zero JS, no React required. Default import: `import Compare01 from '@/components/blocks/compare-01.astro'`. Props: title, labels{left,right}, rows[{left,right}], eyebrow?, description?, class?. La columna derecha es la destacada por convenio; las dos se quedan lado a lado también en móvil, porque apilarlas rompe la comparación.",
+      "docs": "Astro component — zero JS, no React required. Default import: `import Compare01 from '@/components/blocks/compare-01.astro'`. Props: labels{left,right}, rows[{left,right}], eyebrow?, title?, description?, class?. La columna derecha es la destacada por convenio; las dos se quedan lado a lado también en móvil, porque apilarlas rompe la comparación.",
       "meta": {
         "group": "Landing",
         "iframeHeight": "820px"
