@@ -28,6 +28,7 @@ import {
   Controller,
   FormProvider,
   type ControllerProps,
+  type FieldPath,
   type FieldValues,
 } from 'react-hook-form';
 import { useRender } from '@base-ui/react/use-render';
@@ -35,9 +36,22 @@ import { useRender } from '@base-ui/react/use-render';
 /** El contexto de react-hook-form, con el nombre que espera shadcn. */
 export const Form = FormProvider;
 
-export function FormField<TFieldValues extends FieldValues = FieldValues>(
-  props: ControllerProps<TFieldValues>,
-) {
+/**
+ * EL SEGUNDO GENÉRICO NO ES ADORNO: SIN ÉL, `field.value` MIENTE.
+ *
+ * Faltaba `TName`, y sin él `ControllerProps` no puede estrechar por el `name=`
+ * de cada campo: `field.value` sale como la UNIÓN de todos los campos del
+ * formulario. En un diálogo que mezcla textos con un booleano, eso es
+ * `string | boolean`, y el error aparece lejos de aquí — en el `value` del
+ * `Input`, del `Select` y del `Switch`, ocho a la vez y todos en el fichero del
+ * consumidor. Medido: con el genérico, cero.
+ *
+ * Es la firma que trae el shadcn oficial.
+ */
+export function FormField<
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+>(props: ControllerProps<TFieldValues, TName>) {
   return <Controller {...props} />;
 }
 
