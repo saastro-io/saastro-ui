@@ -33,3 +33,5 @@ packages/ui-registry/public/r/
 # o fallaría siempre o habría que regenerarla antes — y entonces no detectaría
 # nunca el caso que existe para detectar (alguien añade una sección y no
 # relinka, y la office deja de verla en silencio).
+# worktrees de Claude Code (docs/AGENTES.md §8 de saastro-office)
+.claude/worktrees/
