@@ -6,7 +6,11 @@
  * — pnpm 10 bloquea el postinstall que lo bajaría solo).
  *
  * Uso:  pnpm capture [--force] [--only=<name>]
- *   - skip-existing por defecto: solo captura lo que falta.
+ *   - por defecto captura lo que FALTA y lo CADUCADO (la fuente del item cambió
+ *     desde su captura; ver previews-caducadas.mjs). --force, todo.
+ *   - cada item capturado apunta el hash de su fuente en
+ *     public/previews/fuentes.json, que se commitea con los PNG: sin él, el gate
+ *     de CI (check-previews.mjs) lo da por caducado.
  *   - la salida va a public/previews/<name>-{light,dark}.png y SE COMMITEA.
  *     Vive fuera de public/r a propósito: ese directorio lo regenera el build.
  *
@@ -22,6 +26,7 @@ import { existsSync, mkdirSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import puppeteer from 'puppeteer';
+import { apuntarCapturas, previewsCaducadas } from './previews-caducadas.mjs';
 
 const FORCE = process.argv.includes('--force');
 const only = process.argv.find((a) => a.startsWith('--only='))?.slice(7);
@@ -79,6 +84,8 @@ async function waitForServer(url: string, timeoutMs = 30_000) {
 mkdirSync(OUT, { recursive: true });
 let captured = 0;
 let skipped = 0;
+const caducadas = new Set(previewsCaducadas(registry).map((c: { name: string }) => c.name));
+const hechos: string[] = [];
 
 try {
   await waitForServer(`http://localhost:${PORT}/preview/${names[0]}`);
@@ -87,7 +94,8 @@ try {
     for (const name of names) {
       const light = `${OUT}${name}-light.png`;
       const dark = `${OUT}${name}-dark.png`;
-      if (!FORCE && existsSync(light) && existsSync(dark)) {
+      const rehacer = FORCE || caducadas.has(name);
+      if (!rehacer && existsSync(light) && existsSync(dark)) {
         skipped++;
         continue;
       }
@@ -98,7 +106,7 @@ try {
         ['light', light],
         ['dark', dark],
       ] as const) {
-        if (!FORCE && existsSync(file)) continue;
+        if (!rehacer && existsSync(file)) continue;
         await page.evaluateOnNewDocument((t: string) => localStorage.setItem('theme', t), theme);
         await page.goto(`http://localhost:${PORT}/preview/${name}`, {
           waitUntil: 'networkidle2',
@@ -120,12 +128,15 @@ try {
         captured++;
       }
       await page.close();
+      hechos.push(name);
     }
   } finally {
     await browser.close();
   }
 } finally {
   server.kill();
+  // En el finally: si la tanda revienta a medias, lo capturado ya queda apuntado.
+  if (hechos.length) apuntarCapturas(hechos, registry);
 }
 
 console.log(`\n${captured} capturas nuevas, ${skipped} bloques ya al día.`);

@@ -49,10 +49,12 @@ jobs:
           test -f apps/ui-docs/dist/r/registry.json \
             || { echo "::error::apps/ui-docs/dist/r/registry.json no existe — el build del registry no corrió antes que el del sitio"; exit 1; }
 
+      # Que cada item tenga sus dos PNG y que no sean más viejos que su fuente
+      # (hash en public/previews/fuentes.json, que escribe `pnpm capture`).
       - name: Verify previews
         run: node apps/ui-docs/scripts/check-previews.mjs
 
-      # El gate de arriba comprueba que EXISTAN los PNG, no que la preview
+      # El gate de arriba comprueba que los PNG EXISTAN y estén al día, no que la preview
       # funcione: el 6-sep-2026 /preview/dropdown-menu y /preview/progress
       # llevaban rotas en producción con sus cuatro capturas presentes y CI en
       # verde (la captura fotografía el menú cerrado). Éste las abre y las pulsa.
