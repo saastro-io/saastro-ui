@@ -6,7 +6,11 @@
  * — pnpm 10 bloquea el postinstall que lo bajaría solo).
  *
  * Uso:  pnpm capture [--force] [--only=<name>]
- *   - skip-existing por defecto: solo captura lo que falta.
+ *   - por defecto captura lo que FALTA y lo CADUCADO (la fuente del item cambió
+ *     desde su captura; ver previews-caducadas.mjs). --force, todo.
+ *   - cada item capturado apunta el hash de su fuente en
+ *     public/previews/fuentes.json, que se commitea con los PNG: sin él, el gate
+ *     de CI (check-previews.mjs) lo da por caducado.
  *   - la salida va a public/previews/<name>-{light,dark}.png y SE COMMITEA.
  *     Vive fuera de public/r a propósito: ese directorio lo regenera el build.
  *
@@ -18,10 +22,11 @@
  *   - document.fonts.ready para no capturar con FOUT.
  */
 import { spawn } from 'node:child_process';
-import { existsSync, mkdirSync } from 'node:fs';
+import { existsSync, mkdirSync, statSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import puppeteer from 'puppeteer';
+import { apuntarCapturas, fuentesDe, previewsCaducadas } from './previews-caducadas.mjs';
 
 const FORCE = process.argv.includes('--force');
 const only = process.argv.find((a) => a.startsWith('--only='))?.slice(7);
@@ -56,6 +61,29 @@ if (!existsSync(`${APP}dist`)) {
   process.exit(1);
 }
 
+const caducadas = new Set(previewsCaducadas(registry).map((c: { name: string }) => c.name));
+
+// Capturar un dist/ más viejo que la fuente apuntaría el hash NUEVO sobre una foto
+// VIEJA: el gate quedaría verde con la captura mal. Aquí el mtime sí vale (es
+// local, lo escribió el build de esta máquina), así que se compara la página
+// construida de cada item a capturar con sus fuentes.
+const RAIZ = fileURLToPath(new URL('../../../', import.meta.url));
+const distViejo = names.filter((name) => {
+  const light = `${OUT}${name}-light.png`;
+  const dark = `${OUT}${name}-dark.png`;
+  if (!FORCE && !caducadas.has(name) && existsSync(light) && existsSync(dark)) return false;
+  const html = `${APP}dist/preview/${name}/index.html`;
+  if (!existsSync(html)) return true;
+  const item = registry.items.find((i: { name: string }) => i.name === name);
+  const t = statSync(html).mtimeMs;
+  return fuentesDe(item).some((f: string) => existsSync(`${RAIZ}${f}`) && statSync(`${RAIZ}${f}`).mtimeMs > t);
+});
+if (distViejo.length) {
+  console.error(`✗ dist/ es más viejo que la fuente de: ${distViejo.join(', ')}`);
+  console.error('  Corre `pnpm build` (desde la raíz: construye también el registry) y vuelve a capturar.');
+  process.exit(1);
+}
+
 const server = spawn('pnpm', ['exec', 'astro', 'preview', '--port', String(PORT)], {
   cwd: APP,
   stdio: 'ignore',
@@ -79,6 +107,7 @@ async function waitForServer(url: string, timeoutMs = 30_000) {
 mkdirSync(OUT, { recursive: true });
 let captured = 0;
 let skipped = 0;
+const hechos: string[] = [];
 
 try {
   await waitForServer(`http://localhost:${PORT}/preview/${names[0]}`);
@@ -87,7 +116,8 @@ try {
     for (const name of names) {
       const light = `${OUT}${name}-light.png`;
       const dark = `${OUT}${name}-dark.png`;
-      if (!FORCE && existsSync(light) && existsSync(dark)) {
+      const rehacer = FORCE || caducadas.has(name);
+      if (!rehacer && existsSync(light) && existsSync(dark)) {
         skipped++;
         continue;
       }
@@ -98,7 +128,7 @@ try {
         ['light', light],
         ['dark', dark],
       ] as const) {
-        if (!FORCE && existsSync(file)) continue;
+        if (!rehacer && existsSync(file)) continue;
         await page.evaluateOnNewDocument((t: string) => localStorage.setItem('theme', t), theme);
         await page.goto(`http://localhost:${PORT}/preview/${name}`, {
           waitUntil: 'networkidle2',
@@ -120,12 +150,15 @@ try {
         captured++;
       }
       await page.close();
+      hechos.push(name);
     }
   } finally {
     await browser.close();
   }
 } finally {
   server.kill();
+  // En el finally: si la tanda revienta a medias, lo capturado ya queda apuntado.
+  if (hechos.length) apuntarCapturas(hechos, registry);
 }
 
 console.log(`\n${captured} capturas nuevas, ${skipped} bloques ya al día.`);
