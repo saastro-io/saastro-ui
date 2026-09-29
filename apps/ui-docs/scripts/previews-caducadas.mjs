@@ -8,7 +8,8 @@
  * La FUENTE de un item es lo que pinta /preview/<name>:
  *   - los `files` del item en registry.json (el .astro/.tsx del registry);
  *   - src/demos/<name>.* (el wrapper .preview.astro, su .demo.tsx y las props .ts).
- * NO entran el layout, el CSS global ni lib/: un cambio de tema no caduca nada.
+ * más todo lo LOCAL que importan, transitivamente (ver fuentesDe). NO entran el
+ * layout ni el CSS global: un cambio de tema no caduca nada.
  *
  * El criterio es por CONTENIDO: `capture` apunta en public/previews/fuentes.json
  * el sha256 de las fuentes de cada item que fotografía, y se commitea con los
@@ -21,7 +22,8 @@
  *     recapturar SIEMPRE deja al día, y no hace falta la historia de git en CI.
  */
 import { createHash } from 'node:crypto';
-import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const REGISTRY_DIR = fileURLToPath(new URL('../../../packages/ui-registry/', import.meta.url));
@@ -33,16 +35,54 @@ export function leerRegistry() {
   return JSON.parse(readFileSync(`${REGISTRY_DIR}registry.json`, 'utf8'));
 }
 
-/** Rutas de lo que pinta /preview/<name>, relativas y ordenadas (el hash no depende del orden de readdir). */
-export function fuentesDe(item) {
-  const fuentes = item.files.map((f) => `packages/ui-registry/${f.path}`);
-  for (const f of readdirSync(DEMOS_DIR)) {
-    if (f.startsWith(`${item.name}.`)) fuentes.push(`apps/ui-docs/src/demos/${f}`);
+const RAIZ = fileURLToPath(new URL('../../../', import.meta.url));
+
+// Los mismos alias que astro.config.mjs (vite.resolve.alias), relativos a RAIZ.
+const ALIAS = [
+  ['@blocks/', 'packages/ui-registry/registry/default/blocks/'],
+  ['@ui-registry/', 'packages/ui-registry/registry/default/ui/'],
+  ['@/', 'apps/ui-docs/src/'],
+];
+const EXT = ['', '.tsx', '.ts', '.astro', '.jsx', '.js', '.mjs', '/index.tsx', '/index.ts'];
+const IMPORT = /(?:\bfrom\s*|\bimport\s*\(?\s*)['"]([^'"]+)['"]/g;
+
+/** Resuelve un import LOCAL a una ruta relativa a RAIZ; null si es un paquete de npm. */
+function resolver(spec, desde) {
+  let base = null;
+  for (const [a, dir] of ALIAS) if (spec.startsWith(a)) base = dir + spec.slice(a.length);
+  if (!base && spec.startsWith('.')) base = path.posix.join(path.posix.dirname(desde), spec);
+  if (!base) return null;
+  for (const e of EXT) {
+    const p = base + e;
+    if (existsSync(`${RAIZ}${p}`) && statSync(`${RAIZ}${p}`).isFile()) return p;
   }
-  return fuentes.sort();
+  return null;
 }
 
-const RAIZ = fileURLToPath(new URL('../../../', import.meta.url));
+/**
+ * Rutas de lo que pinta /preview/<name>, relativas a la raíz y ordenadas: los
+ * ficheros del item, sus demos y, TRANSITIVAMENTE, todo lo local que importan
+ * (un primitivo que usa un bloque, `@/components/ui/*`, `@/lib/utils`…). Así,
+ * editar `button.tsx` caduca también a navbar-01 y a cada demo que lo pinta.
+ */
+export function fuentesDe(item) {
+  const pendientes = item.files.map((f) => `packages/ui-registry/${f.path}`);
+  for (const f of readdirSync(DEMOS_DIR)) {
+    if (f.startsWith(`${item.name}.`)) pendientes.push(`apps/ui-docs/src/demos/${f}`);
+  }
+  const vistas = new Set();
+  while (pendientes.length) {
+    const rel = pendientes.pop();
+    if (vistas.has(rel)) continue;
+    vistas.add(rel);
+    if (!existsSync(`${RAIZ}${rel}`)) continue;
+    for (const [, spec] of readFileSync(`${RAIZ}${rel}`, 'utf8').matchAll(IMPORT)) {
+      const dep = resolver(spec, rel);
+      if (dep && !vistas.has(dep)) pendientes.push(dep);
+    }
+  }
+  return [...vistas].sort();
+}
 
 /** sha256 de (ruta + contenido) de cada fuente. Una fuente que desaparece también cambia el hash. */
 export function hashFuentes(item) {

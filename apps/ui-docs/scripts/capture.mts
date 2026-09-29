@@ -22,11 +22,11 @@
  *   - document.fonts.ready para no capturar con FOUT.
  */
 import { spawn } from 'node:child_process';
-import { existsSync, mkdirSync } from 'node:fs';
+import { existsSync, mkdirSync, statSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import puppeteer from 'puppeteer';
-import { apuntarCapturas, previewsCaducadas } from './previews-caducadas.mjs';
+import { apuntarCapturas, fuentesDe, previewsCaducadas } from './previews-caducadas.mjs';
 
 const FORCE = process.argv.includes('--force');
 const only = process.argv.find((a) => a.startsWith('--only='))?.slice(7);
@@ -61,6 +61,29 @@ if (!existsSync(`${APP}dist`)) {
   process.exit(1);
 }
 
+const caducadas = new Set(previewsCaducadas(registry).map((c: { name: string }) => c.name));
+
+// Capturar un dist/ más viejo que la fuente apuntaría el hash NUEVO sobre una foto
+// VIEJA: el gate quedaría verde con la captura mal. Aquí el mtime sí vale (es
+// local, lo escribió el build de esta máquina), así que se compara la página
+// construida de cada item a capturar con sus fuentes.
+const RAIZ = fileURLToPath(new URL('../../../', import.meta.url));
+const distViejo = names.filter((name) => {
+  const light = `${OUT}${name}-light.png`;
+  const dark = `${OUT}${name}-dark.png`;
+  if (!FORCE && !caducadas.has(name) && existsSync(light) && existsSync(dark)) return false;
+  const html = `${APP}dist/preview/${name}/index.html`;
+  if (!existsSync(html)) return true;
+  const item = registry.items.find((i: { name: string }) => i.name === name);
+  const t = statSync(html).mtimeMs;
+  return fuentesDe(item).some((f: string) => existsSync(`${RAIZ}${f}`) && statSync(`${RAIZ}${f}`).mtimeMs > t);
+});
+if (distViejo.length) {
+  console.error(`✗ dist/ es más viejo que la fuente de: ${distViejo.join(', ')}`);
+  console.error('  Corre `pnpm build` (desde la raíz: construye también el registry) y vuelve a capturar.');
+  process.exit(1);
+}
+
 const server = spawn('pnpm', ['exec', 'astro', 'preview', '--port', String(PORT)], {
   cwd: APP,
   stdio: 'ignore',
@@ -84,7 +107,6 @@ async function waitForServer(url: string, timeoutMs = 30_000) {
 mkdirSync(OUT, { recursive: true });
 let captured = 0;
 let skipped = 0;
-const caducadas = new Set(previewsCaducadas(registry).map((c: { name: string }) => c.name));
 const hechos: string[] = [];
 
 try {

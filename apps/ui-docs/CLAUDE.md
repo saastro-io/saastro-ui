@@ -32,9 +32,10 @@ packages/ui-registry/registry.json      ← ÚNICA fuente de verdad (items, meta
 ```bash
 pnpm dev                  # dev server (puerto 4911)
 pnpm build                # turbo construye ui-registry ANTES (dep workspace)
-pnpm capture              # screenshots light+dark → public/previews/ (COMMITEAR)
-pnpm capture --force --only=<name>   # regenerar uno tras tocarlo
-node scripts/check-previews.mjs      # gate de CI: 2 PNG por item
+pnpm capture              # captura lo que falta y lo CADUCADO → public/previews/ (COMMITEAR
+                          # los PNG y public/previews/fuentes.json)
+pnpm capture --force --only=<name>   # forzar uno
+node scripts/check-previews.mjs      # gate de CI: 2 PNG por item Y al día con su fuente
 ```
 
 Puppeteer: pnpm 10 bloquea su postinstall — una vez por máquina:
@@ -44,7 +45,11 @@ Puppeteer: pnpm 10 bloquea su postinstall — una vez por máquina:
 
 1. Editar en `packages/ui-registry/registry/default/blocks/`.
 2. Si cambian props → actualizar `src/demos/<name>.ts` y el `docs` del item.
-3. `pnpm build && pnpm capture --force --only=<name>` y commitear el PNG.
+3. `pnpm build && pnpm capture` y commitear los PNG **con `public/previews/fuentes.json`**.
+   El gate compara el sha256 de la fuente de cada item (sus ficheros, sus demos y lo
+   local que importan, transitivamente) con el apuntado ahí al capturar: tocar un
+   bloque o un primitivo sin recapturar deja CI en rojo. `capture` se niega si
+   `dist/` es más viejo que la fuente.
 
 ## Deploy
 
