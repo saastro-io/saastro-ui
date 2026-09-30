@@ -12,7 +12,8 @@
  *     y sin él los consumidores tienen que importarlo de react-hook-form por su
  *     cuenta, que es justo la dependencia que este fichero existe para tapar.
  *   - FormField: Controller wrapper that exposes `field` props to children
- *   - FormControl: reenvía id/aria-* al input subyacente. Con Radix esto era
+ *   - FormControl: reenvía id/aria-* al input subyacente, y pone
+ *     `aria-invalid` cuando el FormField que lo envuelve tiene error. Con Radix esto era
  *     `Slot`; en Base UI el equivalente es el hook `useRender`, que fusiona las
  *     props sobre el hijo. Se mantiene hecho a mano A PROPÓSITO: el `FormControl`
  *     oficial de shadcn usa `useFormField()` y exige un `FormItem` alrededor,
@@ -33,6 +34,18 @@ import {
 } from 'react-hook-form';
 import { useRender } from '@base-ui/react/use-render';
 
+/**
+ * EL ESTADO DEL CAMPO, PARA QUE FormControl PUEDA PONER `aria-invalid`.
+ *
+ * Los inputs pintan el borde rojo con `aria-invalid:border-destructive`, y el
+ * único que sabe si el campo tiene error es el `Controller`. El FormControl de
+ * shadcn lo saca de `useFormField()`, que exige un `FormItem` alrededor y que
+ * @saastro/forms no monta; aquí `FormField` lo publica en un contexto propio
+ * y `FormControl` lo lee. Fuera de un `FormField`, el contexto no está y
+ * `FormControl` se queda como antes: no pone nada.
+ */
+const FormFieldContext = React.createContext<{ invalid: boolean } | null>(null);
+
 /** El contexto de react-hook-form, con el nombre que espera shadcn. */
 export const Form = FormProvider;
 
@@ -51,8 +64,17 @@ export const Form = FormProvider;
 export function FormField<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->(props: ControllerProps<TFieldValues, TName>) {
-  return <Controller {...props} />;
+>({ render, ...props }: ControllerProps<TFieldValues, TName>) {
+  return (
+    <Controller
+      {...props}
+      render={(args) => (
+        <FormFieldContext.Provider value={{ invalid: !!args.fieldState.error }}>
+          {render(args)}
+        </FormFieldContext.Provider>
+      )}
+    />
+  );
 }
 
 export interface FormControlProps extends React.ComponentProps<'div'> {
@@ -61,9 +83,11 @@ export interface FormControlProps extends React.ComponentProps<'div'> {
 
 export const FormControl = React.forwardRef<HTMLElement, FormControlProps>(
   function FormControl({ children, ...props }, ref) {
+    const campo = React.useContext(FormFieldContext);
     return useRender({
       render: children as React.ReactElement,
-      props,
+      // Primero el de FormField; un aria-invalid explícito del consumidor gana.
+      props: { ...(campo?.invalid ? { 'aria-invalid': true } : null), ...props },
       ref: ref as React.Ref<HTMLElement>,
     });
   },
