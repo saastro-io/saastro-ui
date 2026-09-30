@@ -38,7 +38,9 @@ export function leerRegistry() {
 const RAIZ = fileURLToPath(new URL('../../../', import.meta.url));
 
 // Los mismos alias que astro.config.mjs (vite.resolve.alias), relativos a RAIZ.
+// Gana la PRIMERA coincidencia: el más específico va primero.
 const ALIAS = [
+  ['@/components/ui/', 'packages/ui-registry/registry/default/ui/'],
   ['@blocks/', 'packages/ui-registry/registry/default/blocks/'],
   ['@ui-registry/', 'packages/ui-registry/registry/default/ui/'],
   ['@/', 'apps/ui-docs/src/'],
@@ -49,7 +51,12 @@ const IMPORT = /(?:\bfrom\s*|\bimport\s*\(?\s*)['"]([^'"]+)['"]/g;
 /** Resuelve un import LOCAL a una ruta relativa a RAIZ; null si es un paquete de npm. */
 function resolver(spec, desde) {
   let base = null;
-  for (const [a, dir] of ALIAS) if (spec.startsWith(a)) base = dir + spec.slice(a.length);
+  for (const [a, dir] of ALIAS) {
+    if (spec.startsWith(a)) {
+      base = dir + spec.slice(a.length);
+      break;
+    }
+  }
   if (!base && spec.startsWith('.')) base = path.posix.join(path.posix.dirname(desde), spec);
   if (!base) return null;
   for (const e of EXT) {
