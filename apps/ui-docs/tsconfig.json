@@ -7,6 +7,10 @@
     "jsxImportSource": "react",
     "baseUrl": ".",
     "paths": {
+      // Para que `shadcn add` resuelva aliases.ui ("@/components/ui", sin barra)
+      // al registry: tsconfig-paths ignora claves sin `*` y exige >= 1 carácter
+      // en la estrella, así que la estrella se come la «i». Ver PR.
+      "@/components/u*": ["../../packages/ui-registry/registry/default/u*"],
       "@/components/ui/*": ["../../packages/ui-registry/registry/default/ui/*"],
       "@/*": ["./src/*"],
       "@blocks/*": ["../../packages/ui-registry/registry/default/blocks/*"],
