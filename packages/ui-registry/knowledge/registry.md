@@ -12,7 +12,7 @@
 ## Qué es
 
 `packages/ui-registry` es el paquete `@saastro/ui-registry`, y su corazón es
-`registry.json`: **51 entradas** —16 bloques de landing y 35 primitivos— que
+`registry.json`: **54 entradas** —18 bloques y 36 primitivos— que
 describen cada pieza para el CLI de shadcn.
 
 Los 26 primeros primitivos se cosecharon de `saastro-theme` el 17-ago. Los
