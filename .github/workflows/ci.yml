@@ -39,6 +39,13 @@ jobs:
       - name: Verify office knowledge links
         run: pnpm run office:check
 
+      # Chrome para los tests del registry que miden color computado
+      # (override-oscuro) y para el check de previews de más abajo. La caché
+      # de puppeteer es global: con instalarlo una vez vale para los dos.
+      - name: Install Chrome (registry tests + preview check)
+        run: pnpm exec puppeteer browsers install chrome-headless-shell
+        working-directory: apps/ui-docs
+
       # Tests de comportamiento de los primitivos (vitest + jsdom). El primero,
       # el foco de teclado del Calendar: sin él, un ref que no llega al
       # <button> pasa build, capturas y validate sin que nada lo vea.
@@ -64,10 +71,6 @@ jobs:
       # funcione: el 6-sep-2026 /preview/dropdown-menu y /preview/progress
       # llevaban rotas en producción con sus cuatro capturas presentes y CI en
       # verde (la captura fotografía el menú cerrado). Éste las abre y las pulsa.
-      - name: Install Chrome for the preview check
-        run: pnpm exec puppeteer browsers install chrome-headless-shell
-        working-directory: apps/ui-docs
-
       - name: Previews actually render
         run: pnpm run comprobar:previews
         working-directory: apps/ui-docs
