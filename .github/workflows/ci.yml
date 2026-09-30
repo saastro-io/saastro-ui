@@ -39,6 +39,12 @@ jobs:
       - name: Verify office knowledge links
         run: pnpm run office:check
 
+      # Tests de comportamiento de los primitivos (vitest + jsdom). El primero,
+      # el foco de teclado del Calendar: sin él, un ref que no llega al
+      # <button> pasa build, capturas y validate sin que nada lo vea.
+      - name: Registry tests
+        run: pnpm --filter @saastro/ui-registry test
+
       - run: pnpm run build
 
       # Valida el registry construido antes de que llegue a ui.saastro.io:
