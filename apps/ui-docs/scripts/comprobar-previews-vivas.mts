@@ -11,15 +11,16 @@
  * que es donde monta el contenido de los overlays. Falla si la página lanza o
  * si escribe un error en consola.
  *
- * Requiere `pnpm build` previo y el Chrome de puppeteer
- * (`pnpm exec puppeteer browsers install chrome`).
+ * Requiere `pnpm build` previo (sirve dist/ con el `preview()` de astro, en
+ * proceso) y el chrome-headless-shell de puppeteer
+ * (`pnpm exec puppeteer browsers install chrome-headless-shell`).
  *
  * Uso:  pnpm comprobar:previews [--only=<name>]
  */
-import { spawn } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
+import { preview } from 'astro';
 import puppeteer from 'puppeteer';
 
 const only = process.argv.find((a) => a.startsWith('--only='))?.slice(7);
@@ -38,23 +39,12 @@ if (!existsSync(`${APP}dist`)) {
   process.exit(1);
 }
 
-const server = spawn('pnpm', ['exec', 'astro', 'preview', '--port', String(PORT)], {
-  cwd: APP,
-  stdio: 'ignore',
-});
-
-async function esperarServidor(url: string, timeoutMs = 30_000) {
-  const t0 = Date.now();
-  while (Date.now() - t0 < timeoutMs) {
-    try {
-      if ((await fetch(url)).ok) return;
-    } catch {
-      /* aún no */
-    }
-    await new Promise((r) => setTimeout(r, 500));
-  }
-  throw new Error(`preview server no respondió en ${timeoutMs}ms: ${url}`);
-}
+// El servidor va EN PROCESO, como en capture.mts (#39). Con
+// `spawn('pnpm', ['exec', 'astro', 'preview'])` astro 7 detecta que lo corre un
+// agente (am-i-vibing) y se relanza en background: PPID 1, su propio grupo, y
+// server.kill() mataba pnpm y dejaba vivo el servidor en :4914. En proceso,
+// preview() resuelve cuando ya escucha y server.stop() lo cierra de verdad.
+const server = await preview({ root: APP, server: { port: PORT }, logLevel: 'error' });
 
 /** Un 404 de favicon no es un componente roto; un error de React sí. */
 const RUIDO = /favicon|Failed to load resource/i;
@@ -62,11 +52,14 @@ const RUIDO = /favicon|Failed to load resource/i;
 const rotas: { name: string; error: string }[] = [];
 
 try {
-  await esperarServidor(`http://localhost:${PORT}/preview/${names[0]}`);
   // El runner de GitHub (Ubuntu 24.04) restringe los user namespaces con
   // AppArmor y Chrome muere al arrancar con «No usable sandbox». Sólo se le
   // quita ahí: en local mantiene el sandbox, y aquí sólo carga localhost.
+  // headless:'shell' (chrome-headless-shell), como capture.mts: con el headless
+  // por defecto, en una sesión sin pantalla (claude --bg) el click() de faq-01
+  // se quedaba colgado para siempre.
   const browser = await puppeteer.launch({
+    headless: 'shell',
     args: process.env.CI ? ['--no-sandbox', '--disable-dev-shm-usage'] : [],
   });
   try {
@@ -74,7 +67,9 @@ try {
       const fallos: string[] = [];
       const page = await browser.newPage();
       await page.setViewport({ width: 720, height: 520 });
-      page.on('pageerror', (e) => fallos.push(`lanzó: ${e.message}`));
+      page.on('pageerror', (e) =>
+        fallos.push(`lanzó: ${e instanceof Error ? e.message : String(e)}`),
+      );
       page.on('console', (m) => {
         if (m.type() === 'error' && !RUIDO.test(m.text())) fallos.push(`consola: ${m.text()}`);
       });
@@ -106,7 +101,7 @@ try {
     await browser.close();
   }
 } finally {
-  server.kill();
+  await server.stop();
 }
 
 if (rotas.length) {

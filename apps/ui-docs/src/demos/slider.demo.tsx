@@ -4,7 +4,7 @@ import { Slider } from '@ui-registry/slider';
 
 export function SliderDemo() {
   // Base UI con un solo thumb emite NÚMERO PLANO, no array.
-  const [value, setValue] = React.useState<number | number[]>(35);
+  const [value, setValue] = React.useState<number | readonly number[]>(35);
   return (
     <div className="w-full max-w-sm space-y-3">
       <div className="flex justify-between text-sm">

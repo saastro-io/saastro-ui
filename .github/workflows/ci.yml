@@ -65,7 +65,7 @@ jobs:
       # llevaban rotas en producción con sus cuatro capturas presentes y CI en
       # verde (la captura fotografía el menú cerrado). Éste las abre y las pulsa.
       - name: Install Chrome for the preview check
-        run: pnpm exec puppeteer browsers install chrome
+        run: pnpm exec puppeteer browsers install chrome-headless-shell
         working-directory: apps/ui-docs
 
       - name: Previews actually render
