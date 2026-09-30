@@ -8,6 +8,14 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest"
 import { Checkbox } from "@/components/ui/checkbox"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Switch } from "@/components/ui/switch"
+// Las copias que sirve ui-docs (sus demos las importan de aquí, no del
+// registry). Su `@/lib/utils` lo resuelve el alias al `cn` del registry, que
+// es el mismo twMerge(clsx()) que el de ui-docs (src/theme/lib/utils.ts).
+import { Checkbox as DocsCheckbox } from "../../../apps/ui-docs/src/components/ui/checkbox"
+import {
+  RadioGroup as DocsRadioGroup,
+  RadioGroupItem as DocsRadioGroupItem,
+} from "../../../apps/ui-docs/src/components/ui/radio-group"
 
 // Un consumidor que pinta el marcado de otro color pasa `data-checked:bg-*`.
 // En claro ganaba; en oscuro lo pisaba `dark:data-checked:bg-primary` del
@@ -108,6 +116,20 @@ const casos: Array<[string, (props: { className?: string; checked: boolean }) =>
     "switch",
     ({ className, checked }) => (
       <Switch data-prueba="" defaultChecked={checked} className={className} />
+    ),
+  ],
+  [
+    "ui-docs/checkbox",
+    ({ className, checked }) => (
+      <DocsCheckbox data-prueba="" defaultChecked={checked} className={className} />
+    ),
+  ],
+  [
+    "ui-docs/radio-group",
+    ({ className, checked }) => (
+      <DocsRadioGroup defaultValue={checked ? "a" : undefined}>
+        <DocsRadioGroupItem data-prueba="" value="a" className={className} />
+      </DocsRadioGroup>
     ),
   ],
 ]
