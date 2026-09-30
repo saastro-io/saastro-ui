@@ -47,7 +47,9 @@ const CommandContext = React.createContext<CommandContextValue | null>(null)
 
 function useCommand(part: string) {
   const ctx = React.useContext(CommandContext)
-  if (!ctx) throw new Error(`<${part}> tiene que ir dentro de <Command>`)
+  // Sin `<…>` en el texto: Semgrep (html-in-template-string) lo marca en cada
+  // consumidor, y un `// nosemgrep` allí lo borra el siguiente `shadcn add --overwrite`.
+  if (!ctx) throw new Error(`${part} tiene que ir dentro de Command`)
   return ctx
 }
 
