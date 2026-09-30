@@ -5,13 +5,13 @@ import { describe, expect, it } from "vitest"
 import { Button, buttonVariants } from "@/components/ui/button"
 
 // @saastro/forms pasa `size` (md · lg · xl) al Button inyectado. Sin md/xl en
-// el cva, el control SIZE de HubForm no hacía nada. Y lg/default se fijan
-// aquí porque tocarlos cambia el Hero de todos los sites: que falle si
-// alguien los mueve sin querer.
+// el cva, el control SIZE de HubForm no hacía nada; con lg en h-9, SIZE=lg
+// pintaba más bajo que md. default y lg se fijan aquí porque tocarlos cambia
+// lo que ven los sites al sincronizar: que falle si alguien los mueve.
 const ALTURAS = {
   default: "h-8",
   md: "h-10",
-  lg: "h-9",
+  lg: "h-12",
   xl: "h-14",
 } as const
 
