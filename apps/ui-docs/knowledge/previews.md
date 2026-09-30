@@ -6,9 +6,11 @@ galería del sitio.
 ## `capture.mts`
 
 Saca dos capturas por bloque, clara y oscura, contra `/preview/<name>` con
-puppeteer. Necesita `pnpm build` antes —levanta `astro preview` sobre `dist/`—
-y el Chrome de puppeteer instalado a mano, porque pnpm 10 bloquea el
-postinstall que lo bajaría solo.
+puppeteer. Necesita `pnpm build` antes —sirve `dist/` con el `preview()` de
+astro EN PROCESO, no con `astro preview` como subproceso: bajo un agente astro 7
+lo daemoniza y el servidor quedaba huérfano en el puerto— y el
+`chrome-headless-shell` de puppeteer instalado a mano, porque pnpm 10 bloquea el
+postinstall que lo bajaría solo (el headless por defecto cuelga en `--bg`).
 
 Tres detalles que costaron encontrarse y que están comentados en el fichero:
 

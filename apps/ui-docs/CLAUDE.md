@@ -39,7 +39,8 @@ node scripts/check-previews.mjs      # gate de CI: 2 PNG por item Y al día con 
 ```
 
 Puppeteer: pnpm 10 bloquea su postinstall — una vez por máquina:
-`pnpm exec puppeteer browsers install chrome`.
+`pnpm exec puppeteer browsers install chrome-headless-shell` (lo usa `capture`,
+con `headless: 'shell'`) y `... install chrome` (lo usa `comprobar:previews`).
 
 ## Al tocar un bloque
 
