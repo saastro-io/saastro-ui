@@ -29,7 +29,7 @@ apps/
 pnpm install              # Install deps
 pnpm run build            # Build all
 pnpm run dev              # Dev mode (docs + rebuild del registry)
-pnpm run typecheck        # Type check all
+pnpm --dir apps/ui-docs exec tsc --noEmit   # Type check (no hay script `typecheck`)
 pnpm run format           # Prettier write
 
 # Publishing
