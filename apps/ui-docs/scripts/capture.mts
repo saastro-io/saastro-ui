@@ -1,9 +1,10 @@
 /**
  * capture.mts — screenshots light+dark de cada bloque contra /preview/<name>.
  *
- * Requiere `pnpm build` previo (levanta `astro preview` sobre dist/) y el
- * Chrome de puppeteer (una vez: `pnpm exec puppeteer browsers install chrome`
- * — pnpm 10 bloquea el postinstall que lo bajaría solo).
+ * Requiere `pnpm build` previo (sirve dist/ con el `preview()` de astro, en
+ * proceso) y el chrome-headless-shell de puppeteer (una vez:
+ * `pnpm exec puppeteer browsers install chrome-headless-shell` — pnpm 10
+ * bloquea el postinstall que lo bajaría solo).
  *
  * Uso:  pnpm capture [--force] [--only=<name>]
  *   - por defecto captura lo que FALTA y lo CADUCADO (la fuente del item cambió
@@ -21,10 +22,10 @@
  *     hidratar — networkidle2 NO basta para los bloques interactivos;
  *   - document.fonts.ready para no capturar con FOUT.
  */
-import { spawn } from 'node:child_process';
 import { existsSync, mkdirSync, statSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
+import { preview } from 'astro';
 import puppeteer from 'puppeteer';
 import { apuntarCapturas, fuentesDe, previewsCaducadas } from './previews-caducadas.mjs';
 
@@ -84,25 +85,12 @@ if (distViejo.length) {
   process.exit(1);
 }
 
-const server = spawn('pnpm', ['exec', 'astro', 'preview', '--port', String(PORT)], {
-  cwd: APP,
-  stdio: 'ignore',
-  detached: false,
-});
-
-async function waitForServer(url: string, timeoutMs = 30_000) {
-  const t0 = Date.now();
-  while (Date.now() - t0 < timeoutMs) {
-    try {
-      const r = await fetch(url);
-      if (r.ok) return;
-    } catch {
-      /* aún no */
-    }
-    await new Promise((r) => setTimeout(r, 500));
-  }
-  throw new Error(`preview server no respondió en ${timeoutMs}ms: ${url}`);
-}
+// El servidor va EN PROCESO, con la API de astro, no como subproceso. Con
+// `spawn('pnpm', ['exec', 'astro', 'preview'])` astro 7 detecta que lo corre un
+// agente (am-i-vibing) y se relanza en background: PPID 1, su propio grupo, y
+// el server.kill() mataba pnpm y dejaba vivo el servidor en el puerto. En
+// proceso no hay daemon ni lock file: server.stop() lo cierra de verdad.
+const server = await preview({ root: APP, server: { port: PORT }, logLevel: 'error' });
 
 mkdirSync(OUT, { recursive: true });
 let captured = 0;
@@ -110,8 +98,9 @@ let skipped = 0;
 const hechos: string[] = [];
 
 try {
-  await waitForServer(`http://localhost:${PORT}/preview/${names[0]}`);
-  const browser = await puppeteer.launch();
+  // headless:'shell' (chrome-headless-shell): el headless por defecto no
+  // compone en una sesión sin pantalla (claude --bg) y page.screenshot cuelga.
+  const browser = await puppeteer.launch({ headless: 'shell' });
   try {
     for (const name of names) {
       const light = `${OUT}${name}-light.png`;
@@ -156,7 +145,7 @@ try {
     await browser.close();
   }
 } finally {
-  server.kill();
+  await server.stop();
   // En el finally: si la tanda revienta a medias, lo capturado ya queda apuntado.
   if (hechos.length) apuntarCapturas(hechos, registry);
 }
