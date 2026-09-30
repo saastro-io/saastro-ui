@@ -8,9 +8,10 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest"
 import { Checkbox } from "@/components/ui/checkbox"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Switch } from "@/components/ui/switch"
-// Las copias que sirve ui-docs (sus demos las importan de aquí, no del
-// registry). Su `@/lib/utils` lo resuelve el alias al `cn` del registry, que
-// es el mismo twMerge(clsx()) que el de ui-docs (src/theme/lib/utils.ts).
+// Las copias de apps/ui-docs/src/components/ui. Hoy nada las importa (las
+// demos usan `@ui-registry/*`), pero siguen en el repo y no deben divergir del
+// registry. Su `@/lib/utils` lo resuelve el alias al `cn` del registry, que es
+// el mismo twMerge(clsx()) que el de ui-docs (src/theme/lib/utils.ts).
 import { Checkbox as DocsCheckbox } from "../../../apps/ui-docs/src/components/ui/checkbox"
 import {
   RadioGroup as DocsRadioGroup,
