@@ -6,8 +6,8 @@ Block registry and showcase site for the Saastro ecosystem.
 
 ```
 packages/
-  ui-registry/     → @saastro/ui-registry     (51 items: 16 bloques de landing
-                                                + 35 primitivos registry:ui)
+  ui-registry/     → @saastro/ui-registry     (54 items: 18 bloques
+                                                + 36 primitivos registry:ui)
 apps/
   ui-docs/         → @saastro/ui-docs         (showcase site at ui.saastro.io)
 ```
@@ -41,7 +41,7 @@ pnpm run release          # Build + publish to npm
 ## Products
 
 - **Blocks**: `npx shadcn@latest add @saastro/hero-01`
-- **Primitivos**: `npx shadcn@latest add @saastro/button` — 35, todos sobre Base UI
+- **Primitivos**: `npx shadcn@latest add @saastro/button` — 36, todos sobre Base UI
 - **Docs**: ui.saastro.io
 
 **Por qué los primitivos están aquí y no se cogen de shadcn.** Un
