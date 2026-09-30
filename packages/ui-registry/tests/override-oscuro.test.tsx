@@ -51,7 +51,13 @@ const REFS = `<div id="ref-red" class="bg-red-500"></div><div id="ref-primary" c
 let browser: Browser
 
 beforeAll(async () => {
-  browser = await puppeteer.launch({ headless: "shell" })
+  // En el runner de Actions (Ubuntu 23.10+) AppArmor niega los user
+  // namespaces y Chrome muere con «No usable sandbox»; como en
+  // comprobar-previews-vivas, sólo se quita ahí: aquí sólo carga setContent.
+  browser = await puppeteer.launch({
+    headless: "shell",
+    args: process.env.CI ? ["--no-sandbox", "--disable-dev-shm-usage"] : [],
+  })
 }, 60_000)
 
 afterAll(async () => {
@@ -115,7 +121,6 @@ describe.each(casos)("%s", (nombre, Control) => {
   for (const tema of ["light", "dark"] as const) {
     it(`override ${OVERRIDE} marcado en ${tema}: gana el del consumidor, no primary`, async () => {
       const m = await medir(renderToStaticMarkup(<Control checked className={OVERRIDE} />), tema)
-      console.log(`[${nombre}] override marcado ${tema}:`, m)
       expect(m.red).not.toBe(m.primary)
       expect(m.control).toBe(m.red)
     }, 30_000)
