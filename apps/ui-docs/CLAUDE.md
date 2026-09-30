@@ -24,8 +24,11 @@ packages/ui-registry/registry.json      ← ÚNICA fuente de verdad (items, meta
 - Detalle `/blocks/[name]`: iframe vivo de `/preview/<name>` en md+ (altura
   `meta.iframeHeight`, toggle de anchos) + PNG en móvil + código shiki
   (`<Code>` de astro/components, temas github-light/dark).
-- `src/components/ui/` — 41 primitivas shadcn **base-nova (Base UI)** usadas
-  por los bloques `.tsx` interactivos en los previews.
+- `src/components/ui/` — 9 primitivas **Base UI** (accordion, badge, button,
+  card, input, label, separator, sheet, textarea). Nadie de ui-docs las importa
+  directamente: las cargan los ficheros del registry, que importan con rutas de
+  consumidor (`@/components/ui/button`) y el alias `@` de este sitio las resuelve
+  aquí. Las 34 que nadie cargaba se quitaron el 30-sep (medido con el build).
 
 ## Comandos
 
