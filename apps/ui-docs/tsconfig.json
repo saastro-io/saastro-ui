@@ -7,6 +7,7 @@
     "jsxImportSource": "react",
     "baseUrl": ".",
     "paths": {
+      "@/components/ui/*": ["../../packages/ui-registry/registry/default/ui/*"],
       "@/*": ["./src/*"],
       "@blocks/*": ["../../packages/ui-registry/registry/default/blocks/*"],
       "@ui-registry/*": ["../../packages/ui-registry/registry/default/ui/*"]

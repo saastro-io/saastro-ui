@@ -28,11 +28,16 @@ export default defineConfig({
     //@ts-ignore
     plugins: [tailwindcss()],
     resolve: {
-      alias: {
-        "@": fileURLToPath(new URL("./src", import.meta.url)),
-        "@blocks": fileURLToPath(new URL("../../packages/ui-registry/registry/default/blocks", import.meta.url)),
-        "@ui-registry": fileURLToPath(new URL("../../packages/ui-registry/registry/default/ui", import.meta.url)),
-      },
+      // Array, no objeto: el orden importa y el más específico va primero.
+      // Los ficheros del registry importan con rutas de consumidor
+      // (`@/components/ui/button`); aquí resuelven al registry, no a copias
+      // locales, igual que en packages/ui-registry/vitest.config.ts.
+      alias: [
+        { find: /^@\/components\/ui\//, replacement: fileURLToPath(new URL("../../packages/ui-registry/registry/default/ui/", import.meta.url)) },
+        { find: "@", replacement: fileURLToPath(new URL("./src", import.meta.url)) },
+        { find: "@blocks", replacement: fileURLToPath(new URL("../../packages/ui-registry/registry/default/blocks", import.meta.url)) },
+        { find: "@ui-registry", replacement: fileURLToPath(new URL("../../packages/ui-registry/registry/default/ui", import.meta.url)) },
+      ],
       dedupe: ['class-variance-authority', '@radix-ui/react-slot', 'react', 'react-dom'],
     },
     build: {

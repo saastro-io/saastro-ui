@@ -24,11 +24,13 @@ packages/ui-registry/registry.json      ← ÚNICA fuente de verdad (items, meta
 - Detalle `/blocks/[name]`: iframe vivo de `/preview/<name>` en md+ (altura
   `meta.iframeHeight`, toggle de anchos) + PNG en móvil + código shiki
   (`<Code>` de astro/components, temas github-light/dark).
-- `src/components/ui/` — 9 primitivas **Base UI** (accordion, badge, button,
-  card, input, label, separator, sheet, textarea). Nadie de ui-docs las importa
-  directamente: las cargan los ficheros del registry, que importan con rutas de
-  consumidor (`@/components/ui/button`) y el alias `@` de este sitio las resuelve
-  aquí. Las 34 que nadie cargaba se quitaron el 30-sep (medido con el build).
+- **No hay `src/components/ui/`**. Los ficheros del registry importan con rutas
+  de consumidor (`@/components/ui/button`) y aquí resuelven al PROPIO registry
+  (`packages/ui-registry/registry/default/ui/`): alias `^@/components/ui/`
+  antes de `@` en `astro.config.mjs` (array, el orden manda), el mismo path en
+  `tsconfig.json` y en el `ALIAS` de `scripts/previews-caducadas.mjs` (gana la
+  primera coincidencia). Lo que se muestra es lo que instala un consumidor. Las
+  43 copias locales se quitaron el 30-sep (medido con un plugin `load(id)` en el build).
 
 ## Comandos
 
