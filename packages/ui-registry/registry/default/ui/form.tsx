@@ -86,7 +86,8 @@ export const FormControl = React.forwardRef<HTMLElement, FormControlProps>(
     const campo = React.useContext(FormFieldContext);
     return useRender({
       render: children as React.ReactElement,
-      // Primero el de FormField; un aria-invalid explícito del consumidor gana.
+      // Primero el de FormField; un aria-invalid en FormControl lo pisa, y uno
+      // puesto en el propio hijo gana a los dos (useRender fusiona el hijo último).
       props: { ...(campo?.invalid ? { 'aria-invalid': true } : null), ...props },
       ref: ref as React.Ref<HTMLElement>,
     });

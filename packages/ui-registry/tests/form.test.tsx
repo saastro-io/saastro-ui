@@ -44,23 +44,28 @@ describe("FormControl · aria-invalid", () => {
     expect(screen.getByLabelText("email").hasAttribute("aria-invalid")).toBe(false)
   })
 
-  it("aria-invalid explícito del consumidor gana", async () => {
+  it("aria-invalid explícito en FormControl gana al del FormField", async () => {
     function Explicito() {
       const form = useForm<{ email: string }>({ defaultValues: { email: "" } })
+      React.useEffect(() => {
+        form.setError("email", { type: "required", message: "Obligatorio" })
+      }, [form])
       return (
         <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
-            <FormControl aria-invalid>
+            <FormControl aria-invalid={false}>
               <input aria-label="email" {...field} />
             </FormControl>
           )}
         />
       )
     }
-    render(<Explicito />)
-    expect(screen.getByLabelText("email").getAttribute("aria-invalid")).toBe("true")
+    await act(async () => {
+      render(<Explicito />)
+    })
+    expect(screen.getByLabelText("email").getAttribute("aria-invalid")).toBe("false")
   })
 
   it("dentro de <Form> (FormProvider) también funciona", async () => {
