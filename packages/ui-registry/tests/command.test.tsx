@@ -166,4 +166,55 @@ describe("Command · dentro de Popover", () => {
     expect(onSelect).toHaveBeenCalledExactlyOnceWith("valencia")
     await waitFor(() => expect(screen.queryByPlaceholderText("Buscar…")).toBeNull())
   })
+
+  it("Escape en el input cierra el Popover", async () => {
+    const user = userEvent.setup()
+    render(<PopoverCombo onSelect={() => {}} />)
+
+    await user.click(screen.getByText("Elegir"))
+    const input = await screen.findByPlaceholderText("Buscar…")
+    await user.click(input)
+    await user.keyboard("{Escape}")
+    await waitFor(() => expect(screen.queryByPlaceholderText("Buscar…")).toBeNull())
+  })
+})
+
+// optionsSearchable en forms: shouldFilter={false} y las opciones llegan
+// del servidor según se teclea (los items se montan y desmontan).
+function AsyncCombo({ onSelect }: { onSelect: (v: string) => void }) {
+  const [options, setOptions] = React.useState<typeof OPTIONS>([])
+  return (
+    <Combo
+      shouldFilter={false}
+      options={options}
+      onSelect={onSelect}
+      onSearch={(q) =>
+        setOptions(q ? OPTIONS.filter((o) => o.value.startsWith(q)) : [])
+      }
+    />
+  )
+}
+
+describe("Command · opciones async (shouldFilter={false})", () => {
+  it("Empty sale y se quita según llegan opciones; Enter elige la nueva", async () => {
+    const user = userEvent.setup()
+    const onSelect = vi.fn()
+    render(<AsyncCombo onSelect={onSelect} />)
+    expect(screen.getByText("Sin resultados")).toBeTruthy()
+
+    const input = screen.getByPlaceholderText("Buscar…")
+    await user.type(input, "b")
+    expect(itemNames()).toEqual(["Barcelona"])
+    expect(screen.queryByText("Sin resultados")).toBeNull()
+
+    await user.type(input, "x")
+    expect(itemNames()).toEqual([])
+    expect(screen.getByText("Sin resultados")).toBeTruthy()
+
+    await user.clear(input)
+    await user.type(input, "v")
+    expect(itemNames()).toEqual(["Valencia"])
+    await user.keyboard("{Enter}")
+    expect(onSelect).toHaveBeenCalledExactlyOnceWith("valencia")
+  })
 })
