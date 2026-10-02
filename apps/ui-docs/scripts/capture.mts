@@ -6,7 +6,7 @@
  * `pnpm exec puppeteer browsers install chrome-headless-shell` — pnpm 10
  * bloquea el postinstall que lo bajaría solo).
  *
- * Uso:  pnpm capture [--force] [--only=<name>]
+ * Uso:  pnpm capture [--force] [--only=<name>[,<name>…]]
  *   - por defecto captura lo que FALTA y lo CADUCADO (la fuente del item cambió
  *     desde su captura; ver previews-caducadas.mjs). --force, todo.
  *   - cada item capturado apunta el hash de su fuente en
@@ -38,9 +38,49 @@ const APP = fileURLToPath(new URL('..', import.meta.url));
 const registry = JSON.parse(
   await readFile(new URL('../../../packages/ui-registry/registry.json', import.meta.url), 'utf8'),
 );
+const soloEstos = only?.split(',');
 const names: string[] = registry.items
   .map((i: { name: string }) => i.name)
-  .filter((n: string) => !only || n === only);
+  .filter((n: string) => !soloEstos || soloEstos.includes(n));
+
+/**
+ * OVERLAYS: su popup vive en un PORTAL, fuera de [data-capture-target], y está
+ * cerrado al cargar. Fotografiando el elemento salía un botón suelto. Aquí se
+ * abre con el gesto que lo dispara (sobre `[data-slot=<name>-trigger]`), se
+ * espera a que `[data-slot=<name>-content]` esté y sus animaciones acaben, y se
+ * fotografía el VIEWPORT, que es donde el portal lo coloca. Se hace en el script
+ * y no en la demo: anclar el portal desde la demo rompía la hidratación.
+ */
+const OVERLAYS: Record<string, 'click' | 'hover' | 'contextmenu'> = {
+  popover: 'click',
+  dialog: 'click',
+  sheet: 'click',
+  'alert-dialog': 'click',
+  'dropdown-menu': 'click',
+  'context-menu': 'contextmenu',
+  tooltip: 'hover',
+};
+
+async function abrirOverlay(page: import('puppeteer').Page, name: string) {
+  const gesto = OVERLAYS[name];
+  const trigger = `[data-slot="${name}-trigger"]`;
+  // Si el slot cambia de nombre, que falle: si no, volvería a salir el botón solo.
+  if (!(await page.$(trigger))) throw new Error(`${name}: no hay ${trigger} que abrir`);
+  if (gesto === 'hover') await page.hover(trigger);
+  else await page.click(trigger, { button: gesto === 'contextmenu' ? 'right' : 'left' });
+  await page.waitForSelector(`[data-slot="${name}-content"]`, { visible: true, timeout: 5_000 });
+  // Base UI marca la entrada con data-starting-style y la anima con CSS: se
+  // espera a que no quede ninguna animación ni transición en curso.
+  await page.waitForFunction(() => !document.querySelector('[data-starting-style]'));
+  // Con tope: una animación infinita no debe colgar la tanda. Y una cancelada
+  // (finished rechaza con AbortError) tampoco debe tumbarla.
+  await page.evaluate(() =>
+    Promise.race([
+      Promise.all(document.getAnimations().map((a) => a.finished.catch(() => {}))),
+      new Promise((r) => setTimeout(r, 3_000)),
+    ]),
+  );
+}
 
 /**
  * Los BLOQUES son secciones de página: llenan un viewport de 1440 y su
@@ -126,6 +166,13 @@ try {
           timeout: 15_000,
         });
         await page.evaluate(() => document.fonts.ready);
+        if (name in OVERLAYS) {
+          await abrirOverlay(page, name);
+          await page.screenshot({ path: file as `${string}.png` });
+          console.log(`✓ ${name} ${theme} (overlay abierto)`);
+          captured++;
+          continue;
+        }
         // Fotografiar el ELEMENTO, no la página: los bloques más cortos que el
         // viewport dejaban una banda muerta debajo. Fallback a fullPage con aviso.
         const target = await page.$('[data-capture-target]');
