@@ -1,13 +1,13 @@
 // @vitest-environment node
-import * as React from "react"
-import { renderToStaticMarkup } from "react-dom/server"
-import { compile } from "@tailwindcss/node"
-import puppeteer, { type Browser } from "puppeteer"
-import { afterAll, beforeAll, describe, expect, it } from "vitest"
+import * as React from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import { compile } from "@tailwindcss/node";
+import puppeteer, { type Browser } from "puppeteer";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
-import { Checkbox } from "@/components/ui/checkbox"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Switch } from "@/components/ui/switch"
+import { Checkbox } from "@/components/ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Switch } from "@/components/ui/switch";
 
 // Un consumidor que pinta el marcado de otro color pasa `data-checked:bg-*`.
 // En claro ganaba; en oscuro lo pisaba `dark:data-checked:bg-primary` del
@@ -41,14 +41,14 @@ const CSS = `
   --primary: hsl(0 0% 98%); --primary-foreground: hsl(0 0% 9%);
   --input: hsl(0 0% 14.9%); --ring: hsl(0 0% 83.1%); --destructive: hsl(0 62.8% 30.6%);
 }
-`
+`;
 
-const OVERRIDE = "data-checked:bg-red-500"
+const OVERRIDE = "data-checked:bg-red-500";
 // Referencias en la misma página: se compara color computado con color
 // computado, no con una cadena oklch que Chrome puede serializar distinto.
-const REFS = `<div id="ref-red" class="bg-red-500"></div><div id="ref-primary" class="bg-primary"></div><div id="ref-input30" class="bg-input/30"></div>`
+const REFS = `<div id="ref-red" class="bg-red-500"></div><div id="ref-primary" class="bg-primary"></div><div id="ref-input30" class="bg-input/30"></div>`;
 
-let browser: Browser
+let browser: Browser;
 
 beforeAll(async () => {
   // En el runner de Actions (Ubuntu 23.10+) AppArmor niega los user
@@ -57,39 +57,48 @@ beforeAll(async () => {
   browser = await puppeteer.launch({
     headless: "shell",
     args: process.env.CI ? ["--no-sandbox", "--disable-dev-shm-usage"] : [],
-  })
-}, 60_000)
+  });
+}, 60_000);
 
 afterAll(async () => {
-  await browser?.close()
-})
+  await browser?.close();
+});
 
 async function medir(markup: string, tema: "light" | "dark") {
-  const clases = [...(markup + REFS).matchAll(/class="([^"]*)"/g)].flatMap((m) =>
-    m[1].split(/\s+/).filter(Boolean)
-  )
-  const compilado = await compile(CSS, { base: import.meta.dirname, onDependency: () => {} })
-  const css = compilado.build(clases)
-  const page = await browser.newPage()
+  const clases = [...(markup + REFS).matchAll(/class="([^"]*)"/g)].flatMap(
+    (m) => m[1].split(/\s+/).filter(Boolean),
+  );
+  const compilado = await compile(CSS, {
+    base: import.meta.dirname,
+    onDependency: () => {},
+  });
+  const css = compilado.build(clases);
+  const page = await browser.newPage();
   try {
     await page.setContent(
-      `<!doctype html><html class="${tema === "dark" ? "dark" : ""}"><head><style>${css}</style></head><body>${markup}${REFS}</body></html>`
-    )
+      `<!doctype html><html class="${tema === "dark" ? "dark" : ""}"><head><style>${css}</style></head><body>${markup}${REFS}</body></html>`,
+    );
     return await page.evaluate(() => {
-      const bg = (el: Element | null) => (el ? getComputedStyle(el).backgroundColor : null)
+      const bg = (el: Element | null) =>
+        el ? getComputedStyle(el).backgroundColor : null;
       return {
         control: bg(document.querySelector("[data-prueba]")),
         red: bg(document.getElementById("ref-red")),
         primary: bg(document.getElementById("ref-primary")),
         input30: bg(document.getElementById("ref-input30")),
-      }
-    })
+      };
+    });
   } finally {
-    await page.close()
+    await page.close();
   }
 }
 
-const casos: Array<[string, (props: { className?: string; checked: boolean }) => React.ReactElement]> = [
+const casos: Array<
+  [
+    string,
+    (props: { className?: string; checked: boolean }) => React.ReactElement,
+  ]
+> = [
   [
     "checkbox",
     ({ className, checked }) => (
@@ -110,31 +119,41 @@ const casos: Array<[string, (props: { className?: string; checked: boolean }) =>
       <Switch data-prueba="" defaultChecked={checked} className={className} />
     ),
   ],
-]
+];
 
 describe.each(casos)("%s", (nombre, Control) => {
   it("marcado: el markup lleva data-checked (si no, lo de abajo no mide nada)", () => {
-    const markup = renderToStaticMarkup(<Control checked className={OVERRIDE} />)
-    expect(markup).toMatch(/data-prueba=""[^>]*data-checked|data-checked[^>]*data-prueba=""/)
-  })
+    const markup = renderToStaticMarkup(
+      <Control checked className={OVERRIDE} />,
+    );
+    expect(markup).toMatch(
+      /data-prueba=""[^>]*data-checked|data-checked[^>]*data-prueba=""/,
+    );
+  });
 
   for (const tema of ["light", "dark"] as const) {
     it(`override ${OVERRIDE} marcado en ${tema}: gana el del consumidor, no primary`, async () => {
-      const m = await medir(renderToStaticMarkup(<Control checked className={OVERRIDE} />), tema)
-      expect(m.red).not.toBe(m.primary)
-      expect(m.control).toBe(m.red)
-    }, 30_000)
+      const m = await medir(
+        renderToStaticMarkup(<Control checked className={OVERRIDE} />),
+        tema,
+      );
+      expect(m.red).not.toBe(m.primary);
+      expect(m.control).toBe(m.red);
+    }, 30_000);
 
     it(`sin override marcado en ${tema}: sigue en primary`, async () => {
-      const m = await medir(renderToStaticMarkup(<Control checked />), tema)
-      expect(m.control).toBe(m.primary)
-    }, 30_000)
+      const m = await medir(renderToStaticMarkup(<Control checked />), tema);
+      expect(m.control).toBe(m.primary);
+    }, 30_000);
   }
 
   if (nombre !== "switch") {
     it("sin override desmarcado en dark: sigue en input/30", async () => {
-      const m = await medir(renderToStaticMarkup(<Control checked={false} />), "dark")
-      expect(m.control).toBe(m.input30)
-    }, 30_000)
+      const m = await medir(
+        renderToStaticMarkup(<Control checked={false} />),
+        "dark",
+      );
+      expect(m.control).toBe(m.input30);
+    }, 30_000);
   }
-})
+});

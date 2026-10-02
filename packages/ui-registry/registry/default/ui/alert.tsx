@@ -1,7 +1,7 @@
-import * as React from "react"
-import { cva, type VariantProps } from "class-variance-authority"
+import * as React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 /**
  * Markup puro: el aviso que ya está en la página, no el que interrumpe —para
@@ -25,8 +25,8 @@ const alertVariants = cva(
     defaultVariants: {
       variant: "default",
     },
-  }
-)
+  },
+);
 
 function Alert({
   className,
@@ -40,7 +40,7 @@ function Alert({
       className={cn(alertVariants({ variant }), className)}
       {...props}
     />
-  )
+  );
 }
 
 function AlertTitle({ className, ...props }: React.ComponentProps<"div">) {
@@ -49,24 +49,27 @@ function AlertTitle({ className, ...props }: React.ComponentProps<"div">) {
       data-slot="alert-title"
       className={cn(
         "col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight",
-        className
+        className,
       )}
       {...props}
     />
-  )
+  );
 }
 
-function AlertDescription({ className, ...props }: React.ComponentProps<"div">) {
+function AlertDescription({
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="alert-description"
       className={cn(
         "col-start-2 grid justify-items-start gap-1 text-sm opacity-80 [&_p]:leading-relaxed",
-        className
+        className,
       )}
       {...props}
     />
-  )
+  );
 }
 
-export { Alert, AlertDescription, AlertTitle, alertVariants }
+export { Alert, AlertDescription, AlertTitle, alertVariants };

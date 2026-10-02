@@ -1,6 +1,13 @@
-'use client';
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@ui-registry/sheet';
-import { Button } from '@ui-registry/button';
+"use client";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@ui-registry/sheet";
+import { Button } from "@ui-registry/button";
 
 export function SheetDemo() {
   return (
@@ -9,7 +16,9 @@ export function SheetDemo() {
       <SheetContent side="right">
         <SheetHeader>
           <SheetTitle>Cuéntanos qué quieres proteger</SheetTitle>
-          <SheetDescription>Te preparamos un estudio sin compromiso.</SheetDescription>
+          <SheetDescription>
+            Te preparamos un estudio sin compromiso.
+          </SheetDescription>
         </SheetHeader>
       </SheetContent>
     </Sheet>

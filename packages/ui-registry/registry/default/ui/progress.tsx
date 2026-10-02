@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { Progress as ProgressPrimitive } from "@base-ui/react/progress"
+import { Progress as ProgressPrimitive } from "@base-ui/react/progress";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 /**
  * `value={null}` es indeterminado en Base UI —no existe el modo aparte de
@@ -31,7 +31,7 @@ function Progress({
         />
       </ProgressPrimitive.Track>
     </ProgressPrimitive.Root>
-  )
+  );
 }
 
 function ProgressLabel({ className, ...props }: ProgressPrimitive.Label.Props) {
@@ -41,7 +41,7 @@ function ProgressLabel({ className, ...props }: ProgressPrimitive.Label.Props) {
       className={cn("text-sm font-medium", className)}
       {...props}
     />
-  )
+  );
 }
 
 function ProgressValue({ className, ...props }: ProgressPrimitive.Value.Props) {
@@ -51,7 +51,7 @@ function ProgressValue({ className, ...props }: ProgressPrimitive.Value.Props) {
       className={cn("text-sm tabular-nums text-muted-foreground", className)}
       {...props}
     />
-  )
+  );
 }
 
-export { Progress, ProgressLabel, ProgressValue }
+export { Progress, ProgressLabel, ProgressValue };

@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Badge } from '@/components/ui/badge';
-import { buttonVariants } from '@/components/ui/button';
+import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -10,9 +10,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
 
 type Plan = {
   name: string;
@@ -50,16 +50,29 @@ function CheckIcon() {
   );
 }
 
-export function Pricing01({ title, description, plans, className }: Pricing01Props) {
+export function Pricing01({
+  title,
+  description,
+  plans,
+  className,
+}: Pricing01Props) {
   const [annual, setAnnual] = useState(false);
 
   return (
-    <section className={cn('w-full px-6 py-24 md:py-32', className)}>
+    <section className={cn("w-full px-6 py-24 md:py-32", className)}>
       <div className="mx-auto max-w-6xl">
         {(title || description) && (
           <div className="mx-auto mb-12 max-w-2xl text-center">
-            {title && <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">{title}</h2>}
-            {description && <p className="mt-4 text-lg text-muted-foreground">{description}</p>}
+            {title && (
+              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+                {title}
+              </h2>
+            )}
+            {description && (
+              <p className="mt-4 text-lg text-muted-foreground">
+                {description}
+              </p>
+            )}
           </div>
         )}
         <div className="mb-12 flex justify-center">
@@ -67,10 +80,10 @@ export function Pricing01({ title, description, plans, className }: Pricing01Pro
             <button
               onClick={() => setAnnual(false)}
               className={cn(
-                'rounded-md px-4 py-2 text-sm font-medium transition-colors',
+                "rounded-md px-4 py-2 text-sm font-medium transition-colors",
                 !annual
-                  ? 'bg-primary text-primary-foreground'
-                  : 'text-muted-foreground hover:text-foreground',
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:text-foreground",
               )}
             >
               Monthly
@@ -78,10 +91,10 @@ export function Pricing01({ title, description, plans, className }: Pricing01Pro
             <button
               onClick={() => setAnnual(true)}
               className={cn(
-                'rounded-md px-4 py-2 text-sm font-medium transition-colors',
+                "rounded-md px-4 py-2 text-sm font-medium transition-colors",
                 annual
-                  ? 'bg-primary text-primary-foreground'
-                  : 'text-muted-foreground hover:text-foreground',
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:text-foreground",
               )}
             >
               Annual
@@ -92,10 +105,15 @@ export function Pricing01({ title, description, plans, className }: Pricing01Pro
           {plans.map((plan) => (
             <Card
               key={plan.name}
-              className={cn('relative flex flex-col', plan.popular && 'border-primary shadow-lg')}
+              className={cn(
+                "relative flex flex-col",
+                plan.popular && "border-primary shadow-lg",
+              )}
             >
               {plan.popular && (
-                <Badge className="absolute -top-3 left-1/2 -translate-x-1/2">Popular</Badge>
+                <Badge className="absolute -top-3 left-1/2 -translate-x-1/2">
+                  Popular
+                </Badge>
               )}
               <CardHeader>
                 <CardTitle>{plan.name}</CardTitle>
@@ -122,8 +140,10 @@ export function Pricing01({ title, description, plans, className }: Pricing01Pro
                 <a
                   href={plan.cta.href}
                   className={cn(
-                    buttonVariants({ variant: plan.popular ? 'default' : 'outline' }),
-                    'w-full',
+                    buttonVariants({
+                      variant: plan.popular ? "default" : "outline",
+                    }),
+                    "w-full",
                   )}
                 >
                   {plan.cta.label}

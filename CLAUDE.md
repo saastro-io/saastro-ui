@@ -85,16 +85,16 @@ nativos, y ahora funciona incluso con JavaScript desactivado.
 
 De ahí la regla:
 
-| Qué | Cómo | Por qué |
-|---|---|---|
-| Secciones visuales (hero, features, stats, footer, logos, testimonials…) | `.astro` | Cero JS al cliente. Es todo lo que necesitan |
-| Formulario de captura simple | `.astro` con `action`/`method` nativos | Funciona sin JS. Nada de handlers por props |
-| Acordeón, menú, toggles, estado local | isla `.tsx` + `client:*` | Necesitan React de verdad |
-| **Formularios con validación, pasos, lógica condicional o submit a API** | isla `.tsx` con **`@saastro/forms`** | Nunca `.astro`: eso es RHF + Zod + plugins, no HTML |
+| Qué                                                                      | Cómo                                   | Por qué                                             |
+| ------------------------------------------------------------------------ | -------------------------------------- | --------------------------------------------------- |
+| Secciones visuales (hero, features, stats, footer, logos, testimonials…) | `.astro`                               | Cero JS al cliente. Es todo lo que necesitan        |
+| Formulario de captura simple                                             | `.astro` con `action`/`method` nativos | Funciona sin JS. Nada de handlers por props         |
+| Acordeón, menú, toggles, estado local                                    | isla `.tsx` + `client:*`               | Necesitan React de verdad                           |
+| **Formularios con validación, pasos, lógica condicional o submit a API** | isla `.tsx` con **`@saastro/forms`**   | Nunca `.astro`: eso es RHF + Zod + plugins, no HTML |
 
 **El registry no es el sitio de los formularios de negocio.** Para eso está
 `@saastro/forms`, que se instala por npm y se monta como isla. Un bloque del
-registry puede traer el *maquetado* de un formulario; la *lógica* no.
+registry puede traer el _maquetado_ de un formulario; la _lógica_ no.
 
 Y dos trampas de Base UI específicas de Astro:
 
@@ -119,20 +119,21 @@ build entero. La regla práctica: **si el componente tiene partes, el fichero es
 
 ## Dónde buscar
 
-| workspace | sección | ficha |
-|---|---|---|
-| packages/ui-registry | registry | `packages/ui-registry/knowledge/registry.snap.md` (+ `.md`) |
-| packages/ui-registry/registry | bloques | `packages/ui-registry/knowledge/bloques.snap.md` (+ `.md`) |
-| apps/ui-docs | ui-docs | `apps/ui-docs/knowledge/ui-docs.snap.md` (+ `.md`) |
-| apps/ui-docs/src/theme | tema | `apps/ui-docs/knowledge/tema.snap.md` (+ `.md`) |
-| apps/ui-docs/src/content | guias | `apps/ui-docs/knowledge/guias.snap.md` (+ `.md`) |
-| apps/ui-docs/src/pages | sitio | `apps/ui-docs/knowledge/sitio.snap.md` (+ `.md`) |
-| apps/ui-docs/scripts | previews | `apps/ui-docs/knowledge/previews.snap.md` (+ `.md`) |
+| workspace                     | sección  | ficha                                                       |
+| ----------------------------- | -------- | ----------------------------------------------------------- |
+| packages/ui-registry          | registry | `packages/ui-registry/knowledge/registry.snap.md` (+ `.md`) |
+| packages/ui-registry/registry | bloques  | `packages/ui-registry/knowledge/bloques.snap.md` (+ `.md`)  |
+| apps/ui-docs                  | ui-docs  | `apps/ui-docs/knowledge/ui-docs.snap.md` (+ `.md`)          |
+| apps/ui-docs/src/theme        | tema     | `apps/ui-docs/knowledge/tema.snap.md` (+ `.md`)             |
+| apps/ui-docs/src/content      | guias    | `apps/ui-docs/knowledge/guias.snap.md` (+ `.md`)            |
+| apps/ui-docs/src/pages        | sitio    | `apps/ui-docs/knowledge/sitio.snap.md` (+ `.md`)            |
+| apps/ui-docs/scripts          | previews | `apps/ui-docs/knowledge/previews.snap.md` (+ `.md`)         |
 
 `knowledge/` en la raíz es una vista de symlinks (`pnpm office:link`, check
 con `office:check`): la ficha vive en su workspace.
 
 **De quién dependo**
+
 - dev: nadie — este repo ES la fuente: theme y los sites consumen el registry.
 - ops: nadie — el registry se consume copy-in, no se opera. (Y no «se publica»:
   es `private: true`, regla 2.)
@@ -142,6 +143,7 @@ con `office_context`/`office_search`. El mapa del ecosistema lo tiene el
 jefe (`office_brief`), no este fichero.
 
 ## saastro-office
+
 - `office_init` con project `saastro-ui` al empezar la sesión.
 - `office_state` con done/next/needs antes de parar. El hook de Stop la exige.
 - Merge y deploy los cubre la firma del trabajo o la orden de la casa (`office merge` dice cuál); `office_decide` `guarded`, solo lo que `saastro-office/mandato.json` reserva a JC.

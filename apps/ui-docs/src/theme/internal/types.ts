@@ -4,9 +4,9 @@
  * Decoupled from `@saastro-io/shell` so the theme is self-contained.
  */
 export interface MenuItem {
-  title: string
-  url: string
-  description?: string
-  icon?: string
-  items?: MenuItem[]
+  title: string;
+  url: string;
+  description?: string;
+  icon?: string;
+  items?: MenuItem[];
 }

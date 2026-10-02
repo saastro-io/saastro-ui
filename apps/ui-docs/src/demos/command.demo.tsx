@@ -1,5 +1,5 @@
-'use client';
-import * as React from 'react';
+"use client";
+import * as React from "react";
 import {
   Command,
   CommandEmpty,
@@ -9,8 +9,14 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut,
-} from '@ui-registry/command';
-import { CarIcon, HomeIcon, HeartPulseIcon, SettingsIcon, UserIcon } from 'lucide-react';
+} from "@ui-registry/command";
+import {
+  CarIcon,
+  HomeIcon,
+  HeartPulseIcon,
+  SettingsIcon,
+  UserIcon,
+} from "lucide-react";
 
 export function CommandDemo() {
   const [elegido, setElegido] = React.useState<string | null>(null);
@@ -21,7 +27,11 @@ export function CommandDemo() {
         <CommandList>
           <CommandEmpty>Sin resultados.</CommandEmpty>
           <CommandGroup heading="Seguros">
-            <CommandItem value="coche" keywords={['moto', 'auto']} onSelect={setElegido}>
+            <CommandItem
+              value="coche"
+              keywords={["moto", "auto"]}
+              onSelect={setElegido}
+            >
               <CarIcon />
               Coche o moto
             </CommandItem>
@@ -50,7 +60,8 @@ export function CommandDemo() {
         </CommandList>
       </Command>
       <p className="text-sm text-muted-foreground">
-        Elegido: <span className="font-medium text-foreground">{elegido ?? '—'}</span>
+        Elegido:{" "}
+        <span className="font-medium text-foreground">{elegido ?? "—"}</span>
       </p>
     </div>
   );

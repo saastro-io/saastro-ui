@@ -8,7 +8,7 @@
 
 /** Remove leading and trailing slashes. */
 export function trimSlash(s: string): string {
-  return (s ?? '').replace(/^\/+|\/+$/g, '')
+  return (s ?? "").replace(/^\/+|\/+$/g, "");
 }
 
 /**
@@ -16,23 +16,27 @@ export function trimSlash(s: string): string {
  * Lowercase, strip diacritics, replace non-alphanumerics with hyphens.
  */
 export function slugifySegment(text: string): string {
-  return (text ?? '')
-    .normalize('NFKD')
-    .replace(/[̀-ͯ]/g, '')
+  return (text ?? "")
+    .normalize("NFKD")
+    .replace(/[̀-ͯ]/g, "")
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }
 
 /** Slugify a path, preserving `/` separators. */
-export function cleanSlug(text = ''): string {
-  return trimSlash(text).split('/').map(slugifySegment).filter(Boolean).join('/')
+export function cleanSlug(text = ""): string {
+  return trimSlash(text)
+    .split("/")
+    .map(slugifySegment)
+    .filter(Boolean)
+    .join("/");
 }
 
 /** Build a permalink-friendly path. */
-export function makePermalink(slug = ''): string {
-  const cleaned = cleanSlug(slug)
-  return cleaned ? `/${cleaned}` : '/'
+export function makePermalink(slug = ""): string {
+  const cleaned = cleanSlug(slug);
+  return cleaned ? `/${cleaned}` : "/";
 }
 
 /**
@@ -48,11 +52,12 @@ export async function makePermalinks(_astro?: unknown): Promise<{
   getPermalink: (slug?: string) => string;
   getHomePermalink: () => string;
 }> {
-  const base = trimSlash(import.meta.env.BASE_URL ?? '');
-  const withBase = (path: string) => (base ? `/${base}${path === '/' ? '' : path}` : path);
+  const base = trimSlash(import.meta.env.BASE_URL ?? "");
+  const withBase = (path: string) =>
+    base ? `/${base}${path === "/" ? "" : path}` : path;
 
   return {
-    getPermalink: (slug = '') => withBase(makePermalink(slug)),
-    getHomePermalink: () => withBase('/'),
+    getPermalink: (slug = "") => withBase(makePermalink(slug)),
+    getHomePermalink: () => withBase("/"),
   };
 }

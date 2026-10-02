@@ -32,6 +32,14 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      # `format:check` existió meses sin que nadie lo corriera, y el 2-oct-2026
+      # fallaba en 102 ficheros: un script con forma de control no es un
+      # control. Aquí sí lo es. Ojo: reformatear una fuente del registry o una
+      # demo caduca su preview (hash por contenido), así que tras `pnpm format`
+      # toca `pnpm --filter @saastro/ui-docs capture`.
+      - name: Prettier check
+        run: pnpm run format:check
+
       # La vista `knowledge/` de la raíz son symlinks a los knowledge de cada
       # workspace (doctrina de la oficina §1). `office watch` lee de esa carpeta
       # plana, pero la ficha vive junto al código. Si alguien añade una sección y

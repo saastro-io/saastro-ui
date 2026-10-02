@@ -39,7 +39,7 @@ Requiere declarar el registry una vez en tu `components.json`:
 ```jsonc
 {
   "style": "base-nova",
-  "registries": { "@saastro": "https://ui.saastro.io/r/{name}.json" }
+  "registries": { "@saastro": "https://ui.saastro.io/r/{name}.json" },
 }
 ```
 

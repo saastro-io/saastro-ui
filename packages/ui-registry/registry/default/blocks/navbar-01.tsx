@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import type { ReactNode } from 'react';
-import { Button, buttonVariants } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { cn } from '@/lib/utils';
+import type { ReactNode } from "react";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { cn } from "@/lib/utils";
 
 type NavLink = {
   label: string;
@@ -41,7 +41,7 @@ export function Navbar01({ logo, links, cta, className }: Navbar01Props) {
   return (
     <header
       className={cn(
-        'sticky top-0 z-50 w-full border-b bg-background/95 px-6 backdrop-blur',
+        "sticky top-0 z-50 w-full border-b bg-background/95 px-6 backdrop-blur",
         className,
       )}
     >
@@ -62,13 +62,18 @@ export function Navbar01({ logo, links, cta, className }: Navbar01Props) {
         </div>
         <div className="flex items-center gap-4">
           {cta && (
-            <a href={cta.href} className={cn(buttonVariants(), 'hidden md:inline-flex')}>
+            <a
+              href={cta.href}
+              className={cn(buttonVariants(), "hidden md:inline-flex")}
+            >
               {cta.label}
             </a>
           )}
           <Sheet>
             <SheetTrigger
-              render={<Button variant="ghost" size="icon" className="md:hidden" />}
+              render={
+                <Button variant="ghost" size="icon" className="md:hidden" />
+              }
             >
               <MenuIcon />
               <span className="sr-only">Open menu</span>
@@ -76,12 +81,16 @@ export function Navbar01({ logo, links, cta, className }: Navbar01Props) {
             <SheetContent side="right">
               <nav className="flex flex-col gap-4 pt-8">
                 {links.map((link) => (
-                  <a key={link.label} href={link.href} className="text-lg font-medium">
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    className="text-lg font-medium"
+                  >
                     {link.label}
                   </a>
                 ))}
                 {cta && (
-                  <a href={cta.href} className={cn(buttonVariants(), 'mt-4')}>
+                  <a href={cta.href} className={cn(buttonVariants(), "mt-4")}>
                     {cta.label}
                   </a>
                 )}
