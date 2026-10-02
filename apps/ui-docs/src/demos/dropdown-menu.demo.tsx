@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,9 +8,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from '@ui-registry/dropdown-menu';
-import { Button } from '@ui-registry/button';
-import { ChevronDownIcon, DownloadIcon, PencilIcon, SendIcon, Trash2Icon } from 'lucide-react';
+} from "@ui-registry/dropdown-menu";
+import { Button } from "@ui-registry/button";
+import {
+  ChevronDownIcon,
+  DownloadIcon,
+  PencilIcon,
+  SendIcon,
+  Trash2Icon,
+} from "lucide-react";
 
 export function DropdownMenuDemo() {
   return (

@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { mergeProps } from '@base-ui/react/merge-props';
-import { useRender } from '@base-ui/react/use-render';
-import { cva, type VariantProps } from 'class-variance-authority';
-import * as React from 'react';
-import { cn } from '@/lib/utils';
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
+import { cva, type VariantProps } from "class-variance-authority";
+import * as React from "react";
+import { cn } from "@/lib/utils";
 
 const buttonProVariants = cva(
   `
@@ -74,7 +74,7 @@ const buttonProVariants = cva(
           `,
       },
       iconfx: {
-        none: '',
+        none: "",
         left: `
           [&>svg]:w-0
           [&>svg]:translate-x-[0%]
@@ -101,7 +101,7 @@ const buttonProVariants = cva(
         `,
       },
       effect: {
-        default: '',
+        default: "",
         expandIcon: `
             group
             gap-0
@@ -210,39 +210,39 @@ const buttonProVariants = cva(
           `,
       },
       rounded: {
-        xs: 'rounded-xs',
-        sm: 'rounded-sm',
-        md: 'rounded-md',
-        lg: 'rounded-lg',
-        xl: 'rounded-xl',
-        '2xl': 'rounded-2xl',
-        '3xl': 'rounded-3xl',
-        '4xl': 'rounded-4xl',
+        xs: "rounded-xs",
+        sm: "rounded-sm",
+        md: "rounded-md",
+        lg: "rounded-lg",
+        xl: "rounded-xl",
+        "2xl": "rounded-2xl",
+        "3xl": "rounded-3xl",
+        "4xl": "rounded-4xl",
       },
       size: {
-        xxs: 'h-6 px-2 text-xs font-semibold',
-        xs: 'h-8 px-4 text-sm font-semibold',
-        sm: 'h-9 px-4 text-sm font-semibold',
-        md: 'h-10 px-4 text-base font-semibold',
-        lg: 'h-12 px-6 text-lg font-semibold',
-        xl: 'h-12 px-8 text-xl font-semibold',
-        '2xl': 'h-14 px-8 text-2xl font-semibold',
-        '3xl': 'h-16 px-8 text-3xl font-semibold',
-        '4xl': 'h-20 px-10 text-4xl font-semibold',
-        icon: 'h-10 w-10 p-0',
+        xxs: "h-6 px-2 text-xs font-semibold",
+        xs: "h-8 px-4 text-sm font-semibold",
+        sm: "h-9 px-4 text-sm font-semibold",
+        md: "h-10 px-4 text-base font-semibold",
+        lg: "h-12 px-6 text-lg font-semibold",
+        xl: "h-12 px-8 text-xl font-semibold",
+        "2xl": "h-14 px-8 text-2xl font-semibold",
+        "3xl": "h-16 px-8 text-3xl font-semibold",
+        "4xl": "h-20 px-10 text-4xl font-semibold",
+        icon: "h-10 w-10 p-0",
       },
     },
     defaultVariants: {
-      variant: 'default',
-      size: 'md',
-      rounded: 'md',
-      effect: 'default',
-      iconfx: 'none',
+      variant: "default",
+      size: "md",
+      rounded: "md",
+      effect: "default",
+      iconfx: "none",
     },
   },
 );
 
-function ButtonPro<T extends React.ElementType = 'button'>({
+function ButtonPro<T extends React.ElementType = "button">({
   className,
   variant,
   size,
@@ -259,12 +259,15 @@ function ButtonPro<T extends React.ElementType = 'button'>({
     href?: string;
   }) {
   return useRender({
-    defaultTagName: href ? 'a' : 'button',
+    defaultTagName: href ? "a" : "button",
     render,
     props: mergeProps(
       {
-        'data-slot': 'button',
-        className: cn(buttonProVariants({ variant, size, effect, rounded, iconfx }), className),
+        "data-slot": "button",
+        className: cn(
+          buttonProVariants({ variant, size, effect, rounded, iconfx }),
+          className,
+        ),
         ...(href ? { href } : {}),
       },
       props as Record<string, unknown>,
@@ -275,7 +278,7 @@ function ButtonPro<T extends React.ElementType = 'button'>({
 export { ButtonPro, buttonProVariants };
 
 export type ButtonProVariantProps = VariantProps<typeof buttonProVariants>;
-export type ButtonProBaseProps = React.ComponentProps<'button'> & {
+export type ButtonProBaseProps = React.ComponentProps<"button"> & {
   href?: string;
 };
 export type ButtonProProps = ButtonProBaseProps &

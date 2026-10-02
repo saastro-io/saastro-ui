@@ -2,29 +2,29 @@
 // `logo` acepta ReactNode; un string ES un ReactNode válido y además es
 // serializable — no hace falta JSX para la demo.
 export const props = {
-  logo: 'Acme',
+  logo: "Acme",
   columns: [
     {
-      title: 'Product',
+      title: "Product",
       links: [
-        { label: 'Features', href: '#' },
-        { label: 'Pricing', href: '#' },
-        { label: 'Docs', href: '#' },
+        { label: "Features", href: "#" },
+        { label: "Pricing", href: "#" },
+        { label: "Docs", href: "#" },
       ],
     },
     {
-      title: 'Company',
+      title: "Company",
       links: [
-        { label: 'About', href: '#' },
-        { label: 'Blog', href: '#' },
-        { label: 'Careers', href: '#' },
+        { label: "About", href: "#" },
+        { label: "Blog", href: "#" },
+        { label: "Careers", href: "#" },
       ],
     },
     {
-      title: 'Legal',
+      title: "Legal",
       links: [
-        { label: 'Privacy', href: '#' },
-        { label: 'Terms', href: '#' },
+        { label: "Privacy", href: "#" },
+        { label: "Terms", href: "#" },
       ],
     },
   ],

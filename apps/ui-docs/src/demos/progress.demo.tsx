@@ -1,5 +1,5 @@
-'use client';
-import { Progress, ProgressLabel, ProgressValue } from '@ui-registry/progress';
+"use client";
+import { Progress, ProgressLabel, ProgressValue } from "@ui-registry/progress";
 
 export function ProgressDemo() {
   return (

@@ -1,6 +1,6 @@
-'use client';
-import { Checkbox } from '@ui-registry/checkbox';
-import { Label } from '@ui-registry/label';
+"use client";
+import { Checkbox } from "@ui-registry/checkbox";
+import { Label } from "@ui-registry/label";
 
 export function CheckboxDemo() {
   return (

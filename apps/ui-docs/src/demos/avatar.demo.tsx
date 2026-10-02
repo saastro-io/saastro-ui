@@ -1,5 +1,5 @@
-'use client';
-import { Avatar, AvatarFallback, AvatarImage } from '@ui-registry/avatar';
+"use client";
+import { Avatar, AvatarFallback, AvatarImage } from "@ui-registry/avatar";
 
 export function AvatarDemo() {
   return (

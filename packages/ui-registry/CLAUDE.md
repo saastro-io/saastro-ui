@@ -97,6 +97,7 @@ aviso vive aquí).
 estado o primitivas interactivas en cliente.
 
 Bloques `.astro` (12 de 16 — todos los estáticos):
+
 - **Cero JS y cero dependencias**: ni React, ni primitivas, ni `cn()`. Un
   proyecto Astro sin la integración de React puede instalarlos y compilar
   (smoke verificado). Las clases de botón/badge/card replican el estilo
@@ -111,15 +112,17 @@ Bloques `.astro` (12 de 16 — todos los estáticos):
   `.astro` por parte) — `registry/astro.d.ts` ya tipa `module '*.astro'`.
 
 Bloques `.tsx` (solo interactivos: faq-01, navbar-01, pricing-01 + button-pro):
+
 - React sobre primitivas Base UI (`@/components/ui/*`), `cn()` de `@/lib/utils`.
 - Named exports (not default). En Astro se hidratan con `client:load`/`client:visible`.
 
 Comunes:
+
 - Props para todo el contenido — nada hardcodeado.
 - SVGs inline — sin dependencia de librería de iconos.
 - Responsive por defecto (mobile-first Tailwind).
 - Al tocar un bloque: `pnpm --filter @saastro/ui-docs build && pnpm --filter
-  @saastro/ui-docs capture --force --only=<name>` y commitear los PNG.
+@saastro/ui-docs capture --force --only=<name>` y commitear los PNG.
 
 ### Base de primitivas: Base UI, no Radix (migración de agosto 2026)
 

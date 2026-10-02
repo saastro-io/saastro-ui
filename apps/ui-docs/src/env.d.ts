@@ -2,8 +2,8 @@
 
 // Declaración para imports de archivos .astro en archivos .ts
 // Permite cualquier export nombrado (para variants de tailwind-variants)
-declare module '*.astro' {
-  import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
+declare module "*.astro" {
+  import type { AstroComponentFactory } from "astro/runtime/server/index.js";
 
   const component: AstroComponentFactory;
   export default component;

@@ -1,6 +1,6 @@
-'use client';
-import { Switch } from '@ui-registry/switch';
-import { Label } from '@ui-registry/label';
+"use client";
+import { Switch } from "@ui-registry/switch";
+import { Label } from "@ui-registry/label";
 
 export function SwitchDemo() {
   return (

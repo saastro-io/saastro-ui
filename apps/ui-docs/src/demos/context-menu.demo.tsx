@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import {
   ContextMenu,
   ContextMenuContent,
@@ -6,8 +6,8 @@ import {
   ContextMenuSeparator,
   ContextMenuShortcut,
   ContextMenuTrigger,
-} from '@ui-registry/context-menu';
-import { CopyIcon, PencilIcon, Trash2Icon } from 'lucide-react';
+} from "@ui-registry/context-menu";
+import { CopyIcon, PencilIcon, Trash2Icon } from "lucide-react";
 
 export function ContextMenuDemo() {
   return (
