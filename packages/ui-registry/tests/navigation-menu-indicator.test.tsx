@@ -14,7 +14,7 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
 
-// El indicador venía de Radix con `data-[state=visible|hidden]:…`. Base UI no
+// El indicador venía de Radix con variantes de `data-state` (visible|hidden). Base UI no
 // emite `data-state` nunca: NavigationMenu.Icon pone `data-popup-open` cuando
 // su item está abierto y nada cuando no. Con las clases de Radix el indicador
 // se veía siempre y no animaba. Se mide en Chrome con el CSS que Tailwind
@@ -71,10 +71,17 @@ async function medir(markup: string) {
   }
 }
 
+// La etiqueta de apertura del indicador, sin depender del orden de atributos.
+function indicador(markup: string) {
+  const tag = markup.match(/<span\b[^>]*\sdata-prueba=""[^>]*>/)?.[0]
+  expect(tag).toBeDefined()
+  return tag!
+}
+
 describe("NavigationMenuIndicator", () => {
   it("abierto: el markup lleva data-popup-open y ningún data-state", () => {
     const markup = renderToStaticMarkup(<Menu abierto />)
-    expect(markup).toMatch(/<span[^>]*\sdata-popup-open=""[^>]*data-prueba=""/)
+    expect(indicador(markup)).toContain(' data-popup-open=""')
     expect(markup).not.toContain("data-state")
   })
 
@@ -85,7 +92,7 @@ describe("NavigationMenuIndicator", () => {
 
   it("cerrado: no se ve (opacity 0) ni anima", async () => {
     const markup = renderToStaticMarkup(<Menu abierto={false} />)
-    expect(markup).not.toMatch(/<span[^>]*\sdata-popup-open=""[^>]*data-prueba=""/)
+    expect(indicador(markup)).not.toContain(' data-popup-open=""')
     const m = await medir(markup)
     expect(m.opacity).toBe("0")
     expect(m.animation).toBe("none")

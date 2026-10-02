@@ -72,10 +72,11 @@ async function abrirOverlay(page: import('puppeteer').Page, name: string) {
   // Base UI marca la entrada con data-starting-style y la anima con CSS: se
   // espera a que no quede ninguna animación ni transición en curso.
   await page.waitForFunction(() => !document.querySelector('[data-starting-style]'));
-  // Con tope: una animación infinita no debe colgar la tanda.
+  // Con tope: una animación infinita no debe colgar la tanda. Y una cancelada
+  // (finished rechaza con AbortError) tampoco debe tumbarla.
   await page.evaluate(() =>
     Promise.race([
-      Promise.all(document.getAnimations().map((a) => a.finished)),
+      Promise.all(document.getAnimations().map((a) => a.finished.catch(() => {}))),
       new Promise((r) => setTimeout(r, 3_000)),
     ]),
   );
