@@ -20,7 +20,7 @@ onlyBuiltDependencies:
 # toca dependencias que los bloques del registry declaren (`@base-ui/react`,
 # `lucide-react`…): todo es tooling de build/test/docs.
 overrides:
-  "proxy-addr@>=1.1.0 <2.0.8": ^2.0.8
+  "proxy-addr@>=2.0.0 <2.0.8": ^2.0.8
   "@modelcontextprotocol/sdk@>=1.12.0 <1.31.0": ^1.31.0
   "undici@>=7.0.0 <7.29.1": ^7.29.1
   "brace-expansion@>=1.0.0 <1.1.21": ^1.1.21
