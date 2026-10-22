@@ -31,3 +31,13 @@ overrides:
   "fast-uri@>=3.0.0 <3.1.8": ^3.1.8
   "ip-address@>=10.0.0 <10.7.1": ^10.7.1
   "smol-toml@>=1.0.0 <1.9.0": ^1.9.0
+
+# Cuarentena de versiones recién publicadas (seguridad, doc 78; modelo
+# saastro-io/saastro-office#507). Un paquete secuestrado se publica y se
+# retira en horas: con 1440 min (24 h) pnpm no resuelve ninguna versión más
+# nueva que eso y cae en la anterior. Nuestros paquetes (`@saastro-io/*`, de
+# GitHub Packages) se consumen el mismo día que se publican, y por eso van
+# exentos.
+minimumReleaseAge: 1440
+minimumReleaseAgeExclude:
+  - "@saastro-io/*"
