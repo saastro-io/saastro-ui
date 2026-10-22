@@ -31,6 +31,10 @@ overrides:
   "fast-uri@>=3.0.0 <3.1.8": ^3.1.8
   "ip-address@>=10.0.0 <10.7.1": ^10.7.1
   "smol-toml@>=1.0.0 <1.9.0": ^1.9.0
+  # vite 7 lo trae @astrojs/react 5 (vite ^7.3.2), y ninguna 5.x pide ya
+  # >=7.3.7 (GHSA-587h-7wmj-h5pm, alta). Subir a @astrojs/react 7 es cambio
+  # de mayor; el parche está dentro de la 7.
+  "vite@>=7.0.0 <7.3.7": ^7.3.7
 
 # Cuarentena de versiones recién publicadas (seguridad, doc 78; modelo
 # saastro-io/saastro-office#507). Un paquete secuestrado se publica y se
