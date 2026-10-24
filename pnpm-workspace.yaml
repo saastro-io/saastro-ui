@@ -35,13 +35,51 @@ overrides:
   # >=7.3.7 (GHSA-587h-7wmj-h5pm, alta). Subir a @astrojs/react 7 es cambio
   # de mayor; el parche está dentro de la 7.
   "vite@>=7.0.0 <7.3.7": ^7.3.7
+  # zod 4.6.1 lo trae @astrojs/sitemap (GHSA-mrhx-c7xc-m3w5, alta, 24-oct).
+  "zod@>=4.0.0 <4.6.6": ^4.6.7
 
 # Cuarentena de versiones recién publicadas (seguridad, doc 78; modelo
 # saastro-io/saastro-office#507). Un paquete secuestrado se publica y se
-# retira en horas: con 1440 min (24 h) pnpm no resuelve ninguna versión más
-# nueva que eso y cae en la anterior. Nuestros paquetes (`@saastro-io/*`, de
-# GitHub Packages) se consumen el mismo día que se publican, y por eso van
-# exentos.
-minimumReleaseAge: 1440
+# retira en horas o días: con 10080 min (7 días) pnpm no resuelve ninguna
+# versión más nueva que eso y cae en la anterior. Nuestros paquetes
+# (`@saastro-io/*`, de GitHub Packages) se consumen el mismo día que se
+# publican, y por eso van exentos.
+#
+# Parche urgente (un CVE cuyo arreglo tiene menos de 7 días): se exime ESA
+# versión, no el paquete, añadiendo `paquete@x.y.z` a minimumReleaseAgeExclude
+# con una línea de comentario encima: fecha, motivo (GHSA/CVE) y cuándo se
+# quita (al cumplir los 7 días). Nunca se baja minimumReleaseAge para eso.
+minimumReleaseAge: 10080
 minimumReleaseAgeExclude:
   - "@saastro-io/*"
+  # 24-oct-2026, al subir la cuarentena a 7 días: versiones que YA estaban en
+  # el lock (las metió #60 el 22-oct, astro 7.4.2 por pnpm audit) y que tienen
+  # menos de 7 días. Sin eximirlas, todo `pnpm install` que resuelva falla.
+  # Quitar a partir del 29-oct-2026 (la más nueva, astro, es del 21-oct).
+  - "@astrojs/markdown-satteri@0.4.5"
+  - "@astrojs/mdx@8.1.1"
+  - "@astrojs/prism@4.1.1"
+  - "@astrojs/telemetry@3.4.1"
+  - "@oxc-project/types@0.155.0"
+  - "@rolldown/binding-android-arm-eabi@1.2.15"
+  - "@rolldown/binding-android-arm64@1.2.15"
+  - "@rolldown/binding-darwin-arm64@1.2.15"
+  - "@rolldown/binding-darwin-x64@1.2.15"
+  - "@rolldown/binding-freebsd-x64@1.2.15"
+  - "@rolldown/binding-linux-arm-gnueabihf@1.2.15"
+  - "@rolldown/binding-linux-arm64-gnu@1.2.15"
+  - "@rolldown/binding-linux-arm64-musl@1.2.15"
+  - "@rolldown/binding-linux-ppc64-gnu@1.2.15"
+  - "@rolldown/binding-linux-s390x-gnu@1.2.15"
+  - "@rolldown/binding-linux-x64-gnu@1.2.15"
+  - "@rolldown/binding-linux-x64-musl@1.2.15"
+  - "@rolldown/binding-openharmony-arm64@1.2.15"
+  - "@rolldown/binding-win32-arm64-msvc@1.2.15"
+  - "@rolldown/binding-win32-x64-msvc@1.2.15"
+  - "@shikijs/vscode-textmate@10.1.0"
+  - "astro@7.4.2"
+  - "postcss@8.5.31"
+  - "rolldown@1.2.15"
+  - "tinyps@0.5.1"
+  - "undici@8.12.3"
+  - "vite@8.3.5"
