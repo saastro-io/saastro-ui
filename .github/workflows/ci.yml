@@ -6,10 +6,16 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   check:
     name: Build & Test
-    runs-on: ubuntu-latest
+    # Runner de la org en el Mac (mac-jc-1..4): ahorro de minutos de Actions.
+    # Dependabot y forks a ubuntu-latest: su código no corre en el Mac de JC.
+    runs-on: ${{ fromJSON((github.actor == 'dependabot[bot]' || github.event.pull_request.user.login == 'dependabot[bot]' || startsWith(github.head_ref, 'dependabot/') || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository)) && '["ubuntu-latest"]' || '["self-hosted","mac-jc"]') }}
     permissions:
       contents: read
       packages: read
@@ -18,6 +24,8 @@ jobs:
 
       # No version: action-setup reads pnpm from package.json#packageManager (single source of truth).
       - uses: pnpm/action-setup@v6
+        with:
+          dest: ${{ runner.temp }}/setup-pnpm
 
       - uses: actions/setup-node@v6
         with:
