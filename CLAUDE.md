@@ -143,7 +143,6 @@ con `office_context`/`office_search`. El mapa del ecosistema lo tiene el
 jefe (`office_brief`), no este fichero.
 
 ## saastro-office
-
 - `office_init` con project `saastro-ui` al empezar la sesión.
 - `office_state` con done/next/needs antes de parar. El hook de Stop la exige.
 - Merge y deploy los cubre la firma del trabajo o la orden de la casa (`office merge` dice cuál); `office_decide` `guarded`, solo lo que `saastro-office/mandato.json` reserva a JC.
