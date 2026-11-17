@@ -7,9 +7,9 @@
 # devolvía 401 en silencio.
 #
 # Aquí eso no puede pasar: si el build falla, GitHub marca el commit en rojo y
-# manda email. Y el token de GitHub Packages es el `GITHUB_TOKEN` automático
-# del propio workflow — el mismo que ya usa ci.yml — así que no hay ningún PAT
-# que caduque.
+# manda email. El token de GitHub Packages es el secreto de organización
+# `GH_PACKAGES_TOKEN` (wrangler-env vive en saastro-infra, que el GITHUB_TOKEN
+# del run no lee): si caduca, el install falla en voz alta y el commit sale rojo.
 name: Deploy ui-docs
 
 on:
