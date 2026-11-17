@@ -45,11 +45,14 @@ jobs:
           node-version: '24'
           cache: 'pnpm'
 
-      # @saastro-io/{config,shell,docs-theme} viven en GitHub Packages (privado).
-      - name: Authenticate GitHub Packages
-        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
-
-      - run: pnpm install --frozen-lockfile
+      # El `.npmrc` del repo lee `_authToken=${GH_PACKAGES_TOKEN}`: secreto de
+      # organización con Read a los paquetes de saastro-io (wrangler-env vive
+      # en saastro-infra, que el GITHUB_TOKEN del run no lee). Dependabot y los
+      # forks no ven secretos de org: caen al GITHUB_TOKEN.
+      - name: Install dependencies
+        env:
+          GH_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
+        run: pnpm install --frozen-lockfile
 
       # ui-docs declara @saastro/ui-registry como dependencia workspace, así
       # que el `^build` de turbo construye el registry ANTES del sitio. El

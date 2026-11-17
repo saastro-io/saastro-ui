@@ -8,7 +8,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "analyze:performance": "node scripts/analyze-performance.js",
-    "deploy": "wrangler deploy",
+    "deploy": "wrangler-env office -- wrangler deploy",
     "capture": "node scripts/capture.mts",
     "comprobar:previews": "node scripts/comprobar-previews-vivas.mts"
   },
@@ -47,6 +47,7 @@
     "zustand": "^5.0.8"
   },
   "devDependencies": {
+    "@saastro-io/wrangler-env": "^0.3.0",
     "@saastro/ui-registry": "workspace:*",
     "input-otp": "^1.5.0",
     "puppeteer": "^24.9.0",

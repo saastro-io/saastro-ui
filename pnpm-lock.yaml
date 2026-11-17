@@ -135,6 +135,9 @@ importers:
         specifier: ^5.0.8
         version: 5.0.15(@types/react@19.3.0)(react@19.3.0)(use-sync-external-store@1.7.0(react@19.3.0))
     devDependencies:
+      '@saastro-io/wrangler-env':
+        specifier: ^0.3.0
+        version: 0.3.0
       '@saastro/ui-registry':
         specifier: workspace:*
         version: link:../../packages/ui-registry
@@ -1854,6 +1857,10 @@ packages:
 
   '@saastro-io/config@0.1.0':
     resolution: {integrity: sha512-c7qssZjxFQAscSlS5nPyNkJKkVwo7zieAX5UHCjocEC8SJ692L1YCdddSReZ0f+aqMgotdsyIo8FuExgJdF+Pg==, tarball: https://npm.pkg.github.com/download/@saastro-io/config/0.1.0/6e8b1cc2f691b8c3f844b767fc64eb782552b577}
+
+  '@saastro-io/wrangler-env@0.3.0':
+    resolution: {integrity: sha512-FArrOxiCCzwTxImg0r3A5rCSZ82j61zBapJcPIUbX/4QZKFpkqOvb5JOlX3qELSyoa9WlEYMd3gRsVVyejGUCw==, tarball: https://npm.pkg.github.com/download/@saastro-io/wrangler-env/0.3.0/7826578dd3d80d935f97621a8da8e39ac72c670e}
+    hasBin: true
 
   '@sec-ant/readable-stream@0.4.1':
     resolution: {integrity: sha512-831qok9r2t8AlxLko40y2ebgSDhenenCatLVeW/uBtnHPyhHOvG0C7TvfgecV+wHzIm5KUICgzmVpWS+IMEAeg==}
@@ -6859,6 +6866,8 @@ snapshots:
       - eslint
       - supports-color
       - typescript
+
+  '@saastro-io/wrangler-env@0.3.0': {}
 
   '@sec-ant/readable-stream@0.4.1': {}
 
