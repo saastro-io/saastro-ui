@@ -20,6 +20,13 @@
  * Lo que NO es opcional es `steps`: un bloque de pasos sin pasos no es una
  * sección, es un hueco.
  *
+ * `fieldPaths` (opcional): el Studio del Hub marca cada texto editable con
+ * `data-saastro-field`, y un adaptador que pasa `steps` sin iterarlo no sabe
+ * pintar esas marcas dentro del bloque. `@saastro/studio` (≥0.15) inyecta
+ * `fieldPaths={{ steps: "<campo del adaptador>" }}` y el bloque estampa
+ * `<campo>[i]`, `<campo>[i].title` y `<campo>[i].description`. Sin la prop no
+ * se emite ningún atributo: fuera de Studio el HTML es idéntico.
+ *
  * La línea que une los pasos es un borde de la propia rejilla, no un elemento:
  * así desaparece sola en móvil (una columna) sin una consulta de medios que
  * mantener.
@@ -36,10 +43,14 @@ interface Props {
   title?: string;
   description?: string;
   steps: Step[];
+  /** Ruta del campo i18n de cada array, para `data-saastro-field` (lo inyecta @saastro/studio). */
+  fieldPaths?: { steps?: string };
   class?: string;
 }
 
-const { eyebrow, title, description, steps, class: className } = Astro.props;
+const { eyebrow, title, description, steps, fieldPaths, class: className } = Astro.props;
+const campo = (i: number, sub?: string) =>
+  fieldPaths?.steps ? `${fieldPaths.steps}[${i}]${sub ? `.${sub}` : ''}` : undefined;
 ---
 
 <section class:list={['w-full px-6 py-24 md:py-32', className]}>
@@ -56,13 +67,19 @@ const { eyebrow, title, description, steps, class: className } = Astro.props;
 
     <ol class="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
       {steps.map((step, i) => (
-        <li class="relative flex flex-col gap-4 lg:border-t lg:pt-8">
+        <li
+          class="relative flex flex-col gap-4 lg:border-t lg:pt-8"
+          data-saastro-field={campo(i)}>
           <span
             class="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-base font-semibold text-primary lg:absolute lg:-top-5 lg:left-0 lg:bg-background lg:ring-8 lg:ring-background"
             aria-hidden="true">{i + 1}</span>
           <div class="flex flex-col gap-2">
-            <h3 class="text-xl font-semibold tracking-tight">{step.title}</h3>
-            <p class="text-muted-foreground leading-relaxed">{step.description}</p>
+            <h3 class="text-xl font-semibold tracking-tight" data-saastro-field={campo(i, 'title')}>
+              {step.title}
+            </h3>
+            <p class="text-muted-foreground leading-relaxed" data-saastro-field={campo(i, 'description')}>
+              {step.description}
+            </p>
           </div>
         </li>
       ))}
